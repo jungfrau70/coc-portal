@@ -1,14 +1,15 @@
 from pydantic import BaseModel
 
-class EventRequest(BaseModel):
+class UserRequest(BaseModel):
     id: int
     name: str
-    completed: bool
+    email: str
+    password: str
 
-class EventResponse(BaseModel):
+class UserResponse(BaseModel):
     id: int
     name: str
-    completed: bool
+    email: str
 
     class Config:
         orm_mode = True

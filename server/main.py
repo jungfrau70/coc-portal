@@ -1,5 +1,5 @@
 from distutils.command.config import config
-from functools import lru_cache
+# from functools import lru_cache
 from typing import Union
 
 from fastapi import FastAPI, Depends
@@ -7,10 +7,11 @@ from fastapi.responses import PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-import config
-from routers import event, user
+# from config.const import Settings
+from routers import user, event
 
 app = FastAPI()
+app.include_router(user.router)
 app.include_router(event.router)
 
 origins = [
@@ -30,16 +31,16 @@ async def http_exception_handler(request, exc):
     print(f"{repr(exc)}")
     return PlainTextResponse(str(exc.detail), status_code=exc.status_code)
 
-@lru_cache()
-def get_settings():
-    return config.Settings()
+# @lru_cache()
+# def get_settings():
+#     return Settings()
 
-@app.get("/")
-def read_root(settings: config.Settings = Depends(get_settings)):
-    print(settings.app_name)
-    return "Hello World"    
+# @app.get("/")
+# def read_root(settings: Settings = Depends(get_settings)):
+#     print(settings.app_name)
+#     return "Hello World"    
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: (str | None) = None):
-    return {"item_id": item_id, "q": q}
+# @app.get("/items/{item_id}")
+# def read_item(item_id: int, q: (str | None) = None):
+#     return {"item_id": item_id, "q": q}
 
