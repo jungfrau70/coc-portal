@@ -1,0 +1,16 @@
+[
+  {
+    "name": "something",
+    "path": "/something",
+    "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\something.vue",
+    "chunkName": "pages/something",
+    "_name": "_1ba6992d"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\index.vue",
+    "chunkName": "pages/index",
+    "_name": "_2e75d9f6"
+  }
+]

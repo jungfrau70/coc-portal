@@ -1,0 +1,7 @@
+alembic
+fastapi
+psycopg2
+pytest
+requests
+sqlalchemy
+uvicorn[standard]
