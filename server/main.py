@@ -7,12 +7,17 @@ from fastapi.responses import PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-# from config.const import Settings
-from routers import user, event
+from routers import user, blog, authentication
+from config.database import engine
+from cruds import models
 
 app = FastAPI()
+
+models.Base.metadata.create_all(engine)
+
+app.include_router(authentication.router)
+app.include_router(blog.router)
 app.include_router(user.router)
-app.include_router(event.router)
 
 origins = [
     "http://localhost:8000",
@@ -35,12 +40,4 @@ async def http_exception_handler(request, exc):
 # def get_settings():
 #     return Settings()
 
-# @app.get("/")
-# def read_root(settings: Settings = Depends(get_settings)):
-#     print(settings.app_name)
-#     return "Hello World"    
-
-# @app.get("/items/{item_id}")
-# def read_item(item_id: int, q: (str | None) = None):
-#     return {"item_id": item_id, "q": q}
 

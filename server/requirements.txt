@@ -1,7 +1,11 @@
 alembic
+bcrypt
 fastapi
+passlib
 psycopg2
 pytest
+python-multipart
+python-jose
 requests
 sqlalchemy
 uvicorn[standard]

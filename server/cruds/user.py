@@ -1,50 +1,19 @@
-from importlib.machinery import DEBUG_BYTECODE_SUFFIXES
-from pyexpat import model
 from sqlalchemy.orm import Session
-from models.user import user
-from schemas.user import UserRequest, UserResponse
+from routers import schemas
+from . import models
+from fastapi import HTTPException,status
+from utils.hashing import Hash
 
-# id = Column(Integer, primary_key=True, index=True)
-# name = Column(String(255))
-# email: Column(String(255))
-# password: Column(String(255))
-
-def create_user(db: Session, user: UserRequest):
-    db_user = user(name=user.name, email=user.email, password=user.password)
-    db.add(db_user)
+def create(request: schemas.User,db:Session):
+    new_user = models.User(name=request.name,email=request.email,password=Hash.bcrypt(request.password))
+    db.add(new_user)
     db.commit()
-    db.refresh(db_user)
-    return db_user
+    db.refresh(new_user)
+    return new_user
 
-# def read_users(db: Session, completed: bool):
-    # if completed is None:
-    #     return db.query(user).all()
-    # else:
-    #     return db.query(user).filter(user.completed == completed).all()
-    
-def read_users(db: Session):    
-    return db.query(user).all()
-
-def read_user(db: Session, id: int):
-    return db.query(user).filter(user.id == id).first()
-
-def update_user(db:Session, id: int, user: UserRequest):
-    db_user = db.query(user).filter(user.id == id).first()
-    if db_user is None:
-        return None
-    db.query(user).filter(user.id == id).update({
-        'name': user.name,
-        'completed': user.completed
-    })
-    db.commit()
-    db.refresh(db_user)
-    return db_user
-
-def delete_user(db:Session, id: int):
-    db_user = db.query(user).filter(user.id == id).first()
-    if db_user is None:
-        return None
-    db.query(user).filter(user.id == id).delete()
-    db.commit()
-    return True
-                   
+def show(id:int,db:Session):
+    user = db.query(models.User).filter(models.User.id == id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"User with the id {id} is not available")
+    return user
