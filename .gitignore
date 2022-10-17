@@ -1,6 +1,12 @@
 #https://nesoy.github.io/articles/2017-01/Git-Ignore
-**/venv/**
+*/__pycache__/*
 **/__pycache__/**
+.vscode/
+*/.vscode/*
+*/venv/*
+*/venv/*/*
+*/venv/*/*/*
+*/node_modules/*
+*/node_modules/*/*
+*/node_modules/*/*/*
 **/node_modules/**
-**/.vscode/**
-
