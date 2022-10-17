@@ -1,5 +1,6 @@
 #https://nesoy.github.io/articles/2017-01/Git-Ignore
 */__pycache__/*
+**/__pycache__/**
 .vscode/
 */venv/*
 */venv/*/*
