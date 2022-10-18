@@ -45,10 +45,23 @@
       name: "login",
       data() {
          return {
+
+            password: '',
+            name: '',
+            nameRules: [
+            v => !!v || 'Name is required',
+            v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+            ],
             email: '',
-            password: ''
+            emailRules: [
+            v => !!v || 'E-mail is required',
+            v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+            ],            
+
+
          }
       },
+
       // methods: {
       //    async loginHandler() {
       //       const data = { 'username': this.email, 'password': this.password }
