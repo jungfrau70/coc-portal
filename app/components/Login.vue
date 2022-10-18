@@ -49,37 +49,37 @@
             password: ''
          }
       },
-      methods: {
-         async loginHandler() {
-            const data = { 'username': this.email, 'password': this.password }
-            console.log(data);
-            try{        
-               const response = await this.$auth.loginWith('local', { data: data})
-               console.log(response)       
-               this.$auth.$storage.setUniversal('bearer', response.data.access_token)
-               await this.$auth.setUserToken(response.data.access_token, response.data.refresh_token)
-
-            } catch(e) {
-               console.log(e.message)
-            }
-            await this.$router.push('/');         
-         }
-      }      
       // methods: {
       //    async loginHandler() {
-      //       await fetch('http://localhost:8000/login', {
-      //       method: 'POST',
-      //       headers: {'Content-Type': 'application/json'},
-      //       credentials: 'include',
-      //       body: JSON.stringify({
-      //          email: this.email,
-      //          password: this.password
-      //       })
-      //       });
+      //       const data = { 'username': this.email, 'password': this.password }
+      //       console.log(data);
+      //       try{        
+      //          const response = await this.$auth.loginWith('local', { data: data})
+      //          console.log(response)       
+      //          this.$auth.$storage.setUniversal('bearer', response.data.access_token)
+      //          await this.$auth.setUserToken(response.data.access_token, response.data.refresh_token)
 
-      //       await this.$router.push('/');
+      //       } catch(e) {
+      //          console.log(e.message)
+      //       }
+      //       await this.$router.push('/');         
       //    }
-      // }
+      // }      
+      methods: {
+         async loginHandler() {
+            await fetch('http://localhost:8000/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({
+               email: this.email,
+               password: this.password
+            })
+            });
+
+            await this.$router.push('/');
+         }
+      }
    }
 </script>
 

@@ -1,6 +1,6 @@
 {
-  "Form": {
-    "description": "Auto imported from components/Form.vue"
+  "Item": {
+    "description": "Auto imported from components/Item.vue"
   },
   "Login": {
     "description": "Auto imported from components/Login.vue"

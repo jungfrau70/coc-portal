@@ -9,21 +9,23 @@
                         <v-toolbar-title>Signup</v-toolbar-title>
                      </v-toolbar>
                      <v-card-text>
-                        <v-form>
+                        <v-form ref="form" v-model="valid" lazy-validation>
                             <v-text-field
                               name="name"
                               label="Name"
                               type="text"
                               v-model="name"
+                              :rules="nameRules"                              
                               placeholder="Name"
                               required
                            ></v-text-field>
                            <v-text-field
                               name="email"
-                              label="Email"
+                              label="Email"                          
                               type="text"
                               v-model="email"
                               placeholder="Email"
+                              :rules="emailRules"                                  
                               required
                            ></v-text-field>
                            <v-text-field
@@ -54,12 +56,24 @@ export default {
    name: 'Signup',
    data() {
       return {
-         name: null,
-         email: null,
+         valid: true,
+         name: '',
+            nameRules: [
+            v => !!v || 'Name is required',
+            v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+            ],
+            email: '',
+            emailRules: [
+            v => !!v || 'E-mail is required',
+            v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+            ],  
          password: null,
       }
    },
    methods: {
+      validate () {
+        this.$refs.form.validate()
+      },      
       async signupHandler() {
          const data = {
             'name': this.name,

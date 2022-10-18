@@ -7,14 +7,19 @@
         <div>
           <ul class="navbar-nav me-auto mb-2 mb-md-0" v-if="!auth">
             <li class="nav-item">
+              <NuxtLink to="/table" class="nav-link">작업등록</NuxtLink>
+            </li>
+            <li class="nav-item">
               <NuxtLink to="/login" class="nav-link">Login</NuxtLink>
             </li>
             <li class="nav-item">
               <NuxtLink to="/signup" class="nav-link">Signup</NuxtLink>
             </li>
+
           </ul>
 
           <ul class="navbar-nav me-auto mb-2 mb-md-0" v-if="auth">
+            <NuxtLink to="/table" class="navbar-brand">작업관리</NuxtLink>
             <li class="nav-item">
               <a href="#" class="nav-link" @click="logout">Logout</a>
             </li>
