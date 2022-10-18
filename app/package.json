@@ -1,11 +1,16 @@
 {
   "dependencies": {
+    "@nuxtjs/auth-next": "*",
     "@nuxtjs/axios": "^5.13.6",
-    "@nuxtjs/vuetify": "^1.12.3",
+    "core-js": "^3.25.5",
     "nuxt": "^2.15.8"
+  },
+  "devDependencies": {
+    "@nuxtjs/vuetify": "^1.11.3"
   },
   "name": "app",
   "version": "1.0.0",
+  "private": true,
   "main": "index.js",
   "scripts": {
     "start": "nuxt"

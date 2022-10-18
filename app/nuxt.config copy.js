@@ -68,9 +68,9 @@ export default {
         },
         endpoints: {
           login: { url: '/login', method: 'post' },
-          // refresh: { url: '/token/refresh/', method: 'post' },
+          refresh: { url: '/token/refresh/', method: 'post' },
           user: { url: '/user', method: 'get' },
-          // logout: { url: '/logout', method: 'post'}
+          logout: { url: '/logout', method: 'post'}
         },
       }
     }

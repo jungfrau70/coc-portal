@@ -1,10 +1,17 @@
 [
   {
-    "name": "something",
-    "path": "/something",
-    "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\something.vue",
-    "chunkName": "pages/something",
-    "_name": "_1ba6992d"
+    "name": "login",
+    "path": "/login",
+    "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\login\\\\index.vue",
+    "chunkName": "pages/login/index",
+    "_name": "_70edc6e6"
+  },
+  {
+    "name": "signup",
+    "path": "/signup",
+    "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\signup\\\\index.vue",
+    "chunkName": "pages/signup/index",
+    "_name": "_ddaac726"
   },
   {
     "name": "index",

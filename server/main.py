@@ -20,7 +20,7 @@ app.include_router(blog.router)
 app.include_router(user.router)
 
 origins = [
-    "http://localhost:8000",
+    "http://localhost:3000",
 ]
 
 app.add_middleware(

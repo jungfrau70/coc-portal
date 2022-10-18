@@ -1,4 +1,7 @@
 export { default as Form } from '../..\\components\\Form.vue'
+export { default as Login } from '../..\\components\\Login.vue'
+export { default as Logo } from '../..\\components\\Logo.vue'
+export { default as Signup } from '../..\\components\\Signup.vue'
 export { default as Table } from '../..\\components\\Table.vue'
 
 // nuxt/nuxt.js#8607

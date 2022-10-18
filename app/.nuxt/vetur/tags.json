@@ -2,6 +2,15 @@
   "Form": {
     "description": "Auto imported from components/Form.vue"
   },
+  "Login": {
+    "description": "Auto imported from components/Login.vue"
+  },
+  "Logo": {
+    "description": "Auto imported from components/Logo.vue"
+  },
+  "Signup": {
+    "description": "Auto imported from components/Signup.vue"
+  },
   "Table": {
     "description": "Auto imported from components/Table.vue"
   }
