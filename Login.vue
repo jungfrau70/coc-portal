@@ -3,10 +3,10 @@
       <v-main>
          <v-container fluid fill-height>
             <v-layout align-center justify-center>
-               <v-flex > <!-- xs12 sm8 md4 -->
+               <v-flex xs12 sm8 md4>
                   <v-card class="elevation-12">
                      <v-toolbar dark color="primary">
-                        <v-toolbar-title>Login</v-toolbar-title>
+                        <v-toolbar-title>Login form</v-toolbar-title>
                      </v-toolbar>
                      <v-card-text>
                         <v-form>
@@ -41,46 +41,35 @@
 </template>
 
 <script>
-   export default {
-      name: "login",
-      data() {
-         return {
-            email: '',
-            password: ''
-         }
-      },
-      methods: {
-         async loginHandler() {
-            const data = { 'username': this.email, 'password': this.password }
-            console.log(data);
-            try{        
-               const response = await this.$auth.loginWith('local', { data: data})
-               console.log(response)       
-               this.$auth.$storage.setUniversal('bearer', response.data.access_token)
-               await this.$auth.setUserToken(response.data.access_token, response.data.refresh_token)
 
-            } catch(e) {
-               console.log(e.message)
-            }
-            await this.$router.push('/');         
-         }
-      }      
-      // methods: {
-      //    async loginHandler() {
-      //       await fetch('http://localhost:8000/login', {
-      //       method: 'POST',
-      //       headers: {'Content-Type': 'application/json'},
-      //       credentials: 'include',
-      //       body: JSON.stringify({
-      //          email: this.email,
-      //          password: this.password
-      //       })
-      //       });
+export default {
+   name: 'Login',
+   data() {
+      return {
+         email: '',
+         password: ''
+      }
+   },
+   methods: {
+      
+      async loginHandler() {
+         const data = { 'username': this.email, 'password': this.password }
+         console.log(data);
+         try{
+            // const res = await this.$axios.post('/login', data)
+            // console.log(res)            
+            const response = await this.$auth.loginWith('local', { data: data})
+            console.log(response)       
+            this.$auth.$storage.setUniversal('bearer', response.data.access_token)
+            await this.$auth.setUserToken(response.data.access_token, response.data.refresh_token)
 
-      //       await this.$router.push('/');
-      //    }
-      // }
+         } catch(e) {
+            console.log(e.message)
+         }
+         await this.$router.push('/');         
+      }
    }
+};
 </script>
 
 <style></style>

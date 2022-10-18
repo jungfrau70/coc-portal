@@ -13,7 +13,7 @@ router = APIRouter(
 get_db = database.get_db
 
 
-@router.post('/', response_model=schemas.ShowUser)
+@router.post('/register', response_model=schemas.ShowUser)
 def create_user(request: schemas.User,db: Session = Depends(get_db)):
     return user.create(request,db)
 

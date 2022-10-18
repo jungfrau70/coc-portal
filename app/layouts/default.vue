@@ -1,62 +1,94 @@
 <template>
   <div>
-    <Nuxt />
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+      <div class="container-fluid">
+        <NuxtLink to="/" class="navbar-brand">Home</NuxtLink>
+
+        <div>
+          <ul class="navbar-nav me-auto mb-2 mb-md-0" v-if="!auth">
+            <li class="nav-item">
+              <NuxtLink to="/login" class="nav-link">Login</NuxtLink>
+            </li>
+            <li class="nav-item">
+              <NuxtLink to="/signup" class="nav-link">Signup</NuxtLink>
+            </li>
+          </ul>
+
+          <ul class="navbar-nav me-auto mb-2 mb-md-0" v-if="auth">
+            <li class="nav-item">
+              <a href="#" class="nav-link" @click="logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="form-signin">
+      <Nuxt/>
+    </main>
   </div>
 </template>
 
+<script>
+export default {
+  name: 'layout',
+  data() {
+    return {
+      auth: false
+    }
+  },
+  mounted() {
+    this.$nuxt.$on('auth', auth => {
+      this.auth = auth;
+    })
+  },
+  methods: {
+    async logout() {
+      await fetch('http://localhost:8000/logout', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+      });
+
+      await this.$router.push('/login');
+    }
+  }
+}
+</script>
+
 <style>
-html {
-  font-family:
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
   font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
+.form-signin .form-control:focus {
+  z-index: 2;
 }
 
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 </style>
