@@ -6,18 +6,7 @@ You can directly use them in pages and other components without the need to impo
 
 **Tip:** If a component is conditionally rendered with `v-if` and is big, it is better to use `Lazy` or `lazy-` prefix to lazy load.
 
-- `<DeleteModal>` | `<delete-modal>` (components/DeleteModal.vue)
-- `<Input>` | `<input>` (components/Input.vue)
-- `<Item>` | `<item>` (components/Item.vue)
-- `<List>` | `<list>` (components/List.vue)
 - `<Login>` | `<login>` (components/Login.vue)
 - `<Logo>` | `<logo>` (components/Logo.vue)
-- `<Modal>` | `<modal>` (components/Modal.vue)
-- `<Navbar>` | `<navbar>` (components/Navbar.vue)
-- `<Pagination>` | `<pagination>` (components/Pagination.vue)
 - `<Signup>` | `<signup>` (components/Signup.vue)
 - `<Table>` | `<table>` (components/Table.vue)
-- `<Toast>` | `<toast>` (components/Toast.vue)
-- `<TodoForm>` | `<todo-form>` (components/TodoForm.vue)
-- `<TodoList>` | `<todo-list>` (components/TodoList.vue)
-- `<TodoSimpleForm>` | `<todo-simple-form>` (components/TodoSimpleForm.vue)
