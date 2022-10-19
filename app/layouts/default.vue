@@ -7,9 +7,6 @@
         <div>
           <ul class="navbar-nav me-auto mb-2 mb-md-0" v-if="!auth">
             <li class="nav-item">
-              <NuxtLink to="/table" class="nav-link">작업등록</NuxtLink>
-            </li>
-            <li class="nav-item">
               <NuxtLink to="/login" class="nav-link">Login</NuxtLink>
             </li>
             <li class="nav-item">
@@ -49,7 +46,7 @@ export default {
   },
   methods: {
     async logout() {
-      await fetch('http://localhost:8000/logout', {
+      await fetch('http://localhost:8000/account/logout', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include',

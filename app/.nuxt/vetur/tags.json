@@ -1,6 +1,15 @@
 {
+  "DeleteModal": {
+    "description": "Auto imported from components/DeleteModal.vue"
+  },
+  "Input": {
+    "description": "Auto imported from components/Input.vue"
+  },
   "Item": {
     "description": "Auto imported from components/Item.vue"
+  },
+  "List": {
+    "description": "Auto imported from components/List.vue"
   },
   "Login": {
     "description": "Auto imported from components/Login.vue"
@@ -8,10 +17,31 @@
   "Logo": {
     "description": "Auto imported from components/Logo.vue"
   },
+  "Modal": {
+    "description": "Auto imported from components/Modal.vue"
+  },
+  "Navbar": {
+    "description": "Auto imported from components/Navbar.vue"
+  },
+  "Pagination": {
+    "description": "Auto imported from components/Pagination.vue"
+  },
   "Signup": {
     "description": "Auto imported from components/Signup.vue"
   },
   "Table": {
     "description": "Auto imported from components/Table.vue"
+  },
+  "Toast": {
+    "description": "Auto imported from components/Toast.vue"
+  },
+  "TodoForm": {
+    "description": "Auto imported from components/TodoForm.vue"
+  },
+  "TodoList": {
+    "description": "Auto imported from components/TodoList.vue"
+  },
+  "TodoSimpleForm": {
+    "description": "Auto imported from components/TodoSimpleForm.vue"
   }
 }

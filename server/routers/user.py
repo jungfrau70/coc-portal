@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, status
 from cruds import user
 
 router = APIRouter(
-    prefix="/user",
+    prefix="/account",
     tags=['Users']
 )
 

@@ -63,11 +63,11 @@ export default function (ctx, inject) {
   },
   "endpoints": {
     "login": {
-      "url": "/login",
+      "url": "/account/login",
       "method": "post"
     },
     "user": {
-      "url": "/user",
+      "url": "/account/user",
       "method": "get"
     }
   },

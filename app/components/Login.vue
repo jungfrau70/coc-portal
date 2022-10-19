@@ -14,7 +14,7 @@
                               name="username"
                               label="Username"
                               type="email"
-                              v-model="email"
+                              v-model="username"
                               placeholder="Email" 
                               required
                            ></v-text-field>
@@ -45,54 +45,57 @@
       name: "login",
       data() {
          return {
-
             password: '',
-            name: '',
             nameRules: [
             v => !!v || 'Name is required',
             v => (v && v.length <= 10) || 'Name must be less than 10 characters',
             ],
-            email: '',
+            username: '',
             emailRules: [
             v => !!v || 'E-mail is required',
             v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
             ],            
-
-
          }
       },
 
+      methods: {
+         async loginHandler() {
+            const data = { 'username': this.username, 'password': this.password }
+            console.log(data);
+            try{        
+               const response = await this.$auth.loginWith('local', { data: data})
+               console.log(response)       
+               this.$auth.$storage.setUniversal('bearer', response.data.access_token)
+               await this.$auth.setUserToken(response.data.access_token, response.data.refresh_token)
+
+            } catch(e) {
+               console.log(e.message)
+            }
+            await this.$router.push('/');         
+         }
+      }      
+      
       // methods: {
       //    async loginHandler() {
-      //       const data = { 'username': this.email, 'password': this.password }
-      //       console.log(data);
       //       try{        
-      //          const response = await this.$auth.loginWith('local', { data: data})
+      //          const response = await fetch('http://localhost:8000/account/login', {
+      //             method: 'POST',
+      //             headers: {'Content-Type': 'application/json'},
+      //             credentials: 'include',
+      //             body: JSON.stringify({
+      //                username: this.username,
+      //                password: this.password
+      //             })})
       //          console.log(response)       
-      //          this.$auth.$storage.setUniversal('bearer', response.data.access_token)
-      //          await this.$auth.setUserToken(response.data.access_token, response.data.refresh_token)
+      //          // this.$auth.$storage.setUniversal('bearer', response.data.access_token)
+      //          // await this.$auth.setUserToken(response.data.access_token, response.data.refresh_token)
 
       //       } catch(e) {
       //          console.log(e.message)
       //       }
-      //       await this.$router.push('/');         
+      //       await this.$router.push('/');
       //    }
-      // }      
-      methods: {
-         async loginHandler() {
-            await fetch('http://localhost:8000/login', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            credentials: 'include',
-            body: JSON.stringify({
-               email: this.email,
-               password: this.password
-            })
-            });
-
-            await this.$router.push('/');
-         }
-      }
+      // }
    }
 </script>
 

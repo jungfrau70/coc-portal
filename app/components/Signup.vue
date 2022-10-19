@@ -82,7 +82,7 @@ export default {
          }
          console.log(data);
          try {
-             const res = await this.$axios.post('/user/register', data)
+             const res = await this.$axios.post('/account/register', data)
              console.log(res)
          }
          catch(e) {

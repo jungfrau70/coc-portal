@@ -26,7 +26,7 @@ alembic init migrations -->
 vi alembic.ini
 # sqlalchemy.url = driver://user:pass@localhost/dbname
 sqlalchemy.url = sqlite:///database.db
-sqlalchemy.url = postgresql+psycopg2://postgres:postgres@localhost/test
+sqlalchemy.url = postgresql+psycopg2://postgres:postgres@172.30.1.13/lenz
 
 #################################################################################################
 # 4. Create a Migration Script 

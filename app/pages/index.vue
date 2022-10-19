@@ -20,8 +20,19 @@
 </template>
 
 <script>
-export default {}
+import { useCount } from '@/composables/count';
+
+export default {
+  setup() {
+    const { count } = useCount();
+
+    return {
+      count
+    }
+  }
+}
 </script>
+
 
 <style>
 .container {
