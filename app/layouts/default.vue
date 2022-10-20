@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
       <div class="container-fluid">
         <NuxtLink to="/" class="navbar-brand">Home</NuxtLink>
-
+        <NuxtLink to="/upload" class="navbar-brand">Upload</NuxtLink>
         <div>
           <ul class="navbar-nav me-auto mb-2 mb-md-0" v-if="!auth">
             <li class="nav-item">
@@ -16,7 +16,7 @@
           </ul>
 
           <ul class="navbar-nav me-auto mb-2 mb-md-0" v-if="auth">
-            <NuxtLink to="/table" class="navbar-brand">작업관리</NuxtLink>
+            <NuxtLink to="/upload" class="navbar-brand">Upload</NuxtLink>
             <li class="nav-item">
               <a href="#" class="nav-link" @click="logout">Logout</a>
             </li>

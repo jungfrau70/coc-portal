@@ -3,21 +3,24 @@
     "name": "login",
     "path": "/login",
     "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\login\\\\index.vue",
-    "chunkName": "pages/login/index",
-    "_name": "_70edc6e6"
+    "chunkName": "pages/login/index"
   },
   {
     "name": "signup",
     "path": "/signup",
     "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\signup\\\\index.vue",
-    "chunkName": "pages/signup/index",
-    "_name": "_ddaac726"
+    "chunkName": "pages/signup/index"
+  },
+  {
+    "name": "upload",
+    "path": "/upload",
+    "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\upload\\\\index.vue",
+    "chunkName": "pages/upload/index"
   },
   {
     "name": "index",
     "path": "/",
     "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_2e75d9f6"
+    "chunkName": "pages/index"
   }
 ]

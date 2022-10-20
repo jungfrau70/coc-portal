@@ -1,4 +1,10 @@
 {
+  "DropZone": {
+    "description": "Auto imported from components/DropZone.vue"
+  },
+  "FilePreview": {
+    "description": "Auto imported from components/FilePreview.vue"
+  },
   "Login": {
     "description": "Auto imported from components/Login.vue"
   },

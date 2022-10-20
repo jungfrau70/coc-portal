@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@babel/eslint-parser": "^7.19.1",
     "@nuxtjs/auth-next": "*",
     "@nuxtjs/axios": "^5.13.6",
     "bootstrap": "^5.2.2",

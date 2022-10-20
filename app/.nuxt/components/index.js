@@ -1,3 +1,5 @@
+export { default as DropZone } from '../..\\components\\DropZone.vue'
+export { default as FilePreview } from '../..\\components\\FilePreview.vue'
 export { default as Login } from '../..\\components\\Login.vue'
 export { default as Logo } from '../..\\components\\Logo.vue'
 export { default as Signup } from '../..\\components\\Signup.vue'
