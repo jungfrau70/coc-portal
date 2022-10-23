@@ -4,9 +4,10 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
+const _5adbcd47 = () => interopDefault(import('..\\pages\\data.vue' /* webpackChunkName: "pages/data" */))
 const _70edc6e6 = () => interopDefault(import('..\\pages\\login\\index.vue' /* webpackChunkName: "pages/login/index" */))
+const _db97f832 = () => interopDefault(import('..\\pages\\preview\\index.vue' /* webpackChunkName: "pages/preview/index" */))
 const _ddaac726 = () => interopDefault(import('..\\pages\\signup\\index.vue' /* webpackChunkName: "pages/signup/index" */))
-const _021203e4 = () => interopDefault(import('..\\pages\\upload\\index.vue' /* webpackChunkName: "pages/upload/index" */))
 const _2e75d9f6 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
@@ -21,17 +22,21 @@ export const routerOptions = {
   scrollBehavior,
 
   routes: [{
+    path: "/data",
+    component: _5adbcd47,
+    name: "data"
+  }, {
     path: "/login",
     component: _70edc6e6,
     name: "login"
   }, {
+    path: "/preview",
+    component: _db97f832,
+    name: "preview"
+  }, {
     path: "/signup",
     component: _ddaac726,
     name: "signup"
-  }, {
-    path: "/upload",
-    component: _021203e4,
-    name: "upload"
   }, {
     path: "/",
     component: _2e75d9f6,

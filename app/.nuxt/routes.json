@@ -1,26 +1,37 @@
 [
   {
+    "name": "data",
+    "path": "/data",
+    "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\data.vue",
+    "chunkName": "pages/data",
+    "_name": "_5adbcd47"
+  },
+  {
     "name": "login",
     "path": "/login",
     "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\login\\\\index.vue",
-    "chunkName": "pages/login/index"
+    "chunkName": "pages/login/index",
+    "_name": "_70edc6e6"
+  },
+  {
+    "name": "preview",
+    "path": "/preview",
+    "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\preview\\\\index.vue",
+    "chunkName": "pages/preview/index",
+    "_name": "_db97f832"
   },
   {
     "name": "signup",
     "path": "/signup",
     "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\signup\\\\index.vue",
-    "chunkName": "pages/signup/index"
-  },
-  {
-    "name": "upload",
-    "path": "/upload",
-    "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\upload\\\\index.vue",
-    "chunkName": "pages/upload/index"
+    "chunkName": "pages/signup/index",
+    "_name": "_ddaac726"
   },
   {
     "name": "index",
     "path": "/",
     "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_2e75d9f6"
   }
 ]

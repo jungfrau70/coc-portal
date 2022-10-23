@@ -1,9 +1,18 @@
 {
+  "Data": {
+    "description": "Auto imported from components/Data.vue"
+  },
+  "DragAndDrop": {
+    "description": "Auto imported from components/DragAndDrop.vue"
+  },
   "DropZone": {
     "description": "Auto imported from components/DropZone.vue"
   },
   "FilePreview": {
     "description": "Auto imported from components/FilePreview.vue"
+  },
+  "LoadingBar": {
+    "description": "Auto imported from components/LoadingBar.vue"
   },
   "Login": {
     "description": "Auto imported from components/Login.vue"
@@ -11,10 +20,10 @@
   "Logo": {
     "description": "Auto imported from components/Logo.vue"
   },
+  "PreviewCsv": {
+    "description": "Auto imported from components/PreviewCsv.vue"
+  },
   "Signup": {
     "description": "Auto imported from components/Signup.vue"
-  },
-  "Table": {
-    "description": "Auto imported from components/Table.vue"
   }
 }

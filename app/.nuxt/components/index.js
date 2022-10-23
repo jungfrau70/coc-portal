@@ -1,9 +1,12 @@
+export { default as Data } from '../..\\components\\Data.vue'
+export { default as DragAndDrop } from '../..\\components\\DragAndDrop.vue'
 export { default as DropZone } from '../..\\components\\DropZone.vue'
 export { default as FilePreview } from '../..\\components\\FilePreview.vue'
+export { default as LoadingBar } from '../..\\components\\LoadingBar.vue'
 export { default as Login } from '../..\\components\\Login.vue'
 export { default as Logo } from '../..\\components\\Logo.vue'
+export { default as PreviewCsv } from '../..\\components\\PreviewCsv.vue'
 export { default as Signup } from '../..\\components\\Signup.vue'
-export { default as Table } from '../..\\components\\Table.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {
