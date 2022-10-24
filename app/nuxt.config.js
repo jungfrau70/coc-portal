@@ -22,7 +22,7 @@ export default {
       },
       {
         rel: "stylesheet",
-        href: "https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css",
+        href: "https://pyscript.net/latest/pyscript.css",
       },
     ],
     script: [
@@ -32,17 +32,18 @@ export default {
       },
       {
         defer: "",
-        src: "https://code.jquery.com/jquery-3.4.1.min.js",
+        src: "https://pyscript.net/latest/pyscript.js",
       },
     ],
   },
+
 
   // Customize the progress-bar color
   loading: { color: "#fff" },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    "~/node_modules/bootstrap/dist/css/bootstrap.css",
+    // "~/node_modules/bootstrap/dist/css/bootstrap.css",
     // "~/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css",
   ],
 
@@ -62,7 +63,7 @@ export default {
     "@nuxtjs/auth-next",
     "@nuxtjs/axios",
     // https://go.nuxtjs.dev/bootstrap
-    "bootstrap-vue/nuxt",
+    // "bootstrap-vue/nuxt",
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

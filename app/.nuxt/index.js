@@ -14,7 +14,6 @@ import { createStore } from './store.js'
 /* Plugins */
 
 import nuxt_plugin_plugin_5b924940 from 'nuxt_plugin_plugin_5b924940' // Source: .\\components\\plugin.js (mode: 'all')
-import nuxt_plugin_bootstrapvue_48230ab2 from 'nuxt_plugin_bootstrapvue_48230ab2' // Source: .\\bootstrap-vue.js (mode: 'all')
 import nuxt_plugin_plugin_b764c6d8 from 'nuxt_plugin_plugin_b764c6d8' // Source: .\\vuetify\\plugin.js (mode: 'all')
 import nuxt_plugin_axios_70545f83 from 'nuxt_plugin_axios_70545f83' // Source: .\\axios.js (mode: 'all')
 import nuxt_plugin_auth_22d86566 from 'nuxt_plugin_auth_22d86566' // Source: .\\auth.js (mode: 'all')
@@ -85,7 +84,7 @@ async function createApp(ssrContext, config = {}) {
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"title":"Spark Lenz","htmlAttrs":{"lang":"kr"},"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"클라우드 운영\u002F관리"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","href":"https:\u002F\u002Fcdn.jsdelivr.net\u002Fnpm\u002Fbulma@0.9.4\u002Fcss\u002Fbulma.min.css"},{"rel":"stylesheet","href":"https:\u002F\u002Fcdn.datatables.net\u002F1.10.20\u002Fcss\u002FdataTables.bootstrap4.min.css"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Ffonts.googleapis.com\u002Fcss?family=Roboto:100,300,400,500,700,900&display=swap"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Fcdn.jsdelivr.net\u002Fnpm\u002F@mdi\u002Ffont@latest\u002Fcss\u002Fmaterialdesignicons.min.css"}],"script":[{"defer":"","src":"https:\u002F\u002Fuse.fontawesome.com\u002Freleases\u002Fv5.15.4\u002Fjs\u002Fall.js"},{"defer":"","src":"https:\u002F\u002Fcode.jquery.com\u002Fjquery-3.4.1.min.js"}],"style":[]},
+    head: {"title":"Spark Lenz","htmlAttrs":{"lang":"kr"},"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"클라우드 운영\u002F관리"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","href":"https:\u002F\u002Fcdn.jsdelivr.net\u002Fnpm\u002Fbulma@0.9.4\u002Fcss\u002Fbulma.min.css"},{"rel":"stylesheet","href":"https:\u002F\u002Fpyscript.net\u002Flatest\u002Fpyscript.css"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Ffonts.googleapis.com\u002Fcss?family=Roboto:100,300,400,500,700,900&display=swap"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Fcdn.jsdelivr.net\u002Fnpm\u002F@mdi\u002Ffont@latest\u002Fcss\u002Fmaterialdesignicons.min.css"}],"script":[{"defer":"","src":"https:\u002F\u002Fuse.fontawesome.com\u002Freleases\u002Fv5.15.4\u002Fjs\u002Fall.js"},{"defer":"","src":"https:\u002F\u002Fpyscript.net\u002Flatest\u002Fpyscript.js"}],"style":[]},
 
     store,
     router,
@@ -216,10 +215,6 @@ async function createApp(ssrContext, config = {}) {
 
   if (typeof nuxt_plugin_plugin_5b924940 === 'function') {
     await nuxt_plugin_plugin_5b924940(app.context, inject)
-  }
-
-  if (typeof nuxt_plugin_bootstrapvue_48230ab2 === 'function') {
-    await nuxt_plugin_bootstrapvue_48230ab2(app.context, inject)
   }
 
   if (typeof nuxt_plugin_plugin_b764c6d8 === 'function') {

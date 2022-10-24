@@ -2,9 +2,9 @@
   {
     "name": "data",
     "path": "/data",
-    "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\data.vue",
-    "chunkName": "pages/data",
-    "_name": "_5adbcd47"
+    "component": "D:\\\\work\\\\lenz\\\\app\\\\pages\\\\data\\\\index.vue",
+    "chunkName": "pages/data/index",
+    "_name": "_290d4d4a"
   },
   {
     "name": "login",
