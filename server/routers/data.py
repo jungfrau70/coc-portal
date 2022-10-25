@@ -54,8 +54,6 @@ async def post_form(request: Request, form_data: schemas.AwesomeForm = Depends(s
     
     file.file.close()
 
-    # return templates.TemplateResponse( "basic-form.html", {"request": request})
-
     return templates.TemplateResponse("awesome-form.html", {"request": request})
 
 @router.get('/pyscript', response_class=HTMLResponse)
