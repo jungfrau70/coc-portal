@@ -6,8 +6,9 @@ from fastapi import FastAPI, Depends
 from fastapi.responses import PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
-from routers import user, blog, authentication
+from routers import user, blog, authentication, data
 from config.database import engine
 from cruds import models
 
@@ -18,6 +19,7 @@ models.Base.metadata.create_all(engine)
 app.include_router(authentication.router)
 app.include_router(blog.router)
 app.include_router(user.router)
+app.include_router(data.router)
 
 origins = [
     "http://localhost:3000",
@@ -32,10 +34,13 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+
 @app.exception_handler(StarletteHTTPException)
 async def http_exception_handler(request, exc):
     print(f"{repr(exc)}")
     return PlainTextResponse(str(exc.detail), status_code=exc.status_code)
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # @lru_cache()
 # def get_settings():

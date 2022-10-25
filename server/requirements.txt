@@ -1,6 +1,7 @@
 alembic
 bcrypt
 fastapi
+jinja2
 passlib
 psycopg2
 pytest
