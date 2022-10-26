@@ -2,6 +2,8 @@ alembic
 bcrypt
 fastapi
 jinja2
+pandas
+pandas_ods_reader
 passlib
 psycopg2
 pytest

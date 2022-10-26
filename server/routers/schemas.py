@@ -1,6 +1,6 @@
 from typing import List, Optional
 from pydantic import BaseModel
-
+from fastapi import Form, File, UploadFile
 
 class BlogBase(BaseModel):
     title: str
@@ -40,9 +40,6 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: Optional[str] = None
-
-from fastapi import Form, File, UploadFile
-from pydantic import BaseModel
 
 
 # https://stackoverflow.com/a/60670614
