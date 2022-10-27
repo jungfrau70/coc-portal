@@ -60,3 +60,63 @@ class AwesomeForm(BaseModel):
             password=password,
             file=file
         )
+
+class Problem(BaseModel):
+    id: int
+    year: str
+    month: str
+    region: str
+    az: str
+    tenant: str
+
+    progress: str
+    status: str
+    impact: str
+
+    occurred_at: str
+    title: str
+    problem_desc: str
+    action_desc: str
+    person_in_charge: str
+    ticket_no: str
+
+    rca_desc: str
+    review_date: str
+    review_desc: str
+    reviewer: str
+
+    creator: str
+    updater: str
+    
+    class Config():
+        orm_mode = True    
+
+class ShowProblem(BaseModel):
+    id: int
+    year: str
+    month: str
+    region: str
+    az: str
+    tenant: str
+
+    progress: str
+    status: str
+    impact: str
+
+    occurred_at: str
+    title: str
+    problem_desc: str
+    action_desc: str
+    person_in_charge: str
+    ticket_no: str
+
+    rca_desc: str
+    review_date: str
+    review_desc: str
+    reviewer: str
+
+    creator: str
+    updater: str
+
+    class Config():
+        orm_mode = True    

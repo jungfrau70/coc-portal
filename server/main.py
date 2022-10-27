@@ -8,7 +8,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from routers import user, blog, authentication, data
+from routers import user, blog, authentication, problem
 from config.database import engine
 from cruds import models
 
@@ -19,7 +19,7 @@ models.Base.metadata.create_all(engine)
 app.include_router(authentication.router)
 app.include_router(blog.router)
 app.include_router(user.router)
-app.include_router(data.router)
+app.include_router(problem.router)
 
 origins = [
     "http://localhost:3000",

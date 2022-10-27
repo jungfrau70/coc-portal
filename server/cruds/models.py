@@ -1,7 +1,8 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, TIMESTAMP, text
 from config.database import Base
 from sqlalchemy.orm import relationship
 from datetime import datetime, timedelta
+from sqlalchemy.sql import func
 
 from sqlalchemy import (
     Column,
@@ -42,15 +43,18 @@ class User(Base):
 
 class BaseMixin:
     id = Column(Integer, primary_key=True, index=True)
-    created_at = Column(DateTime, nullable=False, default=func.utc_timestamp())
-    updated_at = Column(DateTime, nullable=False, default=func.utc_timestamp(), onupdate=func.utc_timestamp())
+    # created_at = Column(DateTime, nullable=False, default=func.utc_timestamp())
+    # updated_at = Column(DateTime, nullable=False, default=func.utc_timestamp(), onupdate=func.utc_timestamp())    
+    # created_at = Column(TIMESTAMP, nullable=False, server_default=func.now())
+    # updated_at = Column(TIMESTAMP, nullable=False, server_default=func.now(), onupdate=func.utc_timestamp())
+    # created_at = Column(TIMESTAMP, nullable=False, server_default=func.now())
+    # updated_at = Column(DateTime, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
 
     def all_columns(self):
         return [c for c in self.__table__.columns if c.primary_key is False and c.name != "created_at"]
 
     def __hash__(self):
         return hash(self.id)
-
 
     def __init__(self):
         self._q = None
@@ -207,32 +211,34 @@ class Problem(Base, BaseMixin):
 
     # status = Column(Enum("active", "deleted", "blocked"), default="active")
     # email = Column(String(length=255), nullable=True)
-    # pw = Column(String(length=2000), nullable=True)
+    # pw = Column(String(length=3000), nullable=True)
     # name = Column(String(length=255), nullable=True)
-    # phone_number = Column(String(length=20), nullable=True, unique=True)
+    # phone_number = Column(String(length=30), nullable=True, unique=True)
     # profile_img = Column(String(length=1000), nullable=True)
     # sns_type = Column(Enum("FB", "G", "K"), nullable=True)
     # marketing_agree = Column(Boolean, nullable=True, default=True)
 
-    id = Column(Integer, primary_key=True, index=True)
-    year = Column(String)
-    month = Column(String)
-    region = Column(String)
-    az = Column(String)
-    tenant = Column(String)
-    progress = Column(String)
-    status = Column(String)  
+    year = Column(String, nullable=True)
+    month = Column(String, nullable=True)
+    region = Column(String, nullable=True)
+    az = Column(String, nullable=True)
+    tenant = Column(String, nullable=True)
 
-    impact = Column(String)     
-    title = Column(String)
-    problem_desc = Column(String)    
-    action_desc = Column(String)
-    charged_person = Column(String)
-    ticket_no = Column(String)
-    review_desc = Column(String)
-    review_date = Column(String)
-    reviewer = Column(String)    
-    rca_desc = Column(String)
-    
-    creater = Column(String)
-    updater = Column(String)    
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True) 
+    impact = Column(String, nullable=True)   
+
+    occurred_at = Column(String, nullable=True) 
+    title = Column(String, nullable=True) 
+    problem_desc = Column(String(length=3000), nullable=True) 
+    action_desc = Column(String(length=3000), nullable=True) 
+    person_in_charge = Column(String, nullable=True)  # Engineer
+    ticket_no = Column(String, nullable=True) 
+
+    rca_desc = Column(String(length=3000), nullable=True) 
+    review_date = Column(String, nullable=True) 
+    review_desc = Column(String(length=3000), nullable=True) 
+    reviewer = Column(String, nullable=True) 
+
+    creator = Column(String, nullable=True) 
+    updater = Column(String, nullable=True) 
