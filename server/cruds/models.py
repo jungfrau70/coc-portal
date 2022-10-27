@@ -45,10 +45,6 @@ class BaseMixin:
     id = Column(Integer, primary_key=True, index=True)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, onupdate=func.utc_timestamp())
-    # created_at = Column(TIMESTAMP, nullable=False, server_default=func.now())
-    # updated_at = Column(TIMESTAMP, nullable=False, server_default=func.now(), onupdate=func.utc_timestamp())
-    # created_at = Column(TIMESTAMP, nullable=False, server_default=func.now())
-    # updated_at = Column(DateTime, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
 
     def all_columns(self):
         return [c for c in self.__table__.columns if c.primary_key is False and c.name != "created_at"]
@@ -237,7 +233,7 @@ class Problem(Base, BaseMixin):
 
     rca_desc = Column(String(length=3000), nullable=True) 
     review_desc = Column(String(length=3000), nullable=True) 
-    reviewed_at = Column(DateTime, default=None)  
+    reviewed_at = Column(DateTime, default=None)
 
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)     

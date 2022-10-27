@@ -215,7 +215,7 @@
 				/*
 					Make the request to the POST /file-drag-drop URL
 				*/
-				axios.post( '/file-drag-drop',
+				axios.post( 'http://localhost:8000/file-drag-drop',
 					formData,
 					{
 						headers: {

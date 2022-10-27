@@ -1,29 +1,47 @@
 {
-  "Data": {
-    "description": "Auto imported from components/Data.vue"
+  "Backup": {
+    "description": "Auto imported from components/Backup.vue"
   },
-  "DragAndDrop": {
-    "description": "Auto imported from components/DragAndDrop.vue"
+  "Change": {
+    "description": "Auto imported from components/Change.vue"
   },
-  "DropZone": {
-    "description": "Auto imported from components/DropZone.vue"
+  "Database": {
+    "description": "Auto imported from components/Database.vue"
   },
-  "FilePreview": {
-    "description": "Auto imported from components/FilePreview.vue"
+  "Incident": {
+    "description": "Auto imported from components/Incident.vue"
   },
-  "LoadingBar": {
-    "description": "Auto imported from components/LoadingBar.vue"
+  "Instance": {
+    "description": "Auto imported from components/Instance.vue"
+  },
+  "Issue": {
+    "description": "Auto imported from components/Issue.vue"
+  },
+  "Kubernetes": {
+    "description": "Auto imported from components/Kubernetes.vue"
   },
   "Login": {
     "description": "Auto imported from components/Login.vue"
   },
-  "Logo": {
-    "description": "Auto imported from components/Logo.vue"
+  "Logout": {
+    "description": "Auto imported from components/Logout.vue"
   },
-  "PreviewCsv": {
-    "description": "Auto imported from components/PreviewCsv.vue"
+  "Problem": {
+    "description": "Auto imported from components/Problem.vue"
+  },
+  "Regularcheck": {
+    "description": "Auto imported from components/Regularcheck.vue"
+  },
+  "Request": {
+    "description": "Auto imported from components/Request.vue"
+  },
+  "Security": {
+    "description": "Auto imported from components/Security.vue"
   },
   "Signup": {
     "description": "Auto imported from components/Signup.vue"
+  },
+  "Upload": {
+    "description": "Auto imported from components/Upload.vue"
   }
 }

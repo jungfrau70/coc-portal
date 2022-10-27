@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import PreviewCsv from '~/components/PreviewCsv.vue';
+import PreviewCsv from '~/../components_samples/PreviewCsv.vue';
 
 export default {
    components: { PreviewCsv }

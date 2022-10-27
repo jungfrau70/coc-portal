@@ -24,13 +24,12 @@
 
       <div id="navbarBasic" class="navbar-menu">
         <div class="navbar-start">
-          <NuxtLink to="/" class="navbar-item"> Home </NuxtLink>
-          <NuxtLink to="/current" class="navbar-item"> 운영현황 </NuxtLink>
+
           <!-- <ul class="navbar-nav me-auto mb-2 mb-md-0" v-if="auth"> -->
           <ul class="navbar-item me-auto mb-2 mb-md-0" v-if="!auth">
+            <NuxtLink to="/" class="navbar-item"> Home </NuxtLink>        
             <div class="navbar-item has-dropdown is-hoverable">
-              <NuxtLink to="/task" class="navbar-link"> 작업관리 </NuxtLink>
-
+              <span>작업관리</span>
               <div class="navbar-dropdown">
                 <NuxtLink to="/incident" class="navbar-item">
                   인시던트
@@ -44,9 +43,10 @@
           </ul>
           <ul class="navbar-item me-auto mb-2 mb-md-0" v-if="!auth">
             <div class="navbar-item has-dropdown is-hoverable">
-              <NuxtLink to="/inventory" class="navbar-link">
+              <span>자산관리</span>
+              <!-- <NuxtLink to="/inventory" class="navbar-link">
                 자산관리
-              </NuxtLink>
+              </NuxtLink> -->
               <div class="navbar-dropdown">
                 <NuxtLink to="/instance" class="navbar-item">
                   인스턴스(VM)
@@ -62,9 +62,7 @@
           </ul>
           <ul class="navbar-item me-auto mb-2 mb-md-0" v-if="!auth">
             <div class="navbar-item has-dropdown is-hoverable">
-              <NuxtLink to="/preventive" class="navbar-link">
-                예방관리
-              </NuxtLink>
+              <span>예방관리</span>
               <div class="navbar-dropdown">
                 <NuxtLink to="/backup" class="navbar-item"> 백업 </NuxtLink>
                 <NuxtLink to="/security" class="navbar-item"> 보안 </NuxtLink>
@@ -73,6 +71,8 @@
                 </NuxtLink>
               </div>
             </div>
+            <NuxtLink to="/current" class="navbar-item"> 보고서 </NuxtLink>
+            <NuxtLink to="/upload" class="navbar-item"> 업로드 </NuxtLink>                    
           </ul>
         </div>
 
@@ -89,8 +89,6 @@
           <ul class="navbar-nav me-auto mb-2 mb-md-0" v-if="!auth">
             <div class="navbar-item">
               <div class="buttons">
-                <NuxtLink to="/preview" class="navbar-brand">Preview</NuxtLink>
-                <NuxtLink to="/data" class="navbar-brand">Data</NuxtLink>
                 <NuxtLink to="/signup" class="button is-primary"
                   >Signup</NuxtLink
                 >

@@ -1,6 +1,6 @@
 from typing import List
 from fastapi import APIRouter,Depends,status,HTTPException, Request, Form, UploadFile, File
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from pandas_ods_reader import read_ods
 from io import BytesIO, StringIO
 
@@ -27,9 +27,9 @@ get_db = database.get_db
 from fastapi.templating import Jinja2Templates
 templates = Jinja2Templates(directory="templates")
 
-@router.get('/csv', response_class=HTMLResponse)
+@router.get('/upload-csv', response_class=HTMLResponse)
 def get_form(request: Request):
-    return templates.TemplateResponse("awesome-form.html", {"request": request})
+    return templates.TemplateResponse("upload-csv.html", {"request": request})
 
 @router.get('/pyscript', response_class=HTMLResponse)
 def get_form(request: Request):
@@ -58,29 +58,12 @@ def show(id:int, db: Session = Depends(get_db)):
 def create(request: schemas.Blog, db: Session = Depends(get_db)):
     return problem.create(request, db)
 
-@router.post('/csv', response_class=HTMLResponse)
-async def post_form(request: Request, form_data: schemas.AwesomeForm = Depends(schemas.AwesomeForm.as_form), db: Session = Depends(get_db)):
-    contents = form_data.file.file.read()
-    data = BytesIO(contents)
-    df = pd.read_csv(data)
-
-    df['reviewed_at'] = df['reviewed_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
-    df['reviewed_at'] = pd.to_datetime(df['reviewed_at'])
-         
-    data.close()
-    form_data.file.file.close()
-    df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
-
-    # print(df)
-    try:
-        dicts = df.to_dict(orient='records')
-        db.bulk_insert_mappings(models.Problem, dicts)        
-        db.commit()
-    except Exception as e:
-        print(e)
-        print("Sorry, some error has occurred!")
-
-    return templates.TemplateResponse( "basic-form.html", {"request": request})
+# @router.post("/uploadfiles/")
+# async def create_upload_files(form_data: schemas.AwesomeForm = Depends(schemas.AwesomeForm.as_form), db: Session = Depends(get_db)):
+#     return {"filenames": [file.filename for file in form_data]}
+    # contents = await files.read()
+    # df = pd.read_csv(file)
+    # return HTMLResponse(content=content)
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
 # def destroy(id:int, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
