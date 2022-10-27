@@ -14,6 +14,8 @@ from datetime import datetime
 
 import csv, codecs, json
 import pandas as pd
+import numpy as np
+import re
 
 router = APIRouter(
     prefix="/problem",
@@ -61,10 +63,15 @@ async def post_form(request: Request, form_data: schemas.AwesomeForm = Depends(s
     contents = form_data.file.file.read()
     data = BytesIO(contents)
     df = pd.read_csv(data)
+
+    df['reviewed_at'] = df['reviewed_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
+    df['reviewed_at'] = pd.to_datetime(df['reviewed_at'])
+         
     data.close()
     form_data.file.file.close()
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
 
+    # print(df)
     try:
         dicts = df.to_dict(orient='records')
         db.bulk_insert_mappings(models.Problem, dicts)        

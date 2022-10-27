@@ -43,8 +43,8 @@ class User(Base):
 
 class BaseMixin:
     id = Column(Integer, primary_key=True, index=True)
-    # created_at = Column(DateTime, nullable=False, default=func.utc_timestamp())
-    # updated_at = Column(DateTime, nullable=False, default=func.utc_timestamp(), onupdate=func.utc_timestamp())    
+    created_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, onupdate=func.utc_timestamp())
     # created_at = Column(TIMESTAMP, nullable=False, server_default=func.now())
     # updated_at = Column(TIMESTAMP, nullable=False, server_default=func.now(), onupdate=func.utc_timestamp())
     # created_at = Column(TIMESTAMP, nullable=False, server_default=func.now())
@@ -218,27 +218,27 @@ class Problem(Base, BaseMixin):
     # sns_type = Column(Enum("FB", "G", "K"), nullable=True)
     # marketing_agree = Column(Boolean, nullable=True, default=True)
 
-    year = Column(String, nullable=True)
-    month = Column(String, nullable=True)
-    region = Column(String, nullable=True)
-    az = Column(String, nullable=True)
-    tenant = Column(String, nullable=True)
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
 
     progress = Column(String, nullable=True)
     status = Column(String, nullable=True) 
     impact = Column(String, nullable=True)   
+    occurred_at = Column(DateTime, default=datetime.now)    
 
-    occurred_at = Column(String, nullable=True) 
     title = Column(String, nullable=True) 
-    problem_desc = Column(String(length=3000), nullable=True) 
+    problem_desc = Column(String(length=3000), nullable=True)
     action_desc = Column(String(length=3000), nullable=True) 
-    person_in_charge = Column(String, nullable=True)  # Engineer
+    person_in_charge = Column(String, nullable=True)  # Engineer    
     ticket_no = Column(String, nullable=True) 
 
     rca_desc = Column(String(length=3000), nullable=True) 
-    review_date = Column(String, nullable=True) 
     review_desc = Column(String(length=3000), nullable=True) 
-    reviewer = Column(String, nullable=True) 
+    reviewed_at = Column(DateTime, default=None)  
 
-    creator = Column(String, nullable=True) 
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
     updater = Column(String, nullable=True) 
