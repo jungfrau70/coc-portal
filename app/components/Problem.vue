@@ -8,9 +8,6 @@
         @input="onSearch"
       />
     </div>
-    <button type="button" class="btn btn-info action_btn" v-on:click="downloadCSVData">
-      Download
-</button>
     <div class="table-container">
       <table class="table">
         <thead>
@@ -43,7 +40,6 @@
 
 <script>
 import axios from 'axios';
-// import exportFromJSON from "export-from-json";
 
 const performSearch = (rows, term) => {
   const results = rows.filter((row) =>
@@ -85,28 +81,6 @@ export default {
       //this.columns = res.data.keys()
       // this.rawRows = res.data.values()
     },
-    /**
-    downloadFile() {
-      const data = this.rows;
-      const fileName = "np-data";
-      const exportType = exportFromJSON.types.csv;
-
-      if (data) exportFromJSON({ data, fileName, exportType });
-    },
-    **/
-    downloadCSVData() {
-      let csv = 'Put,Column,Titles,Here\n';
-      this.rows.forEach((row) => {
-              csv += row.join(',');
-              csv += "\n";
-      });
-  
-      const anchor = document.createElement('a');
-      anchor.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-      anchor.target = '_blank';
-      anchor.download = 'nameYourFileHere.csv';
-      anchor.click();
-  },
     sortRecords(index) {
       if (this.sortIndex === index) {
         switch (this.sortDirection) {
