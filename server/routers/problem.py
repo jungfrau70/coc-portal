@@ -2,7 +2,6 @@ from typing import List
 from fastapi import APIRouter,Depends,status,HTTPException, Request, Form, UploadFile, File
 from fastapi.responses import HTMLResponse, RedirectResponse
 from pandas_ods_reader import read_ods
-from io import BytesIO, StringIO
 
 from config import database
 from routers import schemas
@@ -11,11 +10,6 @@ from sqlalchemy.orm import Session
 from cruds import models, problem
 from sqlalchemy.sql import func
 from datetime import datetime
-
-import csv, codecs, json
-import pandas as pd
-import numpy as np
-import re
 
 router = APIRouter(
     prefix="/problem",
@@ -58,12 +52,9 @@ def show(id:int, db: Session = Depends(get_db)):
 def create(request: schemas.Blog, db: Session = Depends(get_db)):
     return problem.create(request, db)
 
-# @router.post("/uploadfiles/")
-# async def create_upload_files(form_data: schemas.AwesomeForm = Depends(schemas.AwesomeForm.as_form), db: Session = Depends(get_db)):
-#     return {"filenames": [file.filename for file in form_data]}
-    # contents = await files.read()
-    # df = pd.read_csv(file)
-    # return HTMLResponse(content=content)
+@router.post('/uploadfile', status_code=status.HTTP_201_CREATED,)
+async def post_form(request: Request, form_data: schemas.AwesomeForm = Depends(schemas.AwesomeForm.as_form), db: Session = Depends(get_db)):
+    return problem.upload_csv(form_data, db)
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
 # def destroy(id:int, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):

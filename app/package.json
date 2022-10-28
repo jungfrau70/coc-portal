@@ -4,8 +4,11 @@
     "@nuxtjs/axios": "^5.13.6",
     "bootstrap-vue": "^2.22.0",
     "core-js": "^3.25.5",
+    "export-from-json": "^1.7.0",
+    "loadsh": "^0.0.4",
     "nuxt": "^2.15.8",
-    "papaparse": "^5.3.2"
+    "papaparse": "^5.3.2",
+    "vue-json-csv": "^2.1.0"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.11.3"

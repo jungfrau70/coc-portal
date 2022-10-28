@@ -12,7 +12,6 @@ export { default as Regularcheck } from '../..\\components\\Regularcheck.vue'
 export { default as Request } from '../..\\components\\Request.vue'
 export { default as Security } from '../..\\components\\Security.vue'
 export { default as Signup } from '../..\\components\\Signup.vue'
-export { default as Upload } from '../..\\components\\Upload.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {

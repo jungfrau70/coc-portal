@@ -71,8 +71,7 @@
                 </NuxtLink>
               </div>
             </div>
-            <NuxtLink to="/current" class="navbar-item"> 보고서 </NuxtLink>
-            <NuxtLink to="/upload" class="navbar-item"> 업로드 </NuxtLink>                    
+            <NuxtLink to="/current" class="navbar-item"> 보고서 </NuxtLink>              
           </ul>
         </div>
 

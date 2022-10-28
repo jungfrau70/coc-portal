@@ -40,8 +40,5 @@
   },
   "Signup": {
     "description": "Auto imported from components/Signup.vue"
-  },
-  "Upload": {
-    "description": "Auto imported from components/Upload.vue"
   }
 }

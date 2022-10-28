@@ -20,4 +20,3 @@ You can directly use them in pages and other components without the need to impo
 - `<Request>` | `<request>` (components/Request.vue)
 - `<Security>` | `<security>` (components/Security.vue)
 - `<Signup>` | `<signup>` (components/Signup.vue)
-- `<Upload>` | `<upload>` (components/Upload.vue)
