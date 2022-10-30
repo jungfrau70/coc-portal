@@ -11,7 +11,7 @@ from cruds import regular_check
 
 router = APIRouter(
     prefix="/regularcheck",
-    tags=['Hardware Regular Check']
+    tags=['Regular Check ::: Hardware']
 )
 
 get_db = database.get_db
@@ -37,7 +37,7 @@ def create(request: schemas.Blog, db: Session = Depends(get_db)):
 @router.post('/uploadfile', status_code=status.HTTP_201_CREATED,)
 async def upload_file(file: Union[UploadFile, None] = None, db: Session = Depends(get_db)):
     if file.filename.lower().endswith(('.csv')):
-        return f'{topic}'.upload_csv(file, db)
+        return regular_check.upload_csv(file, db)
     else:
         return {"message": "No csv upload file sent"} 
 

@@ -3,6 +3,7 @@ from cruds import models
 from routers import schemas
 from fastapi import HTTPException,status, File, UploadFile, BackgroundTasks
 from io import BytesIO, StringIO
+from datetime import datetime
 
 import pandas as pd
 import numpy as np
@@ -24,21 +25,27 @@ def create(request: Schema, db: Session):
 
 
 def upload_csv(file, db: Session):
-    df = pd.read_csv(file.file)
+    contents = file.file.read()
+    data = BytesIO(contents)
+    df = pd.read_csv(data)
+    data.close()
     file.file.close()
-
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
-    df.info()
 
     df['year'] = df['year'].fillna(np.nan).replace([np.nan], 0)
     df['month'] = df['month'].fillna(np.nan).replace([np.nan], 0)
+    df['region'] = df['region'].fillna(np.nan).replace([np.nan], ['NA'])
     df['az'] = df['az'].fillna(np.nan).replace([np.nan], 0)
 
     df['year'] = df['year'].astype(int)
     df['month'] = df['month'].astype(int)
     df['az'] = df['az'].astype(int)
-    # df['reviewed_at'] = df['reviewed_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
-    # df['reviewed_at'] = pd.to_datetime(df['reviewed_at'])
+
+    df['occurred_at'] = df['occurred_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
+    df['occurred_at'] = pd.to_datetime(df['occurred_at'])
+
+    df['resolved_at'] = df['resolved_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
+    df['resolved_at'] = pd.to_datetime(df['resolved_at'])
 
     try:
         db.query(Model).delete()

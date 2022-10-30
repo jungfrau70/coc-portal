@@ -91,137 +91,8 @@ class TokenData(BaseModel):
 #             file=file
 #         )
 
-class ShowDatabase(BaseModel):
-    id: int
-    year: Optional[int]
-    month: Optional[int]
-    region: Optional[str]
-    az: Optional[int]
-    tenant: Optional[str]
-
-    progress: Optional[str]
-    status: Optional[str]
-
-    vendor: Optional[str]
-    report_name: Optional[str]
-    comment: Optional[str]
-
-    creator: Optional[str]
-    reviewer: Optional[str]
-    updater: Optional[str]
-
-    class Config():
-        orm_mode = True      
-
-class ShowKubernetes(BaseModel):
-    id: int
-    year: Optional[int]
-    month: Optional[int]
-    region: Optional[str]
-    az: Optional[int]
-    tenant: Optional[str]
-
-    progress: Optional[str]
-    status: Optional[str]
-
-    vendor: Optional[str]
-    report_name: Optional[str]
-    comment: Optional[str]
-
-    creator: Optional[str]
-    reviewer: Optional[str]
-    updater: Optional[str]
-
-    class Config():
-        orm_mode = True      
-
-class ShowInstance(BaseModel):
-    id: int
-    year: Optional[int]
-    month: Optional[int]
-    region: Optional[str]
-    az: Optional[int]
-    tenant: Optional[str]
-
-    progress: Optional[str]
-    status: Optional[str]
-
-    vendor: Optional[str]
-    report_name: Optional[str]
-    comment: Optional[str]
-
-    creator: Optional[str]
-    reviewer: Optional[str]
-    updater: Optional[str]
-
-    class Config():
-        orm_mode = True      
-
-class ShowBackup(BaseModel):
-    id: int
-    year: Optional[int]
-    month: Optional[int]
-    region: Optional[str]
-    az: Optional[int]
-    tenant: Optional[str]
-
-    progress: Optional[str]
-    status: Optional[str]
-
-    vendor: Optional[str]
-    report_name: Optional[str]
-    comment: Optional[str]
-
-    creator: Optional[str]
-    reviewer: Optional[str]
-    updater: Optional[str]
-
-    class Config():
-        orm_mode = True      
-
-class ShowCapacity(BaseModel):
-    id: int
-    year: Optional[int]
-    month: Optional[int]
-    region: Optional[str]
-    az: Optional[int]
-    tenant: Optional[str]
-
-    progress: Optional[str]
-    status: Optional[str]
-
-    vendor: Optional[str]
-    report_name: Optional[str]
-    comment: Optional[str]
-
-    creator: Optional[str]
-    reviewer: Optional[str]
-    updater: Optional[str]
-
-    class Config():
-        orm_mode = True      
-
-class ShowChange(BaseModel):
-    id: int
-    year: Optional[int]
-    month: Optional[int]
-    region: Optional[str]
-    az: Optional[int]
-    tenant: Optional[str]
-
-    progress: Optional[str]
-    status: Optional[str]
-
-    vendor: Optional[str]
-    report_name: Optional[str]
-    comment: Optional[str]
-
-    creator: Optional[str]
-    reviewer: Optional[str]
-    updater: Optional[str]
-
-    class Config():
-        orm_mode = True      
+ 
+    
 
 class ShowDiscussion(BaseModel):
     id: int
@@ -245,27 +116,6 @@ class ShowDiscussion(BaseModel):
     class Config():
         orm_mode = True      
 
-class ShowRegularCheck(BaseModel):
-    id: int
-    year: Optional[int]
-    month: Optional[int]
-    region: Optional[str]
-    az: Optional[int]
-    tenant: Optional[str]
-
-    progress: Optional[str]
-    status: Optional[str]
-
-    vendor: Optional[str]
-    report_name: Optional[str]
-    comment: Optional[str]
-
-    creator: Optional[str]
-    reviewer: Optional[str]
-    updater: Optional[str]
-
-    class Config():
-        orm_mode = True      
 
 class ShowIncident(BaseModel):
     id: int
@@ -289,6 +139,12 @@ class ShowIncident(BaseModel):
     class Config():
         orm_mode = True      
 
+
+ 
+# app.include_router(discussion_topic.router)
+# app.include_router(incident_handling.router)
+# app.include_router(issue_mgmt.router)
+
 class ShowIssue(BaseModel):
     id: int
     year: Optional[int]
@@ -300,9 +156,12 @@ class ShowIssue(BaseModel):
     progress: Optional[str]
     status: Optional[str]
 
-    vendor: Optional[str]
-    report_name: Optional[str]
-    comment: Optional[str]
+    title: Optional[str]
+    description: Optional[str]
+    action: Optional[str]
+
+    occurred_at: Optional[datetime]
+    resloved_at: Optional[datetime]
 
     creator: Optional[str]
     reviewer: Optional[str]
@@ -311,27 +170,6 @@ class ShowIssue(BaseModel):
     class Config():
         orm_mode = True      
 
-class ShowLicense(BaseModel):
-    id: int
-    year: Optional[int]
-    month: Optional[int]
-    region: Optional[str]
-    az: Optional[int]
-    tenant: Optional[str]
-
-    progress: Optional[str]
-    status: Optional[str]
-
-    vendor: Optional[str]
-    report_name: Optional[str]
-    comment: Optional[str]
-
-    creator: Optional[str]
-    reviewer: Optional[str]
-    updater: Optional[str]
-
-    class Config():
-        orm_mode = True      
 
 class ShowProblem(BaseModel):
     id: int
@@ -344,6 +182,24 @@ class ShowProblem(BaseModel):
     progress: Optional[str]
     status: Optional[str]
     impact: Optional[str]
+
+
+    # year = Column(Integer, nullable=False)
+    # month = Column(Integer, nullable=False)
+    # region = Column(String, nullable=False)
+    # az = Column(Integer, nullable=False)
+    # tenant = Column(String, nullable=False)
+
+    # vendor = Column(String, nullable=True)
+    # license_type = Column(String, nullable=True)     
+    # status = Column(String, nullable=True)
+    # instance_name = Column(String, nullable=True)
+    # installed_at = Column(String, nullable=True)     
+    # comment = Column(String(length=3000), nullable=True) 
+
+    # creator = Column(String, nullable=True)
+    # reviewer = Column(String, nullable=True)     
+    # updater = Column(String, nullable=True) 
 
     occurred_at: Optional[datetime]
     title: Optional[str]
@@ -362,6 +218,188 @@ class ShowProblem(BaseModel):
 
     class Config():
         orm_mode = True    
+
+
+class ShowChange(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True  
+
+
+class ShowCapacity(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True   
+
+
+class ShowBackup(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True     
+
+
+class ShowLicense(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    vendor: Optional[str]
+    license_type: Optional[str]
+    status: Optional[str]
+    instance_name: Optional[str]
+    installed_at: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True     
+
+
+class ShowRegularCheck(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True      
+
+
+class ShowDatabase(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    db_type: Optional[str]
+    count: Optional[int]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True      
+
+class ShowKubernetes(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    status: Optional[str]
+    cluster_name: Optional[str]
+    node_type: Optional[str]
+    node_name: Optional[str]
+    node_ips: Optional[str]
+    api_vip: Optional[str]
+    flavor: Optional[str]
+    network_zone: Optional[str]
+    contacts: Optional[str]
+    k8s_version: Optional[str]
+    api_cert_expired_date: Optional[datetime]
+    ca_cert_expired_date: Optional[datetime]
+    etcd_cert_expired_date: Optional[datetime]
+    monitoring_agent: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True      
+
+class ShowInstance(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    count: Optional[int]
+    status: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True      
 
 class ShowReport(BaseModel):
     id: int

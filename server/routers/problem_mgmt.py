@@ -65,8 +65,12 @@ def create(request: schemas.Blog, db: Session = Depends(get_db)):
 # @router.post('/uploadfile', status_code=status.HTTP_201_CREATED,)
 # async def post_form(request: Request, form_data: schemas.AwesomeForm = Depends(schemas.AwesomeForm.as_form), db: Session = Depends(get_db)):
 @router.post('/uploadfile', status_code=status.HTTP_201_CREATED,)
-async def upload_file(file: Union[UploadFile, None] = None, db: Session = Depends(get_db)):    
-    return problem.upload_csv(form_data, db)
+async def upload_file(file: Union[UploadFile, None] = None, db: Session = Depends(get_db)):
+    if file.filename.lower().endswith(('.csv')):
+        return problem_mgmt.upload_csv(file, db)
+    else:
+        return {"message": "No csv upload file sent"}  
+    # return problem_mgmt.upload_csv(form_data, db)
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
 # def destroy(id:int, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):

@@ -23,16 +23,17 @@ def create(request: Schema, db: Session):
 
 # def upload_csv(form_data: schemas.AwesomeForm, db: Session):
 def upload_csv(file, db: Session):
-    contents = form_data.file.file.read()
+    contents = file.file.read()
     data = BytesIO(contents)
+    data.close()
+    file.file.close()
+
     df = pd.read_csv(data)
+    df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+    df['region'] = df['region'].fillna(np.nan).replace([np.nan], ['NA']) 
 
     df['reviewed_at'] = df['reviewed_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
     df['reviewed_at'] = pd.to_datetime(df['reviewed_at'])
-         
-    data.close()
-    form_data.file.file.close()
-    df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
 
     try:
         db.query(Model).delete()

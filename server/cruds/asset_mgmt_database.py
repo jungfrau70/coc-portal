@@ -24,21 +24,23 @@ def create(request: Schema, db: Session):
 
 
 def upload_csv(file, db: Session):
-    df = pd.read_csv(file.file)
+    contents = file.file.read()
+    data = BytesIO(contents)
+    df = pd.read_csv(data)
+    data.close()
     file.file.close()
-
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
-    df.info()
 
     df['year'] = df['year'].fillna(np.nan).replace([np.nan], 0)
     df['month'] = df['month'].fillna(np.nan).replace([np.nan], 0)
+    df['region'] = df['region'].fillna(np.nan).replace([np.nan], ['NA'])
     df['az'] = df['az'].fillna(np.nan).replace([np.nan], 0)
+    df['count'] = df['count'].fillna(np.nan).replace([np.nan], 0)
 
     df['year'] = df['year'].astype(int)
     df['month'] = df['month'].astype(int)
     df['az'] = df['az'].astype(int)
-    # df['reviewed_at'] = df['reviewed_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
-    # df['reviewed_at'] = pd.to_datetime(df['reviewed_at'])
+    df['count'] = df['count'].astype(int)    
 
     try:
         db.query(Model).delete()

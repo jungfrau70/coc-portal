@@ -24,11 +24,14 @@ def create(request: Schema, db: Session):
 
 
 def upload_csv(file, db: Session):
-    df = pd.read_csv(file.file)
+    contents = file.file.read()
+    data = BytesIO(contents)
+    data.close()
     file.file.close()
 
+    df = pd.read_csv(data)
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
-    df.info()
+    df['region'] = df['region'].fillna(np.nan).replace([np.nan], ['NA']) 
 
     df['year'] = df['year'].fillna(np.nan).replace([np.nan], 0)
     df['month'] = df['month'].fillna(np.nan).replace([np.nan], 0)
@@ -37,9 +40,7 @@ def upload_csv(file, db: Session):
     df['year'] = df['year'].astype(int)
     df['month'] = df['month'].astype(int)
     df['az'] = df['az'].astype(int)
-    # df['reviewed_at'] = df['reviewed_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
-    # df['reviewed_at'] = pd.to_datetime(df['reviewed_at'])
-
+    
     try:
         db.query(Model).delete()
         dicts = df.to_dict(orient='records')
