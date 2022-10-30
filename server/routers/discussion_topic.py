@@ -40,7 +40,7 @@ def create(request: schemas.Blog, db: Session = Depends(get_db)):
 @router.post('/uploadfile', status_code=status.HTTP_201_CREATED,)
 async def upload_file(file: Union[UploadFile, None] = None, db: Session = Depends(get_db)):
     if file.filename.lower().endswith(('.csv')):
-        return f'{topic}'.upload_csv(file, db)
+        return discussion_topic.upload_csv(file, db)
     else:
         return {"message": "No csv upload file sent"} 
 

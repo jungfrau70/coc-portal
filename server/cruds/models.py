@@ -203,11 +203,6 @@ class BaseMixin:
             self._session.flush()
 
 
-
-
-
-
-
 class Discussion(Base, BaseMixin):
     __tablename__ = 'discussions'
 
@@ -220,9 +215,7 @@ class Discussion(Base, BaseMixin):
     progress = Column(String, nullable=True)
     status = Column(String, nullable=True) 
 
-    vendor = Column(String, nullable=True) 
-    report_name = Column(String, nullable=True) 
-    comment = Column(String(length=3000), nullable=True) 
+    discussion_topic = Column(String(length=3000), nullable=True) 
 
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)     
@@ -238,12 +231,28 @@ class Incident(Base, BaseMixin):
     az = Column(Integer, nullable=False)
     tenant = Column(String, nullable=False)
 
-    progress = Column(String, nullable=True)
-    status = Column(String, nullable=True) 
+    shift_start_date = Column(DateTime, default=None)
+    shift_type = Column(String, nullable=True)
+    
+    level_1_engineer1 = Column(String, nullable=True)
+    level_1_engineer2 = Column(String, nullable=True)
+    level_2_engineers = Column(String, nullable=True)
 
-    vendor = Column(String, nullable=True) 
-    report_name = Column(String, nullable=True) 
+    event = Column(String, nullable=True) 
+    action = Column(String(length=3000), nullable=True) 
+    status = Column(String, nullable=True) 
+    ticket_no = Column(String, nullable=True) 
+    escalated_to_l3 = Column(String, nullable=True) 
     comment = Column(String(length=3000), nullable=True) 
+
+    occurred_at = Column(DateTime, default=datetime.now)
+    acknowledged_at = Column(DateTime, default=None)
+    how_to_share = Column(String, nullable=True)     
+    propogated_at = Column(DateTime, default=None)        
+    resolved_at = Column(DateTime, default=None)
+
+    time_to_acknowledge = Column(Integer, default=None) # acknowledged_at - occurred_at
+    time_to_propogated = Column(Integer, default=None)  # propogated_at - acknowledged_at
 
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)     
@@ -266,13 +275,12 @@ class License(Base, BaseMixin):
     installed_at = Column(String, nullable=True)     
     comment = Column(String(length=3000), nullable=True) 
 
+    occurred_at = Column(DateTime, default=datetime.now)
+    resolved_at = Column(DateTime, default=None)
+
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)     
     updater = Column(String, nullable=True) 
-
-# app.include_router(discussion_topic.router)
-# app.include_router(incident_handling.router)
-# app.include_router(issue_mgmt.router)
 
 
 class Issue(Base, BaseMixin):

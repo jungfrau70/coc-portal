@@ -27,7 +27,7 @@ def create(request: Schema, db: Session):
 def upload_csv(file, db: Session):
     contents = file.file.read()
     data = BytesIO(contents)
-    df = pd.read_csv(data)
+    df = pd.read_csv(data)    
     data.close()
     file.file.close()
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]

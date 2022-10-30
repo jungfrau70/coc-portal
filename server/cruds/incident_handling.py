@@ -26,12 +26,12 @@ def create(request: Schema, db: Session):
 def upload_csv(file, db: Session):
     contents = file.file.read()
     data = BytesIO(contents)
+    df = pd.read_csv(data)    
     data.close()
     file.file.close()
-
-    df = pd.read_csv(data)
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
-    df['region'] = df['region'].fillna(np.nan).replace([np.nan], ['NA']) 
+    
+    df['region'] = df['region'].fillna(np.nan).replace([np.nan], ['NA'])
 
     df['year'] = df['year'].fillna(np.nan).replace([np.nan], 0)
     df['month'] = df['month'].fillna(np.nan).replace([np.nan], 0)
@@ -40,6 +40,27 @@ def upload_csv(file, db: Session):
     df['year'] = df['year'].astype(int)
     df['month'] = df['month'].astype(int)
     df['az'] = df['az'].astype(int)
+
+    df['shift_start_date'] = df['shift_start_date'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
+    # df['shift_start_date'] = pd.to_datetime(df['shift_start_date'])
+
+    df['occurred_at'] = df['occurred_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
+    # df['occurred_at'] = pd.to_datetime(df['occurred_at'])
+
+    df['acknowledged_at'] = df['acknowledged_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
+    # df['acknowledged_at'] = pd.to_datetime(df['acknowledged_at'])
+
+    df['propogated_at'] = df['propogated_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
+    # df['propogated_at'] = pd.to_datetime(df['propogated_at'])
+
+    df['resolved_at'] = df['resolved_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
+    # df['resolved_at'] = pd.to_datetime(df['resolved_at'])
+
+    # df['time_to_acknowledge'] = df['time_to_acknowledge'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
+    # df['time_to_acknowledge'] = pd.to_datetime(df['time_to_acknowledge'])
+
+    # df['time_to_propogated'] = df['time_to_propogated'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
+    # df['time_to_propogated'] = pd.to_datetime(df['time_to_propogated'])    
 
     try:
         db.query(Model).delete()
