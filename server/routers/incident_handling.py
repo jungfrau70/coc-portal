@@ -11,7 +11,7 @@ from cruds import incident_handling
 
 router = APIRouter(
     prefix="/incident",
-    tags=['Incident Mgmt']
+    tags=['Incident Handling']
 )
 
 get_db = database.get_db

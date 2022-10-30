@@ -140,11 +140,6 @@ class ShowIncident(BaseModel):
         orm_mode = True      
 
 
- 
-# app.include_router(discussion_topic.router)
-# app.include_router(incident_handling.router)
-# app.include_router(issue_mgmt.router)
-
 class ShowIssue(BaseModel):
     id: int
     year: Optional[int]

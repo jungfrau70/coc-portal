@@ -251,8 +251,8 @@ class Incident(Base, BaseMixin):
     propogated_at = Column(DateTime, default=None)        
     resolved_at = Column(DateTime, default=None)
 
-    time_to_acknowledge = Column(Integer, default=None) # acknowledged_at - occurred_at
-    time_to_propogated = Column(Integer, default=None)  # propogated_at - acknowledged_at
+    # time_to_acknowledge = Column(Integer, default=None) # acknowledged_at - occurred_at
+    # time_to_propogated = Column(Integer, default=None)  # propogated_at - acknowledged_at
 
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)     

@@ -3,6 +3,7 @@ from cruds import models
 from routers import schemas
 from fastapi import HTTPException,status, File, UploadFile, BackgroundTasks
 from io import BytesIO, StringIO
+from datetime import datetime
 
 import pandas as pd
 import numpy as np
@@ -42,19 +43,23 @@ def upload_csv(file, db: Session):
     df['az'] = df['az'].astype(int)
 
     df['shift_start_date'] = df['shift_start_date'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
-    # df['shift_start_date'] = pd.to_datetime(df['shift_start_date'])
+    df['shift_start_date'] = pd.to_datetime(df['shift_start_date'])
 
     df['occurred_at'] = df['occurred_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
-    # df['occurred_at'] = pd.to_datetime(df['occurred_at'])
+    df['occurred_at'] = pd.to_datetime(df['occurred_at'])
 
     df['acknowledged_at'] = df['acknowledged_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
-    # df['acknowledged_at'] = pd.to_datetime(df['acknowledged_at'])
+    df['acknowledged_at'] = pd.to_datetime(df['acknowledged_at'])
 
     df['propogated_at'] = df['propogated_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
-    # df['propogated_at'] = pd.to_datetime(df['propogated_at'])
+    df['propogated_at'] = pd.to_datetime(df['propogated_at'])
 
     df['resolved_at'] = df['resolved_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
-    # df['resolved_at'] = pd.to_datetime(df['resolved_at'])
+    df['resolved_at'] = pd.to_datetime(df['resolved_at'])
+    # df['resolved_at'].map(lambda x: datetime.strptime(x, '%Y-%m-%d'), na_action='ignore')
+
+    # print(df)
+    # print(df.info())
 
     # df['time_to_acknowledge'] = df['time_to_acknowledge'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
     # df['time_to_acknowledge'] = pd.to_datetime(df['time_to_acknowledge'])
