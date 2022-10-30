@@ -237,6 +237,7 @@ class Incident(Base, BaseMixin):
     level_1_engineer1 = Column(String, nullable=True)
     level_1_engineer2 = Column(String, nullable=True)
     level_2_engineers = Column(String, nullable=True)
+    how_to_share = Column(String, nullable=True)   
 
     event = Column(String, nullable=True) 
     action = Column(String(length=3000), nullable=True) 
@@ -244,10 +245,9 @@ class Incident(Base, BaseMixin):
     ticket_no = Column(String, nullable=True) 
     escalated_to_l3 = Column(String, nullable=True) 
     comment = Column(String(length=3000), nullable=True) 
-
+  
     occurred_at = Column(DateTime, default=datetime.now)
     acknowledged_at = Column(DateTime, default=None)
-    how_to_share = Column(String, nullable=True)     
     propogated_at = Column(DateTime, default=None)        
     resolved_at = Column(DateTime, default=None)
 
@@ -271,9 +271,9 @@ class License(Base, BaseMixin):
     vendor = Column(String, nullable=True)
     license_type = Column(String, nullable=True)     
     status = Column(String, nullable=True)
-    instance_name = Column(String, nullable=True)
-    installed_at = Column(String, nullable=True)     
+    instance_name = Column(String, nullable=True) 
     comment = Column(String(length=3000), nullable=True) 
+    installed_at = Column(String, nullable=True)    
 
     occurred_at = Column(DateTime, default=datetime.now)
     resolved_at = Column(DateTime, default=None)
@@ -328,16 +328,17 @@ class Problem(Base, BaseMixin):
     progress = Column(String, nullable=True)
     status = Column(String, nullable=True) 
     impact = Column(String, nullable=True)   
-    occurred_at = Column(DateTime, default=datetime.now)    
 
     title = Column(String, nullable=True) 
-    problem_desc = Column(String(length=3000), nullable=True)
-    action_desc = Column(String(length=3000), nullable=True) 
+    description = Column(String(length=3000), nullable=True)
+    action = Column(String(length=3000), nullable=True) 
     person_in_charge = Column(String, nullable=True)  # Engineer    
     ticket_no = Column(String, nullable=True) 
 
     rca_desc = Column(String(length=3000), nullable=True) 
     review_desc = Column(String(length=3000), nullable=True) 
+
+    occurred_at = Column(DateTime, default=datetime.now)        
     reviewed_at = Column(DateTime, default=None)
 
     creator = Column(String, nullable=True)
@@ -420,9 +421,9 @@ class RegularCheck(Base, BaseMixin):
     vendor = Column(String, nullable=True)
     license_type = Column(String, nullable=True)     
     status = Column(String, nullable=True)
-    instance_name = Column(String, nullable=True)
-    installed_at = Column(String, nullable=True)     
+    instance_name = Column(String, nullable=True) 
     comment = Column(String(length=3000), nullable=True) 
+    installed_at = Column(String, nullable=True)    
 
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)     

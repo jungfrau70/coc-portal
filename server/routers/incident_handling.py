@@ -17,22 +17,21 @@ router = APIRouter(
 get_db = database.get_db
 
 Schema = schemas.ShowIncident
-topic = 'incident_handling'
 
 @router.get('/all', response_model=List[Schema])
 # def all(db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
 def all(db: Session = Depends(get_db)):
-    return f'{topic}'.get_all(db)
+    return incident_handling.get_all(db)
 
 @router.get('/{id}', status_code=200, response_model=Schema)
 # def show(id:int, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
 def show(id:int, db: Session = Depends(get_db)):
-    return f'{topic}'.show(id,db)
+    return incident_handling.show(id,db)
 
 @router.post('/', status_code=status.HTTP_201_CREATED,)
 # def create(request: schemas.Blog, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
 def create(request: schemas.Blog, db: Session = Depends(get_db)):
-    return f'{topic}'.create(request, db)
+    return incident_handling.create(request, db)
 
 @router.post('/uploadfile', status_code=status.HTTP_201_CREATED,)
 async def upload_file(file: Union[UploadFile, None] = None, db: Session = Depends(get_db)):
@@ -44,9 +43,9 @@ async def upload_file(file: Union[UploadFile, None] = None, db: Session = Depend
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
 # def destroy(id:int, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
 def destroy(id:int, db: Session = Depends(get_db)):
-    return f'{topic}'.destroy(id,db)
+    return incident_handling.destroy(id,db)
 
 @router.put('/{id}', status_code=status.HTTP_202_ACCEPTED)
 # def update(id:int, request: schemas.Blog, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
 def update(id:int, request: schemas.Blog, db: Session = Depends(get_db)):
-    return f'{topic}'.update(id,request, db)
+    return incident_handling.update(id,request, db)

@@ -18,14 +18,12 @@ router = APIRouter(
 
 get_db = database.get_db
 
-# Model = models.Problem
 Schema = schemas.ShowProblem
-topic = 'problem_mgmt'
 
 @router.get('/all', response_model=List[Schema])
 # def all(db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
 def all(db: Session = Depends(get_db)):
-    return f'{topic}'.get_all(db)
+    return problem_mgmt.get_all(db)
 
 # @router.get('/all', response_model=List[Schema])
 # # def all(db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
@@ -55,12 +53,12 @@ def all(db: Session = Depends(get_db)):
 @router.get('/{id}', status_code=200, response_model=Schema)
 # def show(id:int, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
 def show(id:int, db: Session = Depends(get_db)):
-    return problem.show(id,db)
+    return problem_mgmt.show(id,db)
 
 @router.post('/', status_code=status.HTTP_201_CREATED,)
 # def create(request: schemas.Blog, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
 def create(request: schemas.Blog, db: Session = Depends(get_db)):
-    return problem.create(request, db)
+    return problem_mgmt.create(request, db)
 
 # @router.post('/uploadfile', status_code=status.HTTP_201_CREATED,)
 # async def post_form(request: Request, form_data: schemas.AwesomeForm = Depends(schemas.AwesomeForm.as_form), db: Session = Depends(get_db)):
@@ -70,14 +68,13 @@ async def upload_file(file: Union[UploadFile, None] = None, db: Session = Depend
         return problem_mgmt.upload_csv(file, db)
     else:
         return {"message": "No csv upload file sent"}  
-    # return problem_mgmt.upload_csv(form_data, db)
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
 # def destroy(id:int, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
 def destroy(id:int, db: Session = Depends(get_db)):
-    return problem.destroy(id,db)
+    return problem_mgmt.destroy(id,db)
 
 @router.put('/{id}', status_code=status.HTTP_202_ACCEPTED)
 # def update(id:int, request: schemas.Blog, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
 def update(id:int, request: schemas.Blog, db: Session = Depends(get_db)):
-    return problem.update(id,request, db)
+    return problem_mgmt.update(id,request, db)
