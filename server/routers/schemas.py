@@ -42,55 +42,296 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     email: Optional[str] = None
 
+# class Problem(BaseModel):
+#     id: int
+#     year: int
+#     month: int
+#     region: str
+#     az: int
+#     tenant: str
 
-# https://stackoverflow.com/a/60670614
-class AwesomeForm(BaseModel):
-    # username: str
-    # password: str
-    file: UploadFile
+#     progress: str
+#     status: str
+#     impact: str
 
-    @classmethod
-    def as_form(
-        cls,
-        # username: str = Form(...),
-        # password: str = Form(...),
-        file: UploadFile = File(...)
-    ):
-        return cls(
-            # username=username,
-            # password=password,
-            file=file
-        )
+#     occurred_at: datetime
+#     title: str
+#     problem_desc: str
+#     action_desc: str
+#     person_in_charge: str
+#     ticket_no: str
 
-class Problem(BaseModel):
-    id: int
-    year: int
-    month: int
-    region: str
-    az: int
-    tenant: str
+#     rca_desc: str
+#     reviewed_at: datetime
+#     review_desc: str
 
-    progress: str
-    status: str
-    impact: str
-
-    occurred_at: datetime
-    title: str
-    problem_desc: str
-    action_desc: str
-    person_in_charge: str
-    ticket_no: str
-
-    rca_desc: str
-    reviewed_at: datetime
-    review_desc: str
-
-    reviewer: str
-    creator: str
-    updater: str
+#     reviewer: str
+#     creator: str
+#     updater: str
     
+#     class Config():
+#         orm_mode = True  
+
+# # https://stackoverflow.com/a/60670614
+# class AwesomeForm(BaseModel):
+#     # username: str
+#     # password: str
+#     file: UploadFile
+
+#     @classmethod
+#     def as_form(
+#         cls,
+#         # username: str = Form(...),
+#         # password: str = Form(...),
+#         file: UploadFile = File(...)
+#     ):
+#         return cls(
+#             # username=username,
+#             # password=password,
+#             file=file
+#         )
+
+class ShowDatabase(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
     class Config():
-        orm_mode = True    
+        orm_mode = True      
+
+class ShowKubernetes(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True      
+
+class ShowInstance(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True      
+
+class ShowBackup(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True      
+
+class ShowCapacity(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True      
+
+class ShowChange(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True      
+
+class ShowDiscussion(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True      
+
+class ShowRegularCheck(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True      
+
+class ShowIncident(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True      
+
+class ShowIssue(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True      
+
+class ShowLicense(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True      
 
 class ShowProblem(BaseModel):
     id: int
@@ -115,36 +356,31 @@ class ShowProblem(BaseModel):
     reviewed_at: Optional[datetime]
     review_desc: Optional[str]
 
-    reviewer: Optional[str]
     creator: Optional[str]
+    reviewer: Optional[str]
     updater: Optional[str]
 
     class Config():
         orm_mode = True    
 
+class ShowReport(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
 
+    progress: Optional[str]
+    status: Optional[str]
 
-    # year = Column(Integer, nullable=False)
-    # month = Column(Integer, nullable=False)
-    # region = Column(String, nullable=False)
-    # az = Column(Integer, nullable=False)
-    # tenant = Column(String, nullable=False)
+    vendor: Optional[str]
+    report_name: Optional[str]
+    comment: Optional[str]
 
-    # progress = Column(String, nullable=True)
-    # status = Column(String, nullable=True) 
-    # impact = Column(String, nullable=True)   
-    # occurred_at = Column(DateTime, default=datetime.now)    
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
 
-    # title = Column(String, nullable=True) 
-    # problem_desc = Column(String(length=3000), nullable=True)
-    # action_desc = Column(String(length=3000), nullable=True) 
-    # person_in_charge = Column(String, nullable=True)  # Engineer    
-    # ticket_no = Column(String, nullable=True) 
-
-    # rca_desc = Column(String(length=3000), nullable=True) 
-    # review_desc = Column(String(length=3000), nullable=True) 
-    # reviewed_at = Column(DateTime, default=None)
-
-    # creator = Column(String, nullable=True)
-    # reviewer = Column(String, nullable=True)     
-    # updater = Column(String, nullable=True)         
+    class Config():
+        orm_mode = True      

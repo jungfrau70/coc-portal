@@ -202,6 +202,215 @@ class BaseMixin:
         else:
             self._session.flush()
 
+
+class Database(Base, BaseMixin):
+    __tablename__ = 'databases'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True) 
+
+    vendor = Column(String, nullable=True) 
+    report_name = Column(String, nullable=True) 
+    comment = Column(String(length=3000), nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+
+
+class Instance(Base, BaseMixin):
+    __tablename__ = 'instances'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True) 
+
+    vendor = Column(String, nullable=True) 
+    report_name = Column(String, nullable=True) 
+    comment = Column(String(length=3000), nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+
+
+class Kubernetes(Base, BaseMixin):
+    __tablename__ = 'kubernetes'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True) 
+
+    vendor = Column(String, nullable=True) 
+    report_name = Column(String, nullable=True) 
+    comment = Column(String(length=3000), nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+
+
+class Backup(Base, BaseMixin):
+    __tablename__ = 'backups'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True) 
+
+    vendor = Column(String, nullable=True) 
+    report_name = Column(String, nullable=True) 
+    comment = Column(String(length=3000), nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+
+
+class Capacity(Base, BaseMixin):
+    __tablename__ = 'capacities'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True) 
+
+    vendor = Column(String, nullable=True) 
+    report_name = Column(String, nullable=True) 
+    comment = Column(String(length=3000), nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+
+
+class Change(Base, BaseMixin):
+    __tablename__ = 'changes'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True) 
+
+    vendor = Column(String, nullable=True) 
+    report_name = Column(String, nullable=True) 
+    comment = Column(String(length=3000), nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+
+
+class Discussion(Base, BaseMixin):
+    __tablename__ = 'discussions'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True) 
+
+    vendor = Column(String, nullable=True) 
+    report_name = Column(String, nullable=True) 
+    comment = Column(String(length=3000), nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+
+
+class Incident(Base, BaseMixin):
+    __tablename__ = 'incidents'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True) 
+
+    vendor = Column(String, nullable=True) 
+    report_name = Column(String, nullable=True) 
+    comment = Column(String(length=3000), nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+
+class Issue(Base, BaseMixin):
+    __tablename__ = 'issues'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True) 
+
+    vendor = Column(String, nullable=True) 
+    report_name = Column(String, nullable=True) 
+    comment = Column(String(length=3000), nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+
+class License(Base, BaseMixin):
+    __tablename__ = 'licenses'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True) 
+
+    vendor = Column(String, nullable=True) 
+    report_name = Column(String, nullable=True) 
+    comment = Column(String(length=3000), nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+
+
 class Problem(Base, BaseMixin):
     __tablename__ = 'problems'
 
@@ -234,6 +443,48 @@ class Problem(Base, BaseMixin):
     rca_desc = Column(String(length=3000), nullable=True) 
     review_desc = Column(String(length=3000), nullable=True) 
     reviewed_at = Column(DateTime, default=None)
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+
+
+class RegularCheck(Base, BaseMixin):
+    __tablename__ = 'regularchecks'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True) 
+
+    vendor = Column(String, nullable=True) 
+    report_name = Column(String, nullable=True) 
+    comment = Column(String(length=3000), nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+
+
+class Report(Base, BaseMixin):
+    __tablename__ = 'reports'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True) 
+
+    vendor = Column(String, nullable=True) 
+    report_name = Column(String, nullable=True) 
+    comment = Column(String(length=3000), nullable=True) 
 
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)     
