@@ -198,8 +198,8 @@ class ShowProblem(BaseModel):
 
     occurred_at: Optional[datetime]
     title: Optional[str]
-    problem_desc: Optional[str]
-    action_desc: Optional[str]
+    description: Optional[str]
+    action: Optional[str]
     person_in_charge: Optional[str]
     ticket_no: Optional[str]
 
