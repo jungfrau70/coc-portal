@@ -36,9 +36,13 @@ app.include_router(license_mgmt.router)
 app.include_router(report.router)
 
 origins = [
-    "http://localhost:3000",
-    "http://localhost:8000",
+    "*"
 ]
+
+# origins = [
+#     "http://localhost:3000",
+#     "http://localhost:8000",
+# ]
 
 app.add_middleware(
     CORSMiddleware,
