@@ -57,7 +57,7 @@ def upload_csv(file, db: Session):
         print(e)
         print("Sorry, some error has occurred!")
 
-    return "uploaded"
+    return f"uploaded {file.filename}"
 
 # def upload_csv(file, db: Session):
 #     contents = file.file.read()

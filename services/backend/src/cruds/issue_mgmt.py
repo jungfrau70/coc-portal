@@ -56,7 +56,7 @@ def upload_csv(file, db: Session):
         print(e)
         print("Sorry, some error has occurred!")
 
-    return "uploaded"
+    return f"uploaded {file.filename}"
 
 def destroy(id:int,db: Session):
     record = db.query(Model).filter(Model.id == id)
