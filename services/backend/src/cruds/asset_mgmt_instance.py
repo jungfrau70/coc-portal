@@ -41,7 +41,7 @@ def upload_csv(file, db: Session):
     df['month'] = df['month'].astype(int)
     df['az'] = df['az'].astype(int)
     df['count'] = df['count'].astype(int)    
-    # df['reviewed_at'] = df['reviewed_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
+    # df['reviewed_at'] = df['reviewed_at'].fillna(np.nan).replace([np.nan], ['1900-01-01'])
     # df['reviewed_at'] = pd.to_datetime(df['reviewed_at'])
 
     try:

@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from cruds import asset_mgmt_kubernetes
 
 router = APIRouter(
-    prefix="/k8s",
+    prefix="/kubernetes",
     tags=['Asset Management ::: Kubernetes']
 )
 

@@ -358,9 +358,32 @@ class Change(Base, BaseMixin):
     progress = Column(String, nullable=True)
     status = Column(String, nullable=True) 
 
-    vendor = Column(String, nullable=True) 
-    report_name = Column(String, nullable=True) 
-    comment = Column(String(length=3000), nullable=True) 
+    ticket_no = Column(String, nullable=True) 
+    title = Column(String, nullable=True) 
+    description = Column(String(length=3000), nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+
+
+
+class Request(Base, BaseMixin):
+    __tablename__ = 'requests'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True) 
+
+    ticket_no = Column(String, nullable=True) 
+    title = Column(String, nullable=True) 
+    description = Column(String(length=3000), nullable=True) 
+    work_type = Column(String, nullable=True) 
 
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)     
@@ -375,13 +398,14 @@ class Capacity(Base, BaseMixin):
     region = Column(String, nullable=False)
     az = Column(Integer, nullable=False)
     tenant = Column(String, nullable=False)
-
-    progress = Column(String, nullable=True)
+    
+    progress = Column(String, nullable=True) 
     status = Column(String, nullable=True) 
 
-    vendor = Column(String, nullable=True) 
-    report_name = Column(String, nullable=True) 
-    comment = Column(String(length=3000), nullable=True) 
+    category = Column(String, nullable=True)
+    ticket_no = Column(String, nullable=True)
+    title = Column(String, nullable=True)
+    description = Column(String(length=3000), nullable=True) 
 
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)     
@@ -398,16 +422,39 @@ class Backup(Base, BaseMixin):
     tenant = Column(String, nullable=False)
 
     progress = Column(String, nullable=True)
-    status = Column(String, nullable=True) 
+    status = Column(String, nullable=True)
 
-    vendor = Column(String, nullable=True) 
-    report_name = Column(String, nullable=True) 
+    db_type = Column(String, nullable=True) 
+    instance_name = Column(String, nullable=True) 
+    instance_ip = Column(String, nullable=True) 
+    freq_full_archive = Column(String, nullable=True) 
     comment = Column(String(length=3000), nullable=True) 
 
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)     
     updater = Column(String, nullable=True) 
     
+
+class Security(Base, BaseMixin):
+    __tablename__ = 'securities'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True)
+
+    ticket_no = Column(String, nullable=True) 
+    title = Column(String, nullable=True) 
+    task_type = Column(String, nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True) 
+
 
 class RegularCheck(Base, BaseMixin):
     __tablename__ = 'regularchecks'
@@ -418,12 +465,13 @@ class RegularCheck(Base, BaseMixin):
     az = Column(Integer, nullable=False)
     tenant = Column(String, nullable=False)
 
-    vendor = Column(String, nullable=True)
-    license_type = Column(String, nullable=True)     
+    progress = Column(String, nullable=True)
     status = Column(String, nullable=True)
-    instance_name = Column(String, nullable=True) 
-    comment = Column(String(length=3000), nullable=True) 
-    installed_at = Column(String, nullable=True)    
+
+    freq = Column(String, nullable=True) 
+    vendor: Column(String, nullable=True) 
+    title = Column(String, nullable=True) 
+    description = Column(String(length=3000), nullable=True) 
 
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)     
@@ -439,7 +487,8 @@ class Database(Base, BaseMixin):
     az = Column(Integer, nullable=False)
     tenant = Column(String, nullable=False)
 
-    count =Column(Integer, nullable=False)
+    db_type = Column(String, nullable=False)
+    count = Column(Integer, nullable=False)
     status = Column(String, nullable=True) 
 
     creator = Column(String, nullable=True)
@@ -483,11 +532,11 @@ class Kubernetes(Base, BaseMixin):
     network_zone = Column(String, nullable=True) 
     contacts = Column(String, nullable=True) 
     k8s_version = Column(String, nullable=True) 
+    monitoring_agent = Column(String, nullable=True) 
 
     api_cert_expired_date = Column(DateTime, nullable=True)   
     ca_cert_expired_date = Column(DateTime, nullable=True)   
     etcd_cert_expired_date = Column(DateTime, nullable=True)   
-    k8s_version = Column(String, nullable=True) 
     
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)     

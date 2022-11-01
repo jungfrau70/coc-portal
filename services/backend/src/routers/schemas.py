@@ -105,9 +105,9 @@ class ShowDiscussion(BaseModel):
     progress: Optional[str]
     status: Optional[str]
 
-    vendor: Optional[str]
-    report_name: Optional[str]
-    comment: Optional[str]
+    progress: Optional[str]
+    status: Optional[str]
+    discussion_topic: Optional[str]
 
     creator: Optional[str]
     reviewer: Optional[str]
@@ -125,12 +125,25 @@ class ShowIncident(BaseModel):
     az: Optional[int]
     tenant: Optional[str]
 
-    progress: Optional[str]
-    status: Optional[str]
+    shift_start_date: Optional[date]
+    shift_type: Optional[str]
 
-    vendor: Optional[str]
-    report_name: Optional[str]
+    level_1_engineer1: Optional[str]
+    level_1_engineer2: Optional[str]
+    level_2_engineers: Optional[str]
+    how_to_share: Optional[str]
+
+    event: Optional[str]
+    action: Optional[str]
+    status: Optional[str]
+    ticket_no: Optional[str]
+    escalated_to_l3: Optional[str]
     comment: Optional[str]
+
+    occurred_at: Optional[datetime]
+    acknowledged_at: Optional[datetime]
+    propogated_at: Optional[datetime]
+    resolved_at: Optional[datetime]
 
     creator: Optional[str]
     reviewer: Optional[str]
@@ -226,9 +239,33 @@ class ShowChange(BaseModel):
     progress: Optional[str]
     status: Optional[str]
 
-    vendor: Optional[str]
-    report_name: Optional[str]
-    comment: Optional[str]
+    ticket_no: Optional[str]
+    title: Optional[str]
+    description: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True  
+
+
+class ShowRequest(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    ticket_no: Optional[str]
+    title: Optional[str]
+    description: Optional[str]
+    work_type: Optional[str]
 
     creator: Optional[str]
     reviewer: Optional[str]
@@ -249,9 +286,10 @@ class ShowCapacity(BaseModel):
     progress: Optional[str]
     status: Optional[str]
 
-    vendor: Optional[str]
-    report_name: Optional[str]
-    comment: Optional[str]
+    category: Optional[str]
+    ticket_no: Optional[str]
+    title: Optional[str]
+    description: Optional[str]
 
     creator: Optional[str]
     reviewer: Optional[str]
@@ -272,8 +310,10 @@ class ShowBackup(BaseModel):
     progress: Optional[str]
     status: Optional[str]
 
-    vendor: Optional[str]
-    report_name: Optional[str]
+    db_type: Optional[str]
+    instance_name: Optional[str]
+    instance_ip: Optional[str]
+    freq_full_archive: Optional[str]
     comment: Optional[str]
 
     creator: Optional[str]
@@ -282,6 +322,29 @@ class ShowBackup(BaseModel):
 
     class Config():
         orm_mode = True     
+
+
+class ShowSecurity(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    ticket_no: Optional[str]
+    title: Optional[str]
+    task_type: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True   
 
 
 class ShowLicense(BaseModel):
@@ -305,29 +368,6 @@ class ShowLicense(BaseModel):
 
     class Config():
         orm_mode = True     
-
-
-class ShowRegularCheck(BaseModel):
-    id: int
-    year: Optional[int]
-    month: Optional[int]
-    region: Optional[str]
-    az: Optional[int]
-    tenant: Optional[str]
-
-    progress: Optional[str]
-    status: Optional[str]
-
-    vendor: Optional[str]
-    report_name: Optional[str]
-    comment: Optional[str]
-
-    creator: Optional[str]
-    reviewer: Optional[str]
-    updater: Optional[str]
-
-    class Config():
-        orm_mode = True      
 
 
 class ShowDatabase(BaseModel):
@@ -366,10 +406,11 @@ class ShowKubernetes(BaseModel):
     network_zone: Optional[str]
     contacts: Optional[str]
     k8s_version: Optional[str]
+    monitoring_agent: Optional[str]
+
     api_cert_expired_date: Optional[datetime]
     ca_cert_expired_date: Optional[datetime]
     etcd_cert_expired_date: Optional[datetime]
-    monitoring_agent: Optional[str]
 
     creator: Optional[str]
     reviewer: Optional[str]
@@ -395,6 +436,31 @@ class ShowInstance(BaseModel):
 
     class Config():
         orm_mode = True      
+
+
+class ShowRegularCheck(BaseModel):
+    id: int
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    freq: Optional[str]
+    vendor: Optional[str]
+    title: Optional[str]
+    description: Optional[str]
+
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True   
+
 
 class ShowReport(BaseModel):
     id: int

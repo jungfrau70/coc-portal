@@ -32,7 +32,7 @@ def upload_csv(file, db: Session):
     
     df['region'] = df['region'].fillna(np.nan).replace([np.nan], ['NA']) 
 
-    df['reviewed_at'] = df['reviewed_at'].fillna(np.nan).replace([np.nan], ['1970-01-01'])
+    df['reviewed_at'] = df['reviewed_at'].fillna(np.nan).replace([np.nan], ['1900-01-01'])
     df['reviewed_at'] = pd.to_datetime(df['reviewed_at'])
 
     try:
