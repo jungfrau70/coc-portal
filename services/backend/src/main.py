@@ -16,8 +16,8 @@ app = FastAPI()
 models.Base.metadata.create_all(engine)
 
 app.include_router(authentication.router)
-# app.include_router(blog.router)
 app.include_router(user.router)
+app.include_router(blog.router)
 
 app.include_router(discussion_topic.router)
 app.include_router(incident_handling.router)
@@ -35,14 +35,15 @@ app.include_router(regular_check.router)
 app.include_router(license_mgmt.router)
 app.include_router(report.router)
 
-origins = [
-    "*"
-]
-
 # origins = [
-#     "http://localhost:3000",
-#     "http://localhost:8000",
+#     "*"
 # ]
+
+origins = [
+    "http://localhost:3000",
+    "http://localhost:8080",
+    "http://localhost:8000",    
+]
 
 app.add_middleware(
     CORSMiddleware,

@@ -2,6 +2,9 @@
   "Backup": {
     "description": "Auto imported from components/Backup.vue"
   },
+  "Blog": {
+    "description": "Auto imported from components/Blog.vue"
+  },
   "Change": {
     "description": "Auto imported from components/Change.vue"
   },
