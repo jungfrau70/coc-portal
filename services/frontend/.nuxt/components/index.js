@@ -1,4 +1,5 @@
 export { default as Backup } from '../..\\components\\Backup.vue'
+export { default as Blog } from '../..\\components\\Blog.vue'
 export { default as Change } from '../..\\components\\Change.vue'
 export { default as Database } from '../..\\components\\Database.vue'
 export { default as Incident } from '../..\\components\\Incident.vue'
