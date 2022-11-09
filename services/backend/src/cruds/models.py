@@ -469,7 +469,7 @@ class RegularCheck(Base, BaseMixin):
     status = Column(String, nullable=True)
 
     freq = Column(String, nullable=True) 
-    vendor: Column(String, nullable=True) 
+    vendor = Column(String, nullable=True) 
     title = Column(String, nullable=True) 
     description = Column(String(length=3000), nullable=True) 
 

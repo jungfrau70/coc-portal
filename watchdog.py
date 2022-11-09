@@ -38,37 +38,37 @@ class FileModified():
             try:
                 if modified != self.modifiedOn:
                     self.modifiedOn = modified
-                    difference = list(set(current_ods_files) - set(self.lastest_files))
-                    if difference:                    
-                        uploadFile(difference)
+                    new_ods_files = list(set(current_ods_files) - set(self.lastest_files))
+                    for ods_file in new_ods_files:                    
+                        uploadFile(ods_file)
                     self.lastest_files = current_ods_files
                     if self.callback():
                         break
             except Exception as e:
                 print(traceback.format_exc())
 
-def uploadFile(difference):
+def uploadFile(ods_file):
 
-    for ods_file in difference:
+    # for ods_file in difference:
 
-        filename = path+"//"+ods_file.split('.')[0]
-        df = read_ods(f"{filename}.ods", headers=True)
-        df.to_csv(f"{filename}.csv", encoding='utf-8-sig')
-        csv_file = filename + ".csv"
+    filename = path+"//"+ods_file.split('.')[0]
+    df = read_ods(f"{filename}.ods", headers=True)
+    df.to_csv(f"{filename}.csv", encoding='utf-8-sig')
+    csv_file = filename + ".csv"
 
-        for ( topic, value ) in topicL:
-            if value in csv_file:
-                try:
-                    url = f"http://localhost:8080/{topic}/uploadfile"
-                    data = {'dir':path, 'submit':'Submit'}
-                    print(csv_file)
-                    fo = open(csv_file, 'rb')
-                    files = {'file':(csv_file, fo, 'text/csv')}
+    for ( topic, value ) in topicL:
+        if value in csv_file:
+            try:
+                url = f"http://localhost:8000/{topic}/uploadfile"
+                data = {'dir':path, 'submit':'Submit'}     
+                with open(csv_file, 'rb') as f:
+                    files = {'file':(csv_file, f, 'text/csv')}
                     r = requests.post(url, data=data, files=files)
-                    fo.close()
-                    print(r.content)
-                except Exception as e:
-                    print(e)
+
+                print(r.content)
+
+            except Exception as e:
+                print(e)
 
 def file_modified():
     print("File Modified!")

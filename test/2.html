@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="item in items">
+                <img :src="item.image">
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp } = Vue
+
+        createApp({
+            data() {
+                return {
+                    items: [
+                        {
+                            id: 1,
+                            image: 'https://picsum.photos/210/118/?image=1',
+                            // name: '상품1',
+                            // price: 30000
+                        },
+                        {
+                            id: 2,
+                            image: 'https://picsum.photos/210/118/?image=100'
+                        },
+                        {
+                            id: 3,
+                            image: 'https://picsum.photos/210/118/?image=160'
+                        },
+                        {
+                            id: 4,
+                            image: 'https://picsum.photos/210/118/?image=200'
+                        },
+                        {
+                            id: 5,
+                            image: 'https://picsum.photos/210/118/?image=300'
+                        },
+                        {
+                            id: 6,
+                            image: 'https://picsum.photos/210/118/?image=400'
+                        },
+                        {
+                            id: 7,
+                            image: 'https://picsum.photos/210/118/?image=401'
+                        },
+                    ]
+                }
+            }
+        }).mount('#app')
+
+    </script>
+
+</body>
+
+</html>

@@ -23,9 +23,16 @@ def login(request: schemas.Login, db: Session):
     access_token = token.create_access_token(data={"sub": user.email})   
     return { "access_token": access_token, "token_type": "bearer" }
 
-def show(id:int,db:Session):
+# def show(email:str,db:Session):
+#     user = db.query(models.User).filter(models.User.email == email).first()
+#     if not user:
+#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+#                             detail=f"User with the email {email} is not available")
+#     return user
+
+def show2(id:int,db:Session):
     user = db.query(models.User).filter(models.User.id == id).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"User with the id {id} is not available")
-    return user
+    return user    

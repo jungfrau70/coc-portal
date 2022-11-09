@@ -7,12 +7,11 @@ export { default as Instance } from '../..\\components\\Instance.vue'
 export { default as Issue } from '../..\\components\\Issue.vue'
 export { default as Kubernetes } from '../..\\components\\Kubernetes.vue'
 export { default as Login } from '../..\\components\\Login.vue'
-export { default as Logout } from '../..\\components\\Logout.vue'
 export { default as Problem } from '../..\\components\\Problem.vue'
+export { default as Register } from '../..\\components\\Register.vue'
 export { default as Regularcheck } from '../..\\components\\Regularcheck.vue'
 export { default as Request } from '../..\\components\\Request.vue'
 export { default as Security } from '../..\\components\\Security.vue'
-export { default as Signup } from '../..\\components\\Signup.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {

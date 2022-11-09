@@ -3,9 +3,11 @@ version: '3.8'
 services:
 
   backend:
+    container_name: backend
     build: ./services/backend
     ports:
-      - 8080:8000
+      - 8000:8000
     volumes:
       - ./services/backend/src:/app
     command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
+

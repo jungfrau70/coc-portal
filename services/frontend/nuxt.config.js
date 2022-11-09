@@ -62,13 +62,13 @@ export default {
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/auth-next",
     "@nuxtjs/axios",
+    'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/bootstrap
-    // "bootstrap-vue/nuxt",
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: "http://localhost:8080",
+    baseURL: "http://localhost:8000",
   },
 
   auth: {
