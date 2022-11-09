@@ -18,7 +18,9 @@ export default {
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       {
         rel: "stylesheet",
-        href: "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css",
+        href: "https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css",
+        integrity: "sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N",
+        crossorigin: "anonymous"
       },
       {
         rel: "stylesheet",
@@ -30,10 +32,10 @@ export default {
         defer: "",
         src: "https://use.fontawesome.com/releases/v5.15.4/js/all.js",
       },
-      {
-        defer: "",
-        src: "https://pyscript.net/latest/pyscript.js",
-      },
+      // {
+      //   defer: "",
+      //   src: "https://pyscript.net/latest/pyscript.js",
+      // },
     ],
   },
 

@@ -1,4 +1,10 @@
 <template>
+  <div>
+    <b-table striped small hover :items="items"></b-table>
+  </div>
+</template>
+
+<!-- <template>
   <div class="p-10">
     <div>
       <input
@@ -8,41 +14,14 @@
         @input="onSearch"
       />
     </div>
-    <div class="table-container">
-      <table class="table">
-        <thead>
-          <tr>
-            <th
-              v-for="(column, index) in columns"
-              v-bind:key="index"
-              class="border-2 p-2 text-left"
-              v-on:click="sortRecords(index)"
-            >
-              {{ column }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(row, index) in rows" v-bind:key="index">
-            <td
-              v-for="(rowItem, itemIndex) in row"
-              v-bind:key="itemIndex"
-              class="border-2 p-2"
-            >
-              {{ rowItem }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </div>
-</template>
+</template> -->
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
-const performSearch = (rows, term) => {
-  const results = rows.filter((row) =>
+const performSearch = (items, term) => {
+  const results = items.filter((row) =>
     row.join(" ").toLowerCase().includes(term.toLowerCase())
   );
 
@@ -56,30 +35,33 @@ export default {
       term: "",
       columns: [],
       rawRows: [],
-      rows: [],
+      items: [],
       sortIndex: null,
       sortDirection: null,
     };
   },
   methods: {
-
     async fetchRecords() {
-      const response = await axios.get('http://localhost:8000/problem/all', this.rows, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-          "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"
-        }
-      }).then(res => {
-        //console.log(res);
-        this.rawRows = res
-      }).catch(err => {
-        console.log(err);
-      });
-      this.columns = Object.keys(this.rawRows.data[0]);
-      this.rows = this.rawRows.data;
-      //this.columns = res.data.keys()
-      // this.rawRows = res.data.values()
+      const response = await axios
+        .get("http://localhost:8000/problem/all", this.items, {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods":
+              "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers":
+              "Origin, Content-Type, X-Auth-Token",
+          },
+        })
+        .then((res) => {
+          // console.log(res);
+          this.rawRows = res;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      // this.columns = Object.keys(this.rawRows.data[0]);
+      this.items = this.rawRows.data;
     },
     sortRecords(index) {
       if (this.sortIndex === index) {
@@ -101,11 +83,11 @@ export default {
       this.sortIndex = index;
 
       if (!this.sortDirection) {
-        this.rows = performSearch(this.rawRows, this.term);
+        this.items = performSearch(this.rawRows, this.term);
         return;
       }
 
-      this.rows = this.rows.sort((rowA, rowB) => {
+      this.items = this.items.sort((rowA, rowB) => {
         if (this.sortDirection === "desc") {
           return rowB[index].localeCompare(rowA[index]);
         }
@@ -115,14 +97,14 @@ export default {
     },
     onSearch(e) {
       this.term = e.target.value;
-      this.rows = performSearch(this.rawRows, this.term);
+      this.items = performSearch(this.rawRows, this.term);
     },
   },
   mounted() {
-    this.rows = [...this.rawRows];
+    this.items = [...this.rawRows];
   },
   created() {
     this.fetchRecords();
-  }
+  },
 };
 </script>
