@@ -16,22 +16,58 @@ export default {
     ],
     link: [
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      // {
+      //   rel: "stylesheet",
+      //   href: "https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css",
+      //   integrity: "sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N",
+      //   crossorigin: "anonymous"
+      // },
       {
         rel: "stylesheet",
-        href: "https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css",
-        integrity: "sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N",
-        crossorigin: "anonymous"
+        href: "static/css/style.css",
       },
       {
         rel: "stylesheet",
-        href: "https://pyscript.net/latest/pyscript.css",
+        href: "static/css/bootstrap.min.css",
       },
+      {
+        rel: "stylesheet",
+        href: "static/css/datatables.min.css",
+      },      
+      // {
+      //   rel: "stylesheet",
+      //   href: "https://pyscript.net/latest/pyscript.css",
+      // },
     ],
     script: [
       {
         defer: "",
-        src: "https://use.fontawesome.com/releases/v5.15.4/js/all.js",
+        src: "plugins/bootstrap.bundle.min.js",
       },
+      {
+        defer: "",
+        src: "plugins/jquery-3.6.0.min.js",
+      },
+      {
+        defer: "",
+        src: "plugins/custom.js",
+      },        
+      {
+        defer: "",
+        src: "plugins/datatables.min.js",
+      },           
+      {
+        defer: "",
+        src: "plugins/pdfmake.min.js",
+      },       
+      {
+        defer: "",
+        src: "plugins/vfs_fonts.js",
+      },         
+      // {
+      //   defer: "",
+      //   src: "https://use.fontawesome.com/releases/v5.15.4/js/all.js",
+      // },
       // {
       //   defer: "",
       //   src: "https://pyscript.net/latest/pyscript.js",
@@ -45,6 +81,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    // "~/static/css/style.css",
     // "~/node_modules/bootstrap/dist/css/bootstrap.css",
     // "~/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css",
   ],

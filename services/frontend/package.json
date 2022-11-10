@@ -3,6 +3,8 @@
     "@nuxtjs/auth-next": "*",
     "@nuxtjs/axios": "^5.13.6",
     "bootstrap-vue": "^2.23.1",
+    "datatables.net-bs5": "^1.13.1",
+    "datatables.net-dt": "^1.13.1",
     "nuxt": "^2.15.8"
   },
   "devDependencies": {

@@ -3,90 +3,105 @@
     "name": "backup",
     "path": "/backup",
     "component": "C:\\\\work\\\\p-lenz-portal\\\\services\\\\frontend\\\\pages\\\\backup\\\\index.vue",
-    "chunkName": "pages/backup/index"
+    "chunkName": "pages/backup/index",
+    "_name": "_16e8834d"
   },
   {
     "name": "blog",
     "path": "/blog",
     "component": "C:\\\\work\\\\p-lenz-portal\\\\services\\\\frontend\\\\pages\\\\blog\\\\index.vue",
-    "chunkName": "pages/blog/index"
+    "chunkName": "pages/blog/index",
+    "_name": "_cd5f1aa6"
   },
   {
     "name": "change",
     "path": "/change",
     "component": "C:\\\\work\\\\p-lenz-portal\\\\services\\\\frontend\\\\pages\\\\change\\\\index.vue",
-    "chunkName": "pages/change/index"
+    "chunkName": "pages/change/index",
+    "_name": "_24a5849f"
   },
   {
     "name": "database",
     "path": "/database",
     "component": "C:\\\\work\\\\p-lenz-portal\\\\services\\\\frontend\\\\pages\\\\database\\\\index.vue",
-    "chunkName": "pages/database/index"
+    "chunkName": "pages/database/index",
+    "_name": "_06617698"
   },
   {
     "name": "incident",
     "path": "/incident",
     "component": "C:\\\\work\\\\p-lenz-portal\\\\services\\\\frontend\\\\pages\\\\incident\\\\index.vue",
-    "chunkName": "pages/incident/index"
+    "chunkName": "pages/incident/index",
+    "_name": "_984b3606"
   },
   {
     "name": "instance",
     "path": "/instance",
     "component": "C:\\\\work\\\\p-lenz-portal\\\\services\\\\frontend\\\\pages\\\\instance\\\\index.vue",
-    "chunkName": "pages/instance/index"
+    "chunkName": "pages/instance/index",
+    "_name": "_c026a54c"
   },
   {
     "name": "issue",
     "path": "/issue",
     "component": "C:\\\\work\\\\p-lenz-portal\\\\services\\\\frontend\\\\pages\\\\issue\\\\index.vue",
-    "chunkName": "pages/issue/index"
+    "chunkName": "pages/issue/index",
+    "_name": "_78f5cc6c"
   },
   {
     "name": "kubernetes",
     "path": "/kubernetes",
     "component": "C:\\\\work\\\\p-lenz-portal\\\\services\\\\frontend\\\\pages\\\\kubernetes\\\\index.vue",
-    "chunkName": "pages/kubernetes/index"
+    "chunkName": "pages/kubernetes/index",
+    "_name": "_031b18c9"
   },
   {
     "name": "login",
     "path": "/login",
     "component": "C:\\\\work\\\\p-lenz-portal\\\\services\\\\frontend\\\\pages\\\\login\\\\index.vue",
-    "chunkName": "pages/login/index"
+    "chunkName": "pages/login/index",
+    "_name": "_36f2cbdc"
   },
   {
     "name": "problem",
     "path": "/problem",
     "component": "C:\\\\work\\\\p-lenz-portal\\\\services\\\\frontend\\\\pages\\\\problem\\\\index.vue",
-    "chunkName": "pages/problem/index"
+    "chunkName": "pages/problem/index",
+    "_name": "_0e42e826"
   },
   {
     "name": "register",
     "path": "/register",
     "component": "C:\\\\work\\\\p-lenz-portal\\\\services\\\\frontend\\\\pages\\\\register\\\\index.vue",
-    "chunkName": "pages/register/index"
+    "chunkName": "pages/register/index",
+    "_name": "_5639de8c"
   },
   {
     "name": "regularcheck",
     "path": "/regularcheck",
     "component": "C:\\\\work\\\\p-lenz-portal\\\\services\\\\frontend\\\\pages\\\\regularcheck\\\\index.vue",
-    "chunkName": "pages/regularcheck/index"
+    "chunkName": "pages/regularcheck/index",
+    "_name": "_091e7423"
   },
   {
     "name": "request",
     "path": "/request",
     "component": "C:\\\\work\\\\p-lenz-portal\\\\services\\\\frontend\\\\pages\\\\request\\\\index.vue",
-    "chunkName": "pages/request/index"
+    "chunkName": "pages/request/index",
+    "_name": "_01286236"
   },
   {
     "name": "security",
     "path": "/security",
     "component": "C:\\\\work\\\\p-lenz-portal\\\\services\\\\frontend\\\\pages\\\\security\\\\index.vue",
-    "chunkName": "pages/security/index"
+    "chunkName": "pages/security/index",
+    "_name": "_d58dfc62"
   },
   {
     "name": "index",
     "path": "/",
     "component": "C:\\\\work\\\\p-lenz-portal\\\\services\\\\frontend\\\\pages\\\\index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_51d7d262"
   }
 ]

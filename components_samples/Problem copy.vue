@@ -1,58 +1,31 @@
 <template>
-  <div>
-    <!-- <b-form-group
-      label="Selection mode:"
-      label-for="table-select-mode-select"
-      label-cols-md="4"
-    >
-      <b-form-select
-        id="table-select-mode-select"
-        v-model="selectMode"
-        :options="modes"
-        class="mb-3"
-      ></b-form-select>
-    </b-form-group> -->
-    <b-table
-      striped
-      hover
-      bordered
-      sticky-header
+  <b-table
       :items="rows"
       :fields="fields"
+      :current-page="currentPage"
+      :per-page="perPage"
+      :filter="filter"
+      :filter-included-fields="filterOn"
       :sort-by.sync="sortBy"
       :sort-desc.sync="sortDesc"
-      responsive="xl"
-    >
-    </b-table>
-    <b-tfoot>
-      <b-tr>
-        <b-td colspan="7" variant="secondary" class="text-right">
-          Total Rows: <b>{{ totalRows }}</b>
-        </b-td>
-      </b-tr>
-    </b-tfoot>
-  </div>
+      :sort-direction="sortDirection"
+      stacked="md"
+      show-empty
+      small
+      @filtered="onFiltered"
+    ></b-table>
 </template>
 
 <script>
 import axios from "axios";
-
-const performSearch = (rows, term) => {
-  const results = rows.filter((row) =>
-    row.join(" ").toLowerCase().includes(term.toLowerCase())
-  );
-
-  return results;
-};
-
 export default {
-  name: "Table",
   data() {
     return {
-      sortBy: "id",
+      rawRows: [],
+      items: [],
+      sortBy: ["year", "month", "region", "az", "tenant", "progress", "status"],
       sortDesc: false,
       fields: [
-        { key: "id", sortable: false },
         { key: "year", sortable: true },
         { key: "month", sortable: true },
         { key: "region", sortable: true },
@@ -65,40 +38,39 @@ export default {
         { key: "title", sortable: false },
         { key: "description", sortable: false },
         { key: "action", sortable: false },
-        { key: "person_in_charge", sortable: false },
-        { key: "ticket_no", sortable: false },
-        { key: "reviewed_at", sortable: false },
-        { key: "review_desc", sortable: false },
       ],
-
-      term: "",
-      columns: [],
-      rawRows: [],
-      rows: [],
-      sortIndex: null,
-      sortDirection: null,
-
       totalRows: 1,
       currentPage: 1,
-      perPage: 10,
-      pageOptions: [10, 10, 30, { value: 100, text: "Show a lot" }],
+      perPage: 5,
+      pageOptions: [5, 10, 15, { value: 100, text: "Show a lot" }],
+      sortBy: "",
+      sortDesc: false,
+      sortDirection: "asc",
+      filter: null,
+      filterOn: [],
+      infoModal: {
+        id: "info-modal",
+        title: "",
+        description: "",
+      },
     };
   },
+  computed: {
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter((f) => f.sortable)
+        .map((f) => {
+          return { text: f.label, value: f.key };
+        });
+    },
+  },
+  mounted() {
+    this.rows = [...this.rawRows];
+    // Set the initial number of items
+    this.totalRows = this.items.length;
+  },
   methods: {
-    info(item, index, button) {
-      this.infoModal.title = `Row index: ${index}`;
-      this.infoModal.content = JSON.stringify(item, null, 2);
-      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-    },
-    resetInfoModal() {
-      this.infoModal.title = "";
-      this.infoModal.content = "";
-    },
-    onFiltered(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
-      this.totalRows = filteredItems.length;
-      this.currentPage = 1;
-    },
     async fetchRecords() {
       const response = await axios
         .get("http://localhost:8000/problem/all", this.rawRows, {
@@ -119,7 +91,7 @@ export default {
         });
 
       // this.columns = Object.keys(this.rawRows.data[0]);
-      this.rows = this.rawRows.data;
+      this.items = this.rawRows.data;
     },
     sortRecords(index) {
       if (this.sortIndex === index) {
@@ -141,11 +113,11 @@ export default {
       this.sortIndex = index;
 
       if (!this.sortDirection) {
-        this.rows = performSearch(this.rawRows, this.term);
+        this.items = performSearch(this.rawRows, this.term);
         return;
       }
 
-      this.rows = this.items.sort((rowA, rowB) => {
+      this.items = this.items.sort((rowA, rowB) => {
         if (this.sortDirection === "desc") {
           return rowB[index].localeCompare(rowA[index]);
         }
@@ -155,18 +127,26 @@ export default {
     },
     onSearch(e) {
       this.term = e.target.value;
-      this.rows = performSearch(this.rawRows, this.term);
+      this.items = performSearch(this.rawRows, this.term);
     },
-  },
-  mounted() {
-    this.rows = [...this.rawRows];
-
-    // Set the initial number of items
-    this.totalRows = this.rows.length;
-    console.log(this.totalRows)
-  },
-  created() {
-    this.fetchRecords();
+    info(item, index, button) {
+      this.infoModal.title = `Row index: ${index}`;
+      this.infoModal.description = JSON.stringify(item, null, 2);
+      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+    },
+    resetInfoModal() {
+      this.infoModal.title = "";
+      this.infoModal.content = "";
+    },
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
+    },
+    created() {
+      this.fetchRecords();
+    },
   },
 };
 </script>
+
