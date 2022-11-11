@@ -13,11 +13,12 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_929f1e14 from 'nuxt_plugin_plugin_929f1e14' // Source: .\\components\\plugin.js (mode: 'all')
-import nuxt_plugin_bootstrapvue_18c2db48 from 'nuxt_plugin_bootstrapvue_18c2db48' // Source: .\\bootstrap-vue.js (mode: 'all')
-import nuxt_plugin_plugin_30b04284 from 'nuxt_plugin_plugin_30b04284' // Source: .\\vuetify\\plugin.js (mode: 'all')
-import nuxt_plugin_axios_41fdb3ce from 'nuxt_plugin_axios_41fdb3ce' // Source: .\\axios.js (mode: 'all')
-import nuxt_plugin_auth_7e88dbf7 from 'nuxt_plugin_auth_7e88dbf7' // Source: .\\auth.js (mode: 'all')
+import nuxt_plugin_plugin_3569795e from 'nuxt_plugin_plugin_3569795e' // Source: .\\components\\plugin.js (mode: 'all')
+import nuxt_plugin_bootstrapvue_1779d9ba from 'nuxt_plugin_bootstrapvue_1779d9ba' // Source: .\\bootstrap-vue.js (mode: 'all')
+import nuxt_plugin_plugin_7c2ea243 from 'nuxt_plugin_plugin_7c2ea243' // Source: .\\vuetify\\plugin.js (mode: 'all')
+import nuxt_plugin_axios_f34f2e18 from 'nuxt_plugin_axios_f34f2e18' // Source: .\\axios.js (mode: 'all')
+import nuxt_plugin_custom_009b6972 from 'nuxt_plugin_custom_009b6972' // Source: ..\\plugins\\custom.js (mode: 'all')
+import nuxt_plugin_auth_4a2051bc from 'nuxt_plugin_auth_4a2051bc' // Source: .\\auth.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -85,7 +86,7 @@ async function createApp(ssrContext, config = {}) {
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"title":"Spark Lenz","htmlAttrs":{"lang":"kr"},"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"클라우드 운영\u002F관리"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","href":"static\u002Fcss\u002Fstyle.css"},{"rel":"stylesheet","href":"static\u002Fcss\u002Fbootstrap.min.css"},{"rel":"stylesheet","href":"static\u002Fcss\u002Fdatatables.min.css"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Ffonts.googleapis.com\u002Fcss?family=Roboto:100,300,400,500,700,900&display=swap"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Fcdn.jsdelivr.net\u002Fnpm\u002F@mdi\u002Ffont@latest\u002Fcss\u002Fmaterialdesignicons.min.css"}],"script":[{"defer":"","src":"plugins\u002Fbootstrap.bundle.min.js"},{"defer":"","src":"plugins\u002Fjquery-3.6.0.min.js"},{"defer":"","src":"plugins\u002Fcustom.js"},{"defer":"","src":"plugins\u002Fdatatables.min.js"},{"defer":"","src":"plugins\u002Fpdfmake.min.js"},{"defer":"","src":"plugins\u002Fvfs_fonts.js"}],"style":[]},
+    head: {"title":"Spark Lenz","htmlAttrs":{"lang":"kr"},"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"클라우드 운영\u002F관리"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Ffonts.googleapis.com\u002Fcss?family=Roboto:100,300,400,500,700,900&display=swap"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Fcdn.jsdelivr.net\u002Fnpm\u002F@mdi\u002Ffont@latest\u002Fcss\u002Fmaterialdesignicons.min.css"}],"script":[],"style":[]},
 
     store,
     router,
@@ -214,24 +215,28 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_929f1e14 === 'function') {
-    await nuxt_plugin_plugin_929f1e14(app.context, inject)
+  if (typeof nuxt_plugin_plugin_3569795e === 'function') {
+    await nuxt_plugin_plugin_3569795e(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_bootstrapvue_18c2db48 === 'function') {
-    await nuxt_plugin_bootstrapvue_18c2db48(app.context, inject)
+  if (typeof nuxt_plugin_bootstrapvue_1779d9ba === 'function') {
+    await nuxt_plugin_bootstrapvue_1779d9ba(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_plugin_30b04284 === 'function') {
-    await nuxt_plugin_plugin_30b04284(app.context, inject)
+  if (typeof nuxt_plugin_plugin_7c2ea243 === 'function') {
+    await nuxt_plugin_plugin_7c2ea243(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_axios_41fdb3ce === 'function') {
-    await nuxt_plugin_axios_41fdb3ce(app.context, inject)
+  if (typeof nuxt_plugin_axios_f34f2e18 === 'function') {
+    await nuxt_plugin_axios_f34f2e18(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_auth_7e88dbf7 === 'function') {
-    await nuxt_plugin_auth_7e88dbf7(app.context, inject)
+  if (typeof nuxt_plugin_custom_009b6972 === 'function') {
+    await nuxt_plugin_custom_009b6972(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_auth_4a2051bc === 'function') {
+    await nuxt_plugin_auth_4a2051bc(app.context, inject)
   }
 
   // Lock enablePreview in context

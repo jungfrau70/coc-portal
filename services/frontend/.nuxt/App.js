@@ -10,6 +10,12 @@ import '..\\node_modules\\bootstrap\\dist\\css\\bootstrap.css'
 
 import '..\\node_modules\\bootstrap-vue\\dist\\bootstrap-vue.css'
 
+import '..\\static\\css\\style.css'
+
+import '..\\static\\css\\bootstrap.min.css'
+
+import '..\\static\\css\\datatables.min.css'
+
 import '..\\node_modules\\vuetify\\dist\\vuetify.css'
 
 import _6f6c098b from '..\\layouts\\default.vue'

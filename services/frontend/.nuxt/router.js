@@ -4,21 +4,21 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _16e8834d = () => interopDefault(import('..\\pages\\backup\\index.vue' /* webpackChunkName: "pages/backup/index" */))
-const _cd5f1aa6 = () => interopDefault(import('..\\pages\\blog\\index.vue' /* webpackChunkName: "pages/blog/index" */))
-const _24a5849f = () => interopDefault(import('..\\pages\\change\\index.vue' /* webpackChunkName: "pages/change/index" */))
-const _06617698 = () => interopDefault(import('..\\pages\\database\\index.vue' /* webpackChunkName: "pages/database/index" */))
-const _984b3606 = () => interopDefault(import('..\\pages\\incident\\index.vue' /* webpackChunkName: "pages/incident/index" */))
-const _c026a54c = () => interopDefault(import('..\\pages\\instance\\index.vue' /* webpackChunkName: "pages/instance/index" */))
-const _78f5cc6c = () => interopDefault(import('..\\pages\\issue\\index.vue' /* webpackChunkName: "pages/issue/index" */))
-const _031b18c9 = () => interopDefault(import('..\\pages\\kubernetes\\index.vue' /* webpackChunkName: "pages/kubernetes/index" */))
-const _36f2cbdc = () => interopDefault(import('..\\pages\\login\\index.vue' /* webpackChunkName: "pages/login/index" */))
-const _0e42e826 = () => interopDefault(import('..\\pages\\problem\\index.vue' /* webpackChunkName: "pages/problem/index" */))
-const _5639de8c = () => interopDefault(import('..\\pages\\register\\index.vue' /* webpackChunkName: "pages/register/index" */))
-const _091e7423 = () => interopDefault(import('..\\pages\\regularcheck\\index.vue' /* webpackChunkName: "pages/regularcheck/index" */))
-const _01286236 = () => interopDefault(import('..\\pages\\request\\index.vue' /* webpackChunkName: "pages/request/index" */))
-const _d58dfc62 = () => interopDefault(import('..\\pages\\security\\index.vue' /* webpackChunkName: "pages/security/index" */))
-const _51d7d262 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
+const _41188956 = () => interopDefault(import('..\\pages\\backup\\index.vue' /* webpackChunkName: "pages/backup/index" */))
+const _aaa73214 = () => interopDefault(import('..\\pages\\blog\\index.vue' /* webpackChunkName: "pages/blog/index" */))
+const _4ed58aa8 = () => interopDefault(import('..\\pages\\change\\index.vue' /* webpackChunkName: "pages/change/index" */))
+const _5b15ec7d = () => interopDefault(import('..\\pages\\database\\index.vue' /* webpackChunkName: "pages/database/index" */))
+const _12210cc6 = () => interopDefault(import('..\\pages\\incident\\index.vue' /* webpackChunkName: "pages/incident/index" */))
+const _039955ba = () => interopDefault(import('..\\pages\\instance\\index.vue' /* webpackChunkName: "pages/instance/index" */))
+const _d9cf3d7a = () => interopDefault(import('..\\pages\\issue\\index.vue' /* webpackChunkName: "pages/issue/index" */))
+const _2b521b5c = () => interopDefault(import('..\\pages\\kubernetes\\index.vue' /* webpackChunkName: "pages/kubernetes/index" */))
+const _511560b3 = () => interopDefault(import('..\\pages\\login\\index.vue' /* webpackChunkName: "pages/login/index" */))
+const _2a13a33d = () => interopDefault(import('..\\pages\\problem\\index.vue' /* webpackChunkName: "pages/problem/index" */))
+const _96fef356 = () => interopDefault(import('..\\pages\\register\\index.vue' /* webpackChunkName: "pages/register/index" */))
+const _10ca0f6c = () => interopDefault(import('..\\pages\\regularcheck\\index.vue' /* webpackChunkName: "pages/regularcheck/index" */))
+const _1cf91d4d = () => interopDefault(import('..\\pages\\request\\index.vue' /* webpackChunkName: "pages/request/index" */))
+const _1900acd0 = () => interopDefault(import('..\\pages\\security\\index.vue' /* webpackChunkName: "pages/security/index" */))
+const _6f299450 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
 
@@ -33,63 +33,63 @@ export const routerOptions = {
 
   routes: [{
     path: "/backup",
-    component: _16e8834d,
+    component: _41188956,
     name: "backup"
   }, {
     path: "/blog",
-    component: _cd5f1aa6,
+    component: _aaa73214,
     name: "blog"
   }, {
     path: "/change",
-    component: _24a5849f,
+    component: _4ed58aa8,
     name: "change"
   }, {
     path: "/database",
-    component: _06617698,
+    component: _5b15ec7d,
     name: "database"
   }, {
     path: "/incident",
-    component: _984b3606,
+    component: _12210cc6,
     name: "incident"
   }, {
     path: "/instance",
-    component: _c026a54c,
+    component: _039955ba,
     name: "instance"
   }, {
     path: "/issue",
-    component: _78f5cc6c,
+    component: _d9cf3d7a,
     name: "issue"
   }, {
     path: "/kubernetes",
-    component: _031b18c9,
+    component: _2b521b5c,
     name: "kubernetes"
   }, {
     path: "/login",
-    component: _36f2cbdc,
+    component: _511560b3,
     name: "login"
   }, {
     path: "/problem",
-    component: _0e42e826,
+    component: _2a13a33d,
     name: "problem"
   }, {
     path: "/register",
-    component: _5639de8c,
+    component: _96fef356,
     name: "register"
   }, {
     path: "/regularcheck",
-    component: _091e7423,
+    component: _10ca0f6c,
     name: "regularcheck"
   }, {
     path: "/request",
-    component: _01286236,
+    component: _1cf91d4d,
     name: "request"
   }, {
     path: "/security",
-    component: _d58dfc62,
+    component: _1900acd0,
     name: "security"
   }, {
     path: "/",
-    component: _51d7d262,
+    component: _6f299450,
     name: "index"
   }],
 

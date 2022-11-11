@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -22,48 +24,12 @@ export default {
       //   integrity: "sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N",
       //   crossorigin: "anonymous"
       // },
-      {
-        rel: "stylesheet",
-        href: "static/css/style.css",
-      },
-      {
-        rel: "stylesheet",
-        href: "static/css/bootstrap.min.css",
-      },
-      {
-        rel: "stylesheet",
-        href: "static/css/datatables.min.css",
-      },      
       // {
       //   rel: "stylesheet",
       //   href: "https://pyscript.net/latest/pyscript.css",
       // },
     ],
     script: [
-      {
-        defer: "",
-        src: "plugins/bootstrap.bundle.min.js",
-      },
-      {
-        defer: "",
-        src: "plugins/jquery-3.6.0.min.js",
-      },
-      {
-        defer: "",
-        src: "plugins/custom.js",
-      },        
-      {
-        defer: "",
-        src: "plugins/datatables.min.js",
-      },           
-      {
-        defer: "",
-        src: "plugins/pdfmake.min.js",
-      },       
-      {
-        defer: "",
-        src: "plugins/vfs_fonts.js",
-      },         
       // {
       //   defer: "",
       //   src: "https://use.fontawesome.com/releases/v5.15.4/js/all.js",
@@ -75,20 +41,23 @@ export default {
     ],
   },
 
-
   // Customize the progress-bar color
   loading: { color: "#fff" },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    // "~/static/css/style.css",
-    // "~/node_modules/bootstrap/dist/css/bootstrap.css",
-    // "~/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css",
+    "~/static/css/style.css",
+    "~/static/css/bootstrap.min.css",
+    "~/static/css/datatables.min.css",
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    "@/plugins/custom.js",
+
   ],
+
+
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -96,12 +65,13 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: ["@nuxtjs/vuetify"],
 
+
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/auth-next",
     "@nuxtjs/axios",
-    'bootstrap-vue/nuxt',
+    "bootstrap-vue/nuxt",
     // https://go.nuxtjs.dev/bootstrap
   ],
 
@@ -143,11 +113,36 @@ export default {
     },
   },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  /*
+  ** Build configuration
+  */
+  build: {
+    // vendor: ['jquery'],
+    /*
+    ** Run ESLint on save
+    */
+    vendor: ['jquery', 'bootstrap'],
+    plugins: [
+      // set shortcuts as global for bootstrap
+      new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery'
+      })
+    ],
+    extend (config, { isDev, isClient }) {
+      if (isDev && isClient) {
+        config.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          exclude: /(node_modules)/
+        })
+      }
+    }
+  },
 
-  
   publicRuntimeConfig: {
-    apiURL: process.env.API_URL
-  }
+    apiURL: process.env.API_URL,
+  },
 };

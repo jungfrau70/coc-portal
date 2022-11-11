@@ -2,13 +2,21 @@
   "dependencies": {
     "@nuxtjs/auth-next": "*",
     "@nuxtjs/axios": "^5.13.6",
+    "@popperjs/core": "^2.11.6",
+    "bootstrap": "^5.2.2",
     "bootstrap-vue": "^2.23.1",
     "datatables.net-bs5": "^1.13.1",
+    "datatables.net-buttons": "^2.3.2",
+    "datatables.net-buttons-bs5": "^2.3.2",
     "datatables.net-dt": "^1.13.1",
-    "nuxt": "^2.15.8"
+    "datatables.net-select": "^1.5.0",
+    "jszip": "^3.10.1",
+    "nuxt": "^2.15.8",
+    "pdfmake": "^0.2.6"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "^1.11.3"
+    "@nuxtjs/vuetify": "^1.11.3",
+    "eslint-loader": "^4.0.2"
   },
   "name": "app",
   "version": "1.0.0",

@@ -1,31 +1,23 @@
 <template>
-  <p>{{ message }}</p>
+  <div id="conditional-section">
+    <button id="messageBtn">Hide message</button>
+    <p id="message">Hello world</p>
+  </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
-  data() {
-    return {
-      message: ''
-    }
-  },
-  async mounted() {
-    try {
-      const response = await fetch('http://localhost:8000/account/user', {
-        headers: {'Content-Type': 'application/json'},
-        credentials: 'include',
-      })
-
-      const content = await response.json();
-
-      this.message = 'Hi ' + content.name;
-      this.$nuxt.$emit('auth', true);
-    } catch (e) {
-      this.message = 'You are not logged in';
-      this.$nuxt.$emit('auth', false);
-    }
-  }
-})
+<script type="text/javascript">
+  $(document).ready(() => {
+    const $btn = $("#messageBtn");
+    const $message = $("#message");
+    $btn.click(() => {      
+      const isVisible = $message.is(":visible");
+      if (isVisible) {
+        $message.hide();
+        $btn.text("Show message");
+      } else {
+        $message.show();
+        $btn.text("Hide message");
+      }
+    });
+  });
 </script>
