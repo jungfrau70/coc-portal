@@ -9,6 +9,8 @@ Refs
 npx nuxi init nuxt-primevue
 cd nuxt-primevue
 
+or
+npx create-nuxt-app nuxt-front
 
 #############################################################################################
 # 2. plugin (module) 설치
