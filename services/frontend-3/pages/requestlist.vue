@@ -9,22 +9,22 @@
       />
     </div>
     <table class="table">
-      <thead>
-        <tr>
-          <th
-            v-for="(column, index) in columns"
-            v-bind:key="index"
-            class="border-2 p-2 text-left"
-            v-on:click="sortRecords(index)"
-          >
-            {{ column }}
-          </th>
-        </tr>
-      </thead>
+      <!-- <thead>
+          <tr>
+            <th
+              v-for="(column, index) in columns"
+              v-bind:key="index"
+              class="border-2 p-2 text-left"
+              v-on:click="sortRecords(index)"
+            >
+              {{ column }}
+            </th>
+          </tr>
+        </thead> -->
       <tbody>
-        <tr v-for="(row, index) in rows" v-bind:key="index">
+        <tr v-for="(item, index) in items" v-bind:key="index">
           <td
-            v-for="(rowItem, itemIndex) in row"
+            v-for="(rowItem, itemIndex) in item"
             v-bind:key="itemIndex"
             class="border-2 p-2"
           >
@@ -38,11 +38,11 @@
 
 <script>
 const performSearch = (rows, term) => {
-  const results = rows.filter((row) =>
+const results = rows.filter((row) =>
     row.join(" ").toLowerCase().includes(term.toLowerCase())
-  );
+);
 
-  return results;
+return results;
 };
 
 export default {
@@ -62,11 +62,26 @@ export default {
   },
 
   methods: {
-    getData() {
-      axios.get("request/all").then((response) => {
-        //console.log(response.data);
-        this.items = response.data;
-      });
+    async getData() {
+      await axios
+        .get("request/all", this.rawRows, {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods":
+              "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers":
+              "Origin, Content-Type, X-Auth-Token",
+          },
+        })
+        .then((res) => {
+          this.rawRows = res;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      this.headers = Object.keys(this.rawRows.data[0]);
+      this.rows = this.rawRows.data;
     },
 
     sortRecords(index) {

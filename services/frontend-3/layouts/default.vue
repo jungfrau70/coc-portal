@@ -73,14 +73,19 @@ export default {
       items: [
         {
           icon: 'mdi-apps',
-          title: 'Welcome',
+          title: 'Home',
           to: '/',
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
+          title: '문제관리',
+          to: '/problemlist',
         },
+        {
+          icon: 'mdi-chart-bubble',
+          title: '이슈관리',
+          to: '/problemlist',
+        },        
       ],
       miniVariant: false,
       right: true,
