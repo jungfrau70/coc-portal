@@ -1,69 +1,142 @@
 <template>
-  <v-container fluid>
-    <v-slide-y-transition mode="out-in">
-      <v-layout column align-center>
-        <v-btn @click.native="reloadExample1()">Scatterplot</v-btn>
-        <div id="vega-example1"></div>
-      </v-layout>
-    </v-slide-y-transition>
-    <v-slide-y-transition mode="out-in">
-      <v-layout column align-center>
-        <v-btn @click.native="reloadExample2()">Side by Side</v-btn>
-        <div id="vega-example2"></div>
-      </v-layout>
-    </v-slide-y-transition>
-    <v-slide-y-transition mode="out-in">
-      <v-layout column align-center>
-        <v-btn @click.native="reloadExample3()">Multi-Panel Scatter with Linked Brushing</v-btn>
-        <div id="vega-example3"></div>
-      </v-layout>
-    </v-slide-y-transition>
-  </v-container>
+  <div id="viz2"></div>
 </template>
 
 <script>
-import vegaEmbed from 'vega-embed'
+import embed from "vega-embed";
+
 export default {
-  methods: {
-    reloadExample1 () {
-      fetch('/vega-example1').then(response => {
-        response.json().then(spec => {
-          vegaEmbed('#vega-example1', spec, {actions: false})
-        })
-      })
-    },
-    reloadExample2 () {
-      fetch('/vega-example2').then(response => {
-        response.json().then(spec => {
-          vegaEmbed('#vega-example2', spec, {actions: false})
-        })
-      })
-    },
-    reloadExample3 () {
-      fetch('/vega-example3').then(response => {
-        response.json().then(spec => {
-          vegaEmbed('#vega-example3', spec, {actions: false})
-        })
-      })
-    }
-  }
-}
+  name: "ScatterFacet",
+  async mounted() {
+    const def = {
+      $schema: "https://vega.github.io/schema/vega/v5.json",
+      description: "The Trellis display",
+      background: "white",
+      padding: 5,
+      data: [
+        {
+          name: "source_0",
+          url: "tsne_bert_base_cased_sentiment_multi.csv",
+          format: { type: "dsv", delimiter: "," },
+          transform: [
+            {
+              type: "filter",
+              expr: "datum.epoch == epoch",
+            },
+          ],
+        },
+      ],
+      signals: [
+        { name: "tsne_child_width", value: 200 },
+        { name: "tsne_y_step", value: 200 },
+        {
+          name: "tsne_child_height",
+          update: "bandspace(domain('tsne_y').length, 10, 0) * tsne_y_step",
+        },
+        {
+          name: "epoch",
+          value: 0,
+          bind: { input: "range", min: 0, max: 3, step: 1 },
+        },
+      ],
+      layout: { padding: 5, bounds: "full", align: "all", columns: 4 },
+      marks: [
+        {
+          name: "tsne_cell",
+          type: "group",
+          title: {
+            text: {
+              signal:
+                'isValid(parent["layer"]) ? "layer "+parent["layer"] : ""+parent["layer"]',
+            },
+            style: "guide-label",
+          },
+          style: "cell",
+          from: {
+            facet: {
+              name: "tsne_facet",
+              data: "source_0",
+              groupby: ["layer"],
+            },
+          },
+          encode: {
+            update: {
+              width: { signal: "tsne_child_width" },
+              height: { signal: "tsne_child_height" },
+            },
+          },
+          marks: [
+            {
+              type: "symbol",
+              style: ["point"],
+              from: { data: "tsne_facet" },
+              encode: {
+                update: {
+                  stroke: { scale: "label_color", field: "label" },
+                  x: { scale: "tsne_x", field: "x" },
+                  y: { scale: "tsne_y", field: "y" },
+                },
+              },
+            },
+          ],
+        },
+      ],
+      spec: {
+        selection: {
+          slider: {
+            type: "single",
+            fields: ["epoch"],
+            bind: {
+              epoch: { input: "range", min: 0, max: 4, step: 1 },
+            },
+          },
+        },
+      },
+      scales: [
+        {
+          name: "tsne_x",
+          type: "linear",
+          domain: { data: "source_0", field: "x" },
+          range: [0, { signal: "tsne_child_width" }],
+          nice: true,
+          zero: true,
+        },
+        {
+          name: "tsne_y",
+          type: "linear",
+          domain: { data: "source_0", field: "y" },
+          range: [0, { signal: "tsne_y_step" }],
+          nice: true,
+          zero: true,
+        },
+        {
+          name: "label_color",
+          type: "ordinal",
+          domain: { data: "source_0", field: "label", sort: true },
+          range: "category",
+        },
+        {
+          name: "color",
+          type: "ordinal",
+          domain: { data: "source_0", field: "label", sort: true },
+          range: "category",
+        },
+      ],
+      legends: [
+        {
+          symbolType: "circle",
+          title: "Label",
+          fill: "color",
+          titleFontSize: "16",
+          labelFontSize: "12",
+        },
+      ],
+      config: {},
+    };
+    await embed("#viz2", def, { actions: false });
+  },
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+<style>
 </style>
