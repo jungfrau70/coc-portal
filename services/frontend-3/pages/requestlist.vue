@@ -1,128 +1,297 @@
 <template>
-  <div class="p-10">
-    <div>
-      <input
-        class="input is-primary"
-        type="text"
-        placeholder="Search records"
-        @input="onSearch"
-      />
-    </div>
-    <table class="table">
-      <!-- <thead>
-          <tr>
-            <th
-              v-for="(column, index) in columns"
-              v-bind:key="index"
-              class="border-2 p-2 text-left"
-              v-on:click="sortRecords(index)"
-            >
-              {{ column }}
-            </th>
-          </tr>
-        </thead> -->
-      <tbody>
-        <tr v-for="(item, index) in items" v-bind:key="index">
-          <td
-            v-for="(rowItem, itemIndex) in item"
-            v-bind:key="itemIndex"
-            class="border-2 p-2"
+  <div>
+    <v-app>
+      <v-main class="container align-center px-1">
+        <h2 class="font-weight-light mb-2">문제관리</h2>
+        <v-card>
+          <v-card-title>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              single-line
+              hide-details
+            ></v-text-field>
+          </v-card-title>
+          <v-data-table
+            :search="search"
+            :headers="headers"
+            :items="items"
+            :filtered_items="filtered_items"
+            mobile-breakpoint="800"
+            class="elevation-0"
           >
-            {{ rowItem }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <template #[`item.actions`]="{ item }">
+              <div class="text-truncate">
+                <v-icon
+                  small
+                  class="mr-2"
+                  color="primary"
+                  @click="showEditDialog(item)"
+                >
+                  mdi-pencil
+                </v-icon>
+                <v-icon small color="pink" @click="showDeleteDialog(item)">
+                  mdi-delete
+                </v-icon>
+              </div>
+            </template>
+            <template #[`item.details`]="{ item }">
+              <div class="text-truncate" style="width: 180px">
+                {{ item.Details }}
+              </div>
+            </template>
+            <template #[`item.url`]="{ item }">
+              <div class="text-truncate" style="width: 180px">
+                <a :href="item.URL" target="_new">{{ item.URL }}</a>
+              </div>
+            </template>
+          </v-data-table>
+          <!-- delete dialog -->
+          <v-dialog v-model="dialogDelete" max-width="500px">
+            <v-card>
+              <v-card-title>Delete</v-card-title>
+              <v-card-text
+                >Weet je zeker dat je `{{ itemToDelete.Name }}` wenst te
+                verwijderen?</v-card-text
+              >
+              <v-card-actions>
+                <v-btn color="primary" text @click="dialogDelete = false"
+                  >Close</v-btn
+                >
+                <v-btn color="primary" text @click="deleteItem()">Delete</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <!-- this dialog is used for both create and update -->
+          <v-dialog v-model="dialog" max-width="500px">
+            <template #[`activator`]="{ on }">
+              <div class="d-flex">
+                <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
+                  New
+                  <v-icon small>mdi-plus-circle-outline</v-icon>
+                </v-btn>
+                <v-btn color="primary" dark class="ml-auto ma-3" @click="csvExport(csvData)">
+                  CSV
+                  <v-icon small>mdi-plus-circle-outline</v-icon>
+                </v-btn>                
+              </div>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span v-if="editedItem.id">Edit {{ editedItem.id }}</span>
+                <span v-else>Create</span>
+              </v-card-title>
+              <v-card-text>
+                <v-row>
+                  <v-col cols="12" sm="4">
+                    <v-text-field
+                      v-model="editedItem.progress"
+                      label="Progress"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="4">
+                    <v-text-field
+                      v-model="editedItem.status"
+                      label="Status"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="8">
+                    <v-text-field
+                      v-model="editedItem.title"
+                      label="Title"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="12">
+                    <v-text-field
+                      v-model="editedItem.description"
+                      label="Description"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="showEditDialog()"
+                  >Cancel</v-btn
+                >
+                <v-btn color="blue darken-1" text @click="saveItem(editedItem)"
+                  >Save</v-btn
+                >
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-card>
+      </v-main>
+    </v-app>
   </div>
 </template>
 
 <script>
-const performSearch = (rows, term) => {
-const results = rows.filter((row) =>
-    row.join(" ").toLowerCase().includes(term.toLowerCase())
-);
-
-return results;
-};
+import axios from 'axios'
 
 export default {
-  name: "Request",
   data() {
     return {
-      term: "",
+      search: '',
+      headers: [
+        { text: 'Id', value: 'id' },
+        { text: 'Year', value: 'year' },
+        { text: 'Month', value: 'month', sortable: true },
+        { text: 'Region', value: 'region', sortable: true },
+        { text: 'Tenant', value: 'tenant', sortable: true },
+        { text: 'Progress', value: 'progress', sortable: true },
+        { text: 'Status', value: 'status', sortable: true },
+        { text: 'Title', value: 'title', sortable: true },
+        {
+          text: 'Description',
+          value: 'description',
+          sortable: true,
+          width: '180',
+        },
+        { text: 'Action', value: 'actions', sortable: false },
+      ],
       items: [],
-      filteredItems: [],
-      sortIndex: null,
-      sortDirection: null,
-    };
+      filtered_items: [],
+      dialog: false,
+      editedItem: {},
+      dialogDelete: false,
+      itemToDelete: {},
+    }
   },
-
-  created: function () {
-    this.getData();
-  },
-
-  methods: {
-    async getData() {
-      await axios
-        .get("request/all", this.rawRows, {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods":
-              "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-            "Access-Control-Allow-Headers":
-              "Origin, Content-Type, X-Auth-Token",
-          },
-        })
-        .then((res) => {
-          this.rawRows = res;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      this.headers = Object.keys(this.rawRows.data[0]);
-      this.rows = this.rawRows.data;
-    },
-
-    sortRecords(index) {
-      if (this.sortIndex === index) {
-        switch (this.sortDirection) {
-          case null:
-            this.sortDirection = "asc";
-            break;
-          case "asc":
-            this.sortDirection = "desc";
-            break;
-          case "desc":
-            this.sortDirection = null;
-            break;
-        }
-      } else {
-        this.sortDirection = "asc";
-      }
-
-      this.sortIndex = index;
-
-      if (!this.sortDirection) {
-        this.rows = performSearch(this.rawRows, this.term);
-        return;
-      }
-
-      this.rows = this.rows.sort((rowA, rowB) => {
-        if (this.sortDirection === "desc") {
-          return rowB[index].localeCompare(rowA[index]);
-        }
-
-        return rowA[index].localeCompare(rowB[index]);
-      });
-    },
-    onSearch(e) {
-      this.term = e.target.value;
-      this.rows = performSearch(this.rawRows, this.term);
+  computed: {
+    csvData() {
+      console.log(this.items)
+      return this.items.map((item) => ({
+        ...item,
+      }))
     },
   },
   mounted() {
-    this.rows = [...this.rawRows];
+    this.loadItems()
   },
-};
+  methods: {
+    showEditDialog(item) {
+      this.editedItem = item || {}
+      this.dialog = !this.dialog
+    },
+    loadItems() {
+      this.items = []
+      axios
+        .get('http://localhost:8000/problem/all', {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods':
+              'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers':
+              'Origin, Content-Type, X-Auth-Token',
+          },
+        })
+        .then((response) => {
+          this.items = response.data.map((item) => {
+            return {
+              id: item.id,
+              year: item.year,
+              month: item.month,
+              region: item.region,
+              tenant: item.tenant,
+              progress: item.progress,
+              status: item.status,
+              title: item.title,
+              description: item.description,
+            }
+          })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    saveItem(item) {
+      /* this is used for both creating and updating API records
+         the default method is POST for creating a new item */
+      console.log(item)
+      let method = 'post'
+      let url = `http://localhost:8000/problem`
+      const id = item.id
+
+      // airtable API needs the data to be placed in fields object
+      const data = {
+        fields: item,
+      }
+
+      if (id) {
+        // if the item has an id, we're updating an existing item
+        method = 'patch'
+        url = `http://localhost:8000/problem/${id}`
+
+        // must remove id from the data for airtable patch to work
+        delete data.fields.id
+      }
+
+      // save the record
+      // headers: {
+      //     Authorization: 'Bearer ' + apiToken,
+      //     'Content-Type': 'application/json',
+      //   },
+      axios[method](url, data, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods':
+            'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => {
+        if (response.data && response.data.id) {
+          // add new item to state
+          this.editedItem.id = response.data.id
+          if (!id) {
+            // add the new item to items state
+            this.items.push(this.editedItem)
+          }
+          this.editedItem = {}
+        }
+        this.dialog = !this.dialog
+      })
+    },
+
+    deleteItem() {
+      console.log('deleteItem', this.itemToDelete)
+      const index = this.items.indexOf(this.itemToDelete)
+
+      /*
+        axios.delete(`https://api.airtable.com/v0/${airTableApp}/${airTableName}/${id}`,
+            { headers: { 
+                Authorization: "Bearer " + apiToken,
+                "Content-Type": "application/json"
+            }
+        }).then((response) => {
+            this.items.splice(index, 1)
+        })
+        */
+
+      this.items.splice(index, 1)
+      this.dialogDelete = false
+    },
+    showDeleteDialog(item) {
+      this.itemToDelete = item
+      this.dialogDelete = !this.dialogDelete
+    },
+    csvExport(arrData) {
+      let csvContent = 'data:text/csv;charset=cp949,'
+      csvContent += [
+        Object.keys(arrData[0]).join(';'),
+        ...arrData.map((item) => Object.values(item).join(';')),
+      ]
+        .join('\n')
+        .replace(/(^\[)|(\]$)/gm, '')
+      console.log(csvContent)
+      const data = encodeURI(csvContent)
+      const link = document.createElement('a')
+      link.setAttribute('href', data)
+      link.setAttribute('download', 'export.csv')
+      link.click()
+    },
+  },
+}
 </script>

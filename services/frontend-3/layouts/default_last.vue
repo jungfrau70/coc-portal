@@ -19,9 +19,7 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title ma-0 pa-0 auto>{{
-              item.title
-            }}</v-list-item-title>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -39,10 +37,6 @@
       </v-btn>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer />
-      <!-- <v-tabs color="deep-purple accent-4" left flat>
-        <v-tab nuxt>리스트</v-tab>
-        <v-tab nuxt>챠트</v-tab>
-      </v-tabs> -->
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn>
@@ -86,17 +80,12 @@ export default {
           icon: 'mdi-chart-bubble',
           title: '문제관리',
           to: '/problemlist',
-          toPlot: '/problemlist/plot',
         },
         {
           icon: 'mdi-chart-bubble',
-          title: '요청관리',
-          to: '/requestlist',
+          title: '이슈관리',
+          to: '/problemlist',
         },
-      ],
-      tabs: [
-        { name: 'table', icon: 'list', path: '/table' },
-        { name: 'plots', icon: 'playlist_add', path: '/plots' },
       ],
       miniVariant: false,
       right: true,
