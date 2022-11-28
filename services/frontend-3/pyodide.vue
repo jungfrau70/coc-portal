@@ -5,8 +5,6 @@
 </template>
 
 <script>
-// import { loadPyodide } from 'pyodide.mjs'
-
 export default {
   async mounted() {
     await this.pyo()

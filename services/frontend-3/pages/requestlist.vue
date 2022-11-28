@@ -32,7 +32,7 @@
       :headers="headers"
       :items="filteredItems"
       :options.sync="options"
-      item-key="name"
+      item-key="id"
       class="elevation-1"
     >
       <template slot="headers" slot-scope="props">
@@ -96,6 +96,8 @@
           <td class="text-xs-right">{{ props.item.tenant }}</td>
           <td class="text-xs-right">{{ props.item.progress }}</td>
           <td class="text-xs-right">{{ props.item.status }}</td>
+          <td class="text-xs-right">{{ props.item.title }}</td>
+          <td class="text-xs-right">{{ props.item.description }}</td>
         </tr>
       </template>
       <template #[`item.actions`]="{ item }">
@@ -181,14 +183,15 @@
 
 <script>
 import axios from 'axios'
+import Vue from 'vue'
+import { pyodide } from './plugins/pyodide.js'
+// import loadPyodide from 'pyodide/pyodide.mjs'
 
 export default {
   data() {
     return {
       search: '',
-
-      options: {},
-
+      selected: [],
       headers: [
         { text: 'Id', value: 'id' },
         { text: 'Year', value: 'year' },
@@ -206,9 +209,6 @@ export default {
         },
         { text: 'Action', value: 'actions', sortable: false },
       ],
-
-      items: [],
-
       filters: {
         year: [],
         month: [],
@@ -217,11 +217,18 @@ export default {
         progress: [],
         status: [],
       },
+      options: {
+        sortBy: ['id'],
+        sortDesc: ['true'],
+      },
+      items: [],
 
       dialog: false,
       editedItem: {},
       dialogDelete: false,
       itemToDelete: {},
+      pyodide: null,
+      pyodideLoaded: null,
     }
   },
 
@@ -234,7 +241,7 @@ export default {
       })
     },
     csvData() {
-      console.log(this.items)
+      // console.log(this.items)
       return this.items.map((item) => ({
         ...item,
       }))
@@ -243,7 +250,8 @@ export default {
 
   mounted() {
     this.loadItems()
-    this.filteredItems = [...this.items]
+    // this.filteredItems = [...this.items]
+    this.initializePyodide()
   },
 
   methods: {
@@ -251,6 +259,7 @@ export default {
       if (this.selected.length) this.selected = []
       else this.selected = this.items.slice()
     },
+
     changeSort(column) {
       if (this.options.sortBy === column) {
         this.options.descending = !this.options.descending
@@ -259,6 +268,7 @@ export default {
         this.options.descending = false
       }
     },
+
     columnValueList(val) {
       return this.items.map((d) => d[val])
     },
@@ -267,6 +277,7 @@ export default {
       this.editedItem = item || {}
       this.dialog = !this.dialog
     },
+
     loadItems() {
       this.items = []
       axios
@@ -298,6 +309,7 @@ export default {
           console.log(error)
         })
     },
+
     saveItem(item) {
       /* this is used for both creating and updating API records
          the default method is POST for creating a new item */
@@ -369,20 +381,37 @@ export default {
       this.itemToDelete = item
       this.dialogDelete = !this.dialogDelete
     },
-    csvExport(arrData) {
-      let csvContent = 'data:text/csv;charset=cp949,'
-      csvContent += [
-        Object.keys(arrData[0]).join(';'),
-        ...arrData.map((item) => Object.values(item).join(';')),
-      ]
-        .join('\n')
-        .replace(/(^\[)|(\]$)/gm, '')
-      console.log(csvContent)
-      const data = encodeURI(csvContent)
-      const link = document.createElement('a')
-      link.setAttribute('href', data)
-      link.setAttribute('download', 'export.csv')
-      link.click()
+
+
+    async initializePyodide() {
+      /* global loadPyodide */
+      try {
+        await Vue.loadScript(
+          'https://cdn.jsdelivr.net/pyodide/v0.21.3/full/pyodide.js'
+        )
+        this.pyodide = await loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.21.3/full/',
+        })
+        // load pandas lib
+        await this.pyodide.loadPackage(['pandas', 'scikit-learn'])
+        this.pyodideLoaded = true
+      } catch (error) {
+        this.errorMsg = error
+      }
+    },
+
+    async csvExport(arrData) {
+      // const pyodide = await Pyodide()
+      // dictionary_name.toJs({ dict_converter: Object.fromEntries })
+      // arrData.to_py()
+      await pyodide.runPython('import pandas')
+      // data = js.arrData.to_py()
+      // print(type(data))
+      // const data = encodeURI(csvContent)
+      // const link = document.createElement('a')
+      // link.setAttribute('href', data)
+      // link.setAttribute('download', 'export.csv')
+      // link.click()
     },
   },
 }
