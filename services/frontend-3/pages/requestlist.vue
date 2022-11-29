@@ -183,9 +183,7 @@
 
 <script>
 import axios from 'axios'
-import Vue from 'vue'
-import { pyodide } from './plugins/pyodide.js'
-// import loadPyodide from 'pyodide/pyodide.mjs'
+// import { loadPyodide } from 'pyodide'
 
 export default {
   data() {
@@ -229,6 +227,7 @@ export default {
       itemToDelete: {},
       pyodide: null,
       pyodideLoaded: null,
+      output: "",
     }
   },
 
@@ -251,7 +250,7 @@ export default {
   mounted() {
     this.loadItems()
     // this.filteredItems = [...this.items]
-    this.initializePyodide()
+    // this.initializePyodide()
   },
 
   methods: {
@@ -382,31 +381,34 @@ export default {
       this.dialogDelete = !this.dialogDelete
     },
 
-
-    async initializePyodide() {
-      /* global loadPyodide */
-      try {
-        await Vue.loadScript(
-          'https://cdn.jsdelivr.net/pyodide/v0.21.3/full/pyodide.js'
-        )
-        this.pyodide = await loadPyodide({
-          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.21.3/full/',
-        })
-        // load pandas lib
-        await this.pyodide.loadPackage(['pandas', 'scikit-learn'])
-        this.pyodideLoaded = true
-      } catch (error) {
-        this.errorMsg = error
-      }
-    },
-
-    async csvExport(arrData) {
+    csvExport(arrData) {
+      console.log(arrData)
+      // await loadPackage(['pandas']);
       // const pyodide = await Pyodide()
       // dictionary_name.toJs({ dict_converter: Object.fromEntries })
       // arrData.to_py()
-      await pyodide.runPython('import pandas')
-      // data = js.arrData.to_py()
-      // print(type(data))
+      // console.log(arrData)
+
+      // async function main() {
+      //   const pyodide = await loadPyodide();
+      //   this.output += "Ready!\n";
+      //   return pyodide;
+      // }
+      // const pyodideReadyPromise = main();
+
+      // async function evaluatePython() {
+      //   const pyodide = await pyodideReadyPromise;
+      //   try {
+      //     const output = pyodide.runPython(`
+      //     sum([1,2,3,4,5)])
+      //     `);
+      //     console.log(output);
+      //   } catch (err) {
+      //     console.log(err);
+      //   }
+      // }
+
+      // evaluatePython();
       // const data = encodeURI(csvContent)
       // const link = document.createElement('a')
       // link.setAttribute('href', data)
