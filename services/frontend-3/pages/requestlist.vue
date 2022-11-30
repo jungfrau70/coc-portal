@@ -15,12 +15,7 @@
             New
             <v-icon small>mdi-plus-circle-outline</v-icon>
           </v-btn>
-          <v-btn
-            color="primary"
-            dark
-            class="ml-auto ma-3"
-            @click="csvExport(csvData)"
-          >
+          <v-btn color="primary" dark class="ml-auto ma-3" @click="exportData">
             CSV
             <v-icon small>mdi-arrow-right-circle-outline</v-icon>
           </v-btn>
@@ -183,9 +178,14 @@
 
 <script>
 import axios from 'axios'
+// import { parse } from 'json2csv'
+// import VueCsvDownloader from 'vue-csv-downloader'
 // import { loadPyodide } from 'pyodide'
 
 export default {
+  components: {
+    // VueCsvDownloader,
+  },
   data() {
     return {
       search: '',
@@ -227,9 +227,22 @@ export default {
       itemToDelete: {},
       pyodide: null,
       pyodideLoaded: null,
-      output: "",
+      output: '',
     }
   },
+
+  // head() {
+  //   return {
+  //     title: 'Payment Page - My awesome project', // Other meta information
+  //     script: [
+  //       {
+  //         hid: 'pyodide',
+  //         src: 'https://cdn.jsdelivr.net/pyodide/v0.21.3/full/pyodide.js',
+  //         defer: true,
+  //       },
+  //     ],
+  //   }
+  // },
 
   computed: {
     filteredItems() {
@@ -239,18 +252,10 @@ export default {
         })
       })
     },
-    csvData() {
-      // console.log(this.items)
-      return this.items.map((item) => ({
-        ...item,
-      }))
-    },
   },
 
   mounted() {
     this.loadItems()
-    // this.filteredItems = [...this.items]
-    // this.initializePyodide()
   },
 
   methods: {
@@ -364,7 +369,7 @@ export default {
 
       /*
         axios.delete(`https://api.airtable.com/v0/${airTableApp}/${airTableName}/${id}`,
-            { headers: { 
+            { headers: {
                 Authorization: "Bearer " + apiToken,
                 "Content-Type": "application/json"
             }
@@ -381,39 +386,58 @@ export default {
       this.dialogDelete = !this.dialogDelete
     },
 
-    csvExport(arrData) {
-      console.log(arrData)
-      // await loadPackage(['pandas']);
-      // const pyodide = await Pyodide()
-      // dictionary_name.toJs({ dict_converter: Object.fromEntries })
-      // arrData.to_py()
-      // console.log(arrData)
+    // json2array(json) {
+    //   const result = []
+    //   const keys = Object.keys(json)
+    //   keys.forEach(function (key) {
+    //     result.push(json[key])
+    //   })
+    //   return result
+    // },
 
-      // async function main() {
-      //   const pyodide = await loadPyodide();
-      //   this.output += "Ready!\n";
-      //   return pyodide;
-      // }
-      // const pyodideReadyPromise = main();
+    pivot(arr) {
+      const mp = new Map()
 
-      // async function evaluatePython() {
-      //   const pyodide = await pyodideReadyPromise;
-      //   try {
-      //     const output = pyodide.runPython(`
-      //     sum([1,2,3,4,5)])
-      //     `);
-      //     console.log(output);
-      //   } catch (err) {
-      //     console.log(err);
-      //   }
-      // }
+      function setValue(a, path, val) {
+        if (Object(val) !== val) {
+          // primitive value
+          const pathStr = path.join('.')
+          const i = (mp.has(pathStr) ? mp : mp.set(pathStr, mp.size)).get(pathStr)
+          a[i] = val
+        } else {
+          for (const key in val) {
+            setValue(a, key === '0' ? path : path.concat(key), val[key])
+          }
+        }
+        return a
+      }
 
-      // evaluatePython();
-      // const data = encodeURI(csvContent)
-      // const link = document.createElement('a')
-      // link.setAttribute('href', data)
-      // link.setAttribute('download', 'export.csv')
-      // link.click()
+      const result = arr.map((obj) => setValue([], [], obj))
+      return [[...mp.keys()], ...result]
+    },
+
+    toCsv(arr) {
+      return arr
+        .map((row) =>
+          row.map((val) => (isNaN(val) ? JSON.stringify(val) : +val)).join(',')
+        )
+        .join('\n')
+    },
+
+    exportData() {
+      // Conversion to 2D array and then to CSV:
+      const csvData = this.toCsv(this.pivot(this.filteredItems))
+      
+      // display the created CSV data on the web browser
+      // await document.write(csvData)
+
+      const hiddenElement = document.createElement('a')
+      hiddenElement.href = 'data:text/csv;charset=cp949,' + encodeURI(csvData)
+      hiddenElement.target = '_blank'
+
+      // provide the name for the CSV file to be downloaded
+      hiddenElement.download = 'export.csv'
+      hiddenElement.click()
     },
   },
 }

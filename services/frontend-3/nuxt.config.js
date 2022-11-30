@@ -14,13 +14,21 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      // { rel: 'stylesheet', type: 'text/css', href: 'https://pyscript.net/latest/pyscript.css' },
+    ],
     script: [
-      { 
-        src: "https://cdn.jsdelivr.net/pyodide/v0.21.3/full/pyodide.js",
-        body: true,
-        // crossorigin: "anonymous"
-      },
+      // {
+      //   src: "https://cdn.jsdelivr.net/pyodide/v0.21.3/full/pyodide.js",
+      //   body: true,
+      //   // crossorigin: "anonymous"
+      // },
+      // {
+      //   src: "https://pyscript.net/latest/pyscript.js",
+      //   body: true,
+      //   defer: true,
+      // },
     ],
   },
 
@@ -28,9 +36,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    { src: '~/plugins/pyodide'},
-  ],
+  plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -76,13 +82,10 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: [
-      'pyodide'
-    ]
+    transpile: [],
   },
 
   rules: {
-    'no-console':process.env.NODE_ENV==='production'?'error':'off'
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
   },
-
 }
