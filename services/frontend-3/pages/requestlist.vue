@@ -178,8 +178,6 @@
 
 <script>
 import axios from 'axios'
-// import { parse } from 'json2csv'
-// import VueCsvDownloader from 'vue-csv-downloader'
 // import { loadPyodide } from 'pyodide'
 
 export default {
@@ -381,19 +379,11 @@ export default {
       this.items.splice(index, 1)
       this.dialogDelete = false
     },
+
     showDeleteDialog(item) {
       this.itemToDelete = item
       this.dialogDelete = !this.dialogDelete
     },
-
-    // json2array(json) {
-    //   const result = []
-    //   const keys = Object.keys(json)
-    //   keys.forEach(function (key) {
-    //     result.push(json[key])
-    //   })
-    //   return result
-    // },
 
     pivot(arr) {
       const mp = new Map()
@@ -402,7 +392,9 @@ export default {
         if (Object(val) !== val) {
           // primitive value
           const pathStr = path.join('.')
-          const i = (mp.has(pathStr) ? mp : mp.set(pathStr, mp.size)).get(pathStr)
+          const i = (mp.has(pathStr) ? mp : mp.set(pathStr, mp.size)).get(
+            pathStr
+          )
           a[i] = val
         } else {
           for (const key in val) {
@@ -426,19 +418,20 @@ export default {
 
     exportData() {
       // Conversion to 2D array and then to CSV:
-      const csvData = this.toCsv(this.pivot(this.filteredItems))
-      
-      // display the created CSV data on the web browser
-      // await document.write(csvData)
+      // const data = this.toCsv(this.pivot(this.filteredItems))
+      const data = this.toCsv(this.pivot(this.items))
 
-      const hiddenElement = document.createElement('a')
-      hiddenElement.href = 'data:text/csv;charset=cp949,' + encodeURI(csvData)
-      hiddenElement.target = '_blank'
+      const pom = document.createElement('a')
 
-      // provide the name for the CSV file to be downloaded
-      hiddenElement.download = 'export.csv'
-      hiddenElement.click()
+      const blob = new Blob(['\uFEFF' + data], {
+        type: 'text/csv; charset=utf-8',
+      })
+      const url = URL.createObjectURL(blob)
+      pom.href = url
+      pom.setAttribute('download', 'export.csv')
+      pom.click()
     },
+
   },
 }
 </script>
