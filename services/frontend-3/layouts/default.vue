@@ -84,7 +84,6 @@ export default {
           icon: 'mdi-chart-bubble',
           title: '문제관리',
           to: '/problemlist',
-          toPlot: '/problemlist/plot',
         },
         {
           icon: 'mdi-chart-bubble',

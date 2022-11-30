@@ -20,9 +20,10 @@ export default {
     ],
     script: [
       // {
-      //   src: "https://cdn.jsdelivr.net/pyodide/v0.21.3/full/pyodide.js",
+      //   src: "https://cdn.jsdelivr.net/pyodide/v0.20.0/full/pyodide.js",
+      //   defer: true,
       //   body: true,
-      //   // crossorigin: "anonymous"
+      //   crossorigin: "anonymous"
       // },
       // {
       //   src: "https://pyscript.net/latest/pyscript.js",
@@ -36,7 +37,9 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    '~/plugins/vega-embed.js',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -54,7 +57,6 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
   ],
-
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
@@ -82,7 +84,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: [],
+    transpile: [
+      'vega-embed',
+    ],
   },
 
   rules: {

@@ -11,13 +11,27 @@
             single-line
             hide-details
           ></v-text-field>
-          <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
-            New
+          <!-- <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
+            Upload
+            <v-icon small>mdi-plus-circle-outline</v-icon>
+          </v-btn> -->
+          <v-btn color="primary" dark class="ml-auto ma-3" @click="genReport()">
+            Report
+            <FirstPython />
             <v-icon small>mdi-plus-circle-outline</v-icon>
           </v-btn>
-          <v-btn color="primary" dark class="ml-auto ma-3" @click="exportData">
-            CSV
+          <v-btn
+            color="primary"
+            dark
+            class="ml-auto ma-3"
+            @click="exportData()"
+          >
+            Download
             <v-icon small>mdi-arrow-right-circle-outline</v-icon>
+          </v-btn>
+          <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
+            New Record
+            <v-icon small>mdi-plus-circle-outline</v-icon>
           </v-btn>
         </div>
       </template>
@@ -29,6 +43,7 @@
       :options.sync="options"
       item-key="id"
       class="elevation-1"
+      @current-items="getFiltered"
     >
       <template slot="headers" slot-scope="props">
         <tr>
@@ -182,7 +197,6 @@ import axios from 'axios'
 
 export default {
   components: {
-    // VueCsvDownloader,
   },
   data() {
     return {
@@ -218,29 +232,17 @@ export default {
         sortDesc: ['true'],
       },
       items: [],
+      currentItems: [],
 
       dialog: false,
       editedItem: {},
       dialogDelete: false,
       itemToDelete: {},
-      pyodide: null,
-      pyodideLoaded: null,
+      // pyodide: null,
+      // pyodideLoaded: null,
       output: '',
     }
   },
-
-  // head() {
-  //   return {
-  //     title: 'Payment Page - My awesome project', // Other meta information
-  //     script: [
-  //       {
-  //         hid: 'pyodide',
-  //         src: 'https://cdn.jsdelivr.net/pyodide/v0.21.3/full/pyodide.js',
-  //         defer: true,
-  //       },
-  //     ],
-  //   }
-  // },
 
   computed: {
     filteredItems() {
@@ -257,6 +259,10 @@ export default {
   },
 
   methods: {
+    getFiltered(e) {
+      this.currentItems = e
+    },
+
     toggleAll() {
       if (this.selected.length) this.selected = []
       else this.selected = this.items.slice()
@@ -419,7 +425,8 @@ export default {
     exportData() {
       // Conversion to 2D array and then to CSV:
       // const data = this.toCsv(this.pivot(this.filteredItems))
-      const data = this.toCsv(this.pivot(this.items))
+
+      const data = this.toCsv(this.pivot(this.currentItems))
 
       const pom = document.createElement('a')
 
@@ -432,6 +439,11 @@ export default {
       pom.click()
     },
 
+    genReport() {
+      // fetch('/plugins/pyodide.html').then((response) => {
+      //   console.log(response)
+      // })
+    },
   },
 }
 </script>
