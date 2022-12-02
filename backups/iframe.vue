@@ -2,7 +2,7 @@
   <v-dialog v-model="editBoardDialog" eager >
     <v-card>
       <!-- HERE -->
-      <iframe id="ifrm" src="test.html" width="500" height="500"></iframe>
+      <iframe id="ifrm" src="public/iframe.html" width="500" height="500"></iframe>
     </v-card>
   </v-dialog>
 </template>
