@@ -8,8 +8,6 @@
 </template>
 <script>
 export default {
-
-
   data() {
     return {
       url: 'public/iframe.html',
