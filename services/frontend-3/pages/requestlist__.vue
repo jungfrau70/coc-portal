@@ -1,4 +1,5 @@
 <template>
+  <!-- <h2 class="font-weight-light mb-2">요청관리</h2> -->
   <v-card>
     <v-dialog v-model="dialog" max-width="500px">
       <template #[`activator`]="{ on }">
@@ -11,11 +12,11 @@
             hide-details
           ></v-text-field>
           <!-- <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
-              Upload
-              <v-icon small>mdi-plus-circle-outline</v-icon>
-            </v-btn> -->
-          <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
-            New Record
+            Upload
+            <v-icon small>mdi-plus-circle-outline</v-icon>
+          </v-btn> -->
+          <v-btn color="primary" dark class="ml-auto ma-3" @click="genReport()">
+            Report
             <v-icon small>mdi-plus-circle-outline</v-icon>
           </v-btn>
           <v-btn
@@ -27,32 +28,53 @@
             Download
             <v-icon small>mdi-arrow-right-circle-outline</v-icon>
           </v-btn>
-          <v-btn color="primary" dark class="ml-auto ma-3" @click="genReport()">
-            Report
+          <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
+            New Record
             <v-icon small>mdi-plus-circle-outline</v-icon>
           </v-btn>
         </div>
       </template>
     </v-dialog>
     <v-data-table
-      dense
       :search="search"
       :headers="headers"
       :items="filteredItems"
       :options.sync="options"
-      show-select
       item-key="id"
       class="elevation-1"
+      @current-items="getFiltered"
     >
-      <template #[`body.prepend`]>
+      <template slot="headers" slot-scope="props">
         <tr>
           <th>
-            <v-icon>filters</v-icon>
+            <v-checkbox
+              :input-value="props.all"
+              :indeterminate="props.indeterminate"
+              primary
+              hide-details
+              @click.native="toggleAll"
+            ></v-checkbox>
           </th>
-
-          <th v-for="header in headers" :key="header.text">
-            <!-- <div v-if="filters.hasOwnProperty(header.value)"> -->
-            <div>
+          <th
+            v-for="header in props.headers"
+            :key="header.text"
+            :class="[
+              'column sortable',
+              options.descending ? 'desc' : 'asc',
+              header.value === options.sortBy ? 'active' : '',
+            ]"
+            @click="changeSort(header.value)"
+          >
+            <v-icon small>arrow_upward</v-icon>
+            {{ header.text }}
+          </th>
+        </tr>
+        <tr class="grey lighten-3">
+          <th>
+            <v-icon>filter_list</v-icon>
+          </th>
+          <th v-for="header in props.headers" :key="header.text">
+            <div v-if="filters.hasOwnProperty(header.value)">
               <v-select
                 v-model="filters[header.value]"
                 :items="columnValueList(header.value)"
@@ -64,8 +86,27 @@
               >
               </v-select>
             </div>
-            <!-- </div> -->
           </th>
+        </tr>
+      </template>
+      <template slot="items" slot-scope="props">
+        <tr :active="props.selected" @click="props.selected = !props.selected">
+          <td>
+            <v-checkbox
+              :input-value="props.selected"
+              primary
+              hide-details
+            ></v-checkbox>
+          </td>
+          <td>{{ props.item.id }}</td>
+          <td class="text-xs-right">{{ props.item.year }}</td>
+          <td class="text-xs-right">{{ props.item.month }}</td>
+          <td class="text-xs-right">{{ props.item.region }}</td>
+          <td class="text-xs-right">{{ props.item.tenant }}</td>
+          <td class="text-xs-right">{{ props.item.progress }}</td>
+          <td class="text-xs-right">{{ props.item.status }}</td>
+          <td class="text-xs-right">{{ props.item.title }}</td>
+          <td class="text-xs-right">{{ props.item.description }}</td>
         </tr>
       </template>
       <template #[`item.actions`]="{ item }">
@@ -84,6 +125,68 @@
         </div>
       </template>
     </v-data-table>
+    <!-- this dialog is used for both create and update -->
+    <v-dialog v-model="dialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span v-if="editedItem.id">Edit {{ editedItem.id }}</span>
+          <span v-else>Create</span>
+        </v-card-title>
+        <v-card-text>
+          <v-row>
+            <v-col cols="12" sm="4">
+              <v-text-field
+                v-model="editedItem.progress"
+                label="Progress"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-text-field
+                v-model="editedItem.status"
+                label="Status"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="8">
+              <v-text-field
+                v-model="editedItem.title"
+                label="Title"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="12">
+              <v-text-field
+                v-model="editedItem.description"
+                label="Description"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="showEditDialog()"
+            >Cancel</v-btn
+          >
+          <v-btn color="blue darken-1" text @click="saveItem(editedItem)"
+            >Save</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- delete dialog -->
+    <v-dialog v-model="dialogDelete" max-width="500px">
+      <v-card>
+        <v-card-title>Delete</v-card-title>
+        <v-card-text
+          >Weet je zeker dat je `{{ itemToDelete.Name }}` wenst te
+          verwijderen?</v-card-text
+        >
+        <v-card-actions>
+          <v-btn color="primary" text @click="dialogDelete = false"
+            >Close</v-btn
+          >
+          <v-btn color="primary" text @click="deleteItem()">Delete</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -92,12 +195,12 @@ import axios from 'axios'
 // import { loadPyodide } from 'pyodide'
 
 export default {
-  components: {},
-
+  components: {
+  },
   data() {
     return {
       search: '',
-
+      selected: [],
       headers: [
         { text: 'Id', value: 'id' },
         { text: 'Year', value: 'year' },
@@ -115,9 +218,7 @@ export default {
         },
         { text: 'Action', value: 'actions', sortable: false },
       ],
-
       filters: {
-        id: [],
         year: [],
         month: [],
         region: [],
@@ -125,7 +226,6 @@ export default {
         progress: [],
         status: [],
       },
-
       options: {
         sortBy: ['id'],
         sortDesc: ['true'],
@@ -165,7 +265,7 @@ export default {
 
     toggleAll() {
       if (this.selected.length) this.selected = []
-      else this.selected = this.currentItems.slice()
+      else this.selected = this.items.slice()
     },
 
     changeSort(column) {
@@ -326,7 +426,7 @@ export default {
       // Conversion to 2D array and then to CSV:
       // const data = this.toCsv(this.pivot(this.filteredItems))
 
-      const data = this.toCsv(this.pivot(this.filteredItems))
+      const data = this.toCsv(this.pivot(this.currentItems))
 
       const pom = document.createElement('a')
 
@@ -345,23 +445,5 @@ export default {
       // })
     },
   },
-
-  // methods: {
-  //   toggleAll() {
-  //     if (this.selected.length) this.selected = []
-  //     else this.selected = this.desserts.slice()
-  //   },
-  //   changeSort(column) {
-  //     if (this.pagination.sortBy === column) {
-  //       this.pagination.descending = !this.pagination.descending
-  //     } else {
-  //       this.pagination.sortBy = column
-  //       this.pagination.descending = false
-  //     }
-  //   },
-  //   columnValueList(val) {
-  //     return this.desserts.map((d) => d[val])
-  //   },
-  // },
 }
 </script>

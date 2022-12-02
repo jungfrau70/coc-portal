@@ -1,5 +1,4 @@
 <template>
-  <!-- <h2 class="font-weight-light mb-2">요청관리</h2> -->
   <v-card>
     <v-dialog v-model="dialog" max-width="500px">
       <template #[`activator`]="{ on }">
@@ -12,12 +11,11 @@
             hide-details
           ></v-text-field>
           <!-- <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
-            Upload
-            <v-icon small>mdi-plus-circle-outline</v-icon>
-          </v-btn> -->
-          <v-btn color="primary" dark class="ml-auto ma-3" @click="genReport()">
-            Report
-            <FirstPython />
+              Upload
+              <v-icon small>mdi-plus-circle-outline</v-icon>
+            </v-btn> -->
+          <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
+            New Record
             <v-icon small>mdi-plus-circle-outline</v-icon>
           </v-btn>
           <v-btn
@@ -29,53 +27,32 @@
             Download
             <v-icon small>mdi-arrow-right-circle-outline</v-icon>
           </v-btn>
-          <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
-            New Record
+          <v-btn color="primary" dark class="ml-auto ma-3" @click="genReport()">
+            Report
             <v-icon small>mdi-plus-circle-outline</v-icon>
           </v-btn>
         </div>
       </template>
     </v-dialog>
     <v-data-table
+      dense
       :search="search"
       :headers="headers"
-      :items="filteredItems"
+      :items="filteredDesserts"
       :options.sync="options"
-      item-key="id"
+      show-select
+      item-key="name"
       class="elevation-1"
-      @current-items="getFiltered"
     >
-      <template slot="headers" slot-scope="props">
+      <template #[`body.prepend`]>
         <tr>
-          <th>
-            <v-checkbox
-              :input-value="props.all"
-              :indeterminate="props.indeterminate"
-              primary
-              hide-details
-              @click.native="toggleAll"
-            ></v-checkbox>
-          </th>
-          <th
-            v-for="header in props.headers"
-            :key="header.text"
-            :class="[
-              'column sortable',
-              options.descending ? 'desc' : 'asc',
-              header.value === options.sortBy ? 'active' : '',
-            ]"
-            @click="changeSort(header.value)"
-          >
-            <v-icon small>arrow_upward</v-icon>
-            {{ header.text }}
-          </th>
-        </tr>
-        <tr class="grey lighten-3">
-          <th>
-            <v-icon>filter_list</v-icon>
-          </th>
-          <th v-for="header in props.headers" :key="header.text">
-            <div v-if="filters.hasOwnProperty(header.value)">
+          <!-- <th>
+              <v-icon>filter_list</v-icon>
+            </th> -->
+
+          <th v-for="header in headers" :key="header.text">
+            <!-- <div v-if="filters.hasOwnProperty(header.value)"> -->
+            <div>
               <v-select
                 v-model="filters[header.value]"
                 :items="columnValueList(header.value)"
@@ -87,166 +64,153 @@
               >
               </v-select>
             </div>
+            <!-- </div> -->
           </th>
         </tr>
       </template>
-      <template slot="items" slot-scope="props">
-        <tr :active="props.selected" @click="props.selected = !props.selected">
-          <td>
-            <v-checkbox
-              :input-value="props.selected"
-              primary
-              hide-details
-            ></v-checkbox>
-          </td>
-          <td>{{ props.item.id }}</td>
-          <td class="text-xs-right">{{ props.item.year }}</td>
-          <td class="text-xs-right">{{ props.item.month }}</td>
-          <td class="text-xs-right">{{ props.item.region }}</td>
-          <td class="text-xs-right">{{ props.item.tenant }}</td>
-          <td class="text-xs-right">{{ props.item.progress }}</td>
-          <td class="text-xs-right">{{ props.item.status }}</td>
-          <td class="text-xs-right">{{ props.item.title }}</td>
-          <td class="text-xs-right">{{ props.item.description }}</td>
-        </tr>
-      </template>
-      <template #[`item.actions`]="{ item }">
-        <div class="text-truncate">
-          <v-icon
-            small
-            class="mr-2"
-            color="primary"
-            @click="showEditDialog(item)"
-          >
-            mdi-pencil
-          </v-icon>
-          <v-icon small color="pink" @click="showDeleteDialog(item)">
-            mdi-delete
-          </v-icon>
-        </div>
-      </template>
     </v-data-table>
-    <!-- this dialog is used for both create and update -->
-    <v-dialog v-model="dialog" max-width="500px">
-      <v-card>
-        <v-card-title>
-          <span v-if="editedItem.id">Edit {{ editedItem.id }}</span>
-          <span v-else>Create</span>
-        </v-card-title>
-        <v-card-text>
-          <v-row>
-            <v-col cols="12" sm="4">
-              <v-text-field
-                v-model="editedItem.progress"
-                label="Progress"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-text-field
-                v-model="editedItem.status"
-                label="Status"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="8">
-              <v-text-field
-                v-model="editedItem.title"
-                label="Title"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="12">
-              <v-text-field
-                v-model="editedItem.description"
-                label="Description"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="showEditDialog()"
-            >Cancel</v-btn
-          >
-          <v-btn color="blue darken-1" text @click="saveItem(editedItem)"
-            >Save</v-btn
-          >
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <!-- delete dialog -->
-    <v-dialog v-model="dialogDelete" max-width="500px">
-      <v-card>
-        <v-card-title>Delete</v-card-title>
-        <v-card-text
-          >Weet je zeker dat je `{{ itemToDelete.Name }}` wenst te
-          verwijderen?</v-card-text
-        >
-        <v-card-actions>
-          <v-btn color="primary" text @click="dialogDelete = false"
-            >Close</v-btn
-          >
-          <v-btn color="primary" text @click="deleteItem()">Delete</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-card>
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 // import { loadPyodide } from 'pyodide'
 
 export default {
-  components: {
-  },
-  data() {
-    return {
-      search: '',
-      selected: [],
-      headers: [
-        { text: 'Id', value: 'id' },
-        { text: 'Year', value: 'year' },
-        { text: 'Month', value: 'month', sortable: true },
-        { text: 'Region', value: 'region', sortable: true },
-        { text: 'Tenant', value: 'tenant', sortable: true },
-        { text: 'Progress', value: 'progress', sortable: true },
-        { text: 'Status', value: 'status', sortable: true },
-        { text: 'Title', value: 'title', sortable: true },
-        {
-          text: 'Description',
-          value: 'description',
-          sortable: true,
-          width: '180',
-        },
-        { text: 'Action', value: 'actions', sortable: false },
-      ],
-      filters: {
-        year: [],
-        month: [],
-        region: [],
-        tenant: [],
-        progress: [],
-        status: [],
-      },
-      options: {
-        sortBy: ['id'],
-        sortDesc: ['true'],
-      },
-      items: [],
-      currentItems: [],
+  components: {},
 
-      dialog: false,
-      editedItem: {},
-      dialogDelete: false,
-      itemToDelete: {},
-      // pyodide: null,
-      // pyodideLoaded: null,
-      output: '',
-    }
-  },
+  data: () => ({
+    options: {
+      sortBy: ['name'],
+      sortDesc: ['true'],
+    },
+    search: '',
+    headers: [
+      {
+        text: 'Dessert (100g serving)',
+        align: 'left',
+        value: 'name',
+      },
+      { text: 'Calories', value: 'calories' },
+      { text: 'Fat (g)', value: 'fat' },
+      { text: 'Carbs (g)', value: 'carbs' },
+      { text: 'Protein (g)', value: 'protein' },
+      { text: 'Iron (%)', value: 'iron' },
+    ],
 
+    filters: {
+      calories: [],
+      fat: [],
+      carbs: [],
+    },
+
+    desserts: [
+      {
+        value: false,
+        name: 'Frozen Yogurt',
+        calories: 159,
+        fat: 6.0,
+        carbs: 24,
+        protein: 4.0,
+        iron: '1%',
+      },
+      {
+        value: false,
+        name: 'Ice cream sandwich',
+        calories: 237,
+        fat: 9.0,
+        carbs: 37,
+        protein: 4.3,
+        iron: '1%',
+      },
+      {
+        value: false,
+        name: 'Eclair',
+        calories: 262,
+        fat: 16.0,
+        carbs: 23,
+        protein: 6.0,
+        iron: '7%',
+      },
+      {
+        value: false,
+        name: 'Cupcake',
+        calories: 305,
+        fat: 3.7,
+        carbs: 67,
+        protein: 4.3,
+        iron: '8%',
+      },
+      {
+        value: false,
+        name: 'Gingerbread',
+        calories: 356,
+        fat: 16.0,
+        carbs: 49,
+        protein: 3.9,
+        iron: '16%',
+      },
+      {
+        value: false,
+        name: 'Jelly bean',
+        calories: 375,
+        fat: 0.0,
+        carbs: 94,
+        protein: 0.0,
+        iron: '0%',
+      },
+      {
+        value: false,
+        name: 'Lollipop',
+        calories: 392,
+        fat: 0.2,
+        carbs: 98,
+        protein: 0,
+        iron: '2%',
+      },
+      {
+        value: false,
+        name: 'Honeycomb',
+        calories: 408,
+        fat: 3.2,
+        carbs: 87,
+        protein: 6.5,
+        iron: '45%',
+      },
+      {
+        value: false,
+        name: 'Donut',
+        calories: 452,
+        fat: 25.0,
+        carbs: 51,
+        protein: 4.9,
+        iron: '22%',
+      },
+      {
+        value: false,
+        name: 'KitKat',
+        calories: 518,
+        fat: 26.0,
+        carbs: 65,
+        protein: 7,
+        iron: '6%',
+      },
+    ],
+
+    items: [],
+    currentItems: [],
+
+    dialog: false,
+    editedItem: {},
+    dialogDelete: false,
+    itemToDelete: {},
+    // pyodide: null,
+    // pyodideLoaded: null,
+    output: '',
+  }),
   computed: {
-    filteredItems() {
-      return this.items.filter((d) => {
+    filteredDesserts() {
+      return this.desserts.filter((d) => {
         return Object.keys(this.filters).every((f) => {
           return this.filters[f].length < 1 || this.filters[f].includes(d[f])
         })
@@ -254,195 +218,21 @@ export default {
     },
   },
 
-  mounted() {
-    this.loadItems()
-  },
-
   methods: {
-    getFiltered(e) {
-      this.currentItems = e
-    },
-
     toggleAll() {
       if (this.selected.length) this.selected = []
-      else this.selected = this.items.slice()
+      else this.selected = this.desserts.slice()
     },
-
     changeSort(column) {
-      if (this.options.sortBy === column) {
-        this.options.descending = !this.options.descending
+      if (this.pagination.sortBy === column) {
+        this.pagination.descending = !this.pagination.descending
       } else {
-        this.options.sortBy = column
-        this.options.descending = false
+        this.pagination.sortBy = column
+        this.pagination.descending = false
       }
     },
-
     columnValueList(val) {
-      return this.items.map((d) => d[val])
-    },
-
-    showEditDialog(item) {
-      this.editedItem = item || {}
-      this.dialog = !this.dialog
-    },
-
-    loadItems() {
-      this.items = []
-      axios
-        .get('http://localhost:8000/problem/all', {
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods':
-              'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Headers':
-              'Origin, Content-Type, X-Auth-Token',
-          },
-        })
-        .then((response) => {
-          this.items = response.data.map((item) => {
-            return {
-              id: item.id,
-              year: item.year,
-              month: item.month,
-              region: item.region,
-              tenant: item.tenant,
-              progress: item.progress,
-              status: item.status,
-              title: item.title,
-              description: item.description,
-            }
-          })
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    },
-
-    saveItem(item) {
-      /* this is used for both creating and updating API records
-         the default method is POST for creating a new item */
-      console.log(item)
-      let method = 'post'
-      let url = `http://localhost:8000/problem`
-      const id = item.id
-
-      // airtable API needs the data to be placed in fields object
-      const data = {
-        fields: item,
-      }
-
-      if (id) {
-        // if the item has an id, we're updating an existing item
-        method = 'patch'
-        url = `http://localhost:8000/problem/${id}`
-
-        // must remove id from the data for airtable patch to work
-        delete data.fields.id
-      }
-
-      // save the record
-      // headers: {
-      //     Authorization: 'Bearer ' + apiToken,
-      //     'Content-Type': 'application/json',
-      //   },
-      axios[method](url, data, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods':
-            'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
-          'Content-Type': 'application/json',
-        },
-      }).then((response) => {
-        if (response.data && response.data.id) {
-          // add new item to state
-          this.editedItem.id = response.data.id
-          if (!id) {
-            // add the new item to items state
-            this.items.push(this.editedItem)
-          }
-          this.editedItem = {}
-        }
-        this.dialog = !this.dialog
-      })
-    },
-
-    deleteItem() {
-      console.log('deleteItem', this.itemToDelete)
-      const index = this.items.indexOf(this.itemToDelete)
-
-      /*
-        axios.delete(`https://api.airtable.com/v0/${airTableApp}/${airTableName}/${id}`,
-            { headers: {
-                Authorization: "Bearer " + apiToken,
-                "Content-Type": "application/json"
-            }
-        }).then((response) => {
-            this.items.splice(index, 1)
-        })
-        */
-
-      this.items.splice(index, 1)
-      this.dialogDelete = false
-    },
-
-    showDeleteDialog(item) {
-      this.itemToDelete = item
-      this.dialogDelete = !this.dialogDelete
-    },
-
-    pivot(arr) {
-      const mp = new Map()
-
-      function setValue(a, path, val) {
-        if (Object(val) !== val) {
-          // primitive value
-          const pathStr = path.join('.')
-          const i = (mp.has(pathStr) ? mp : mp.set(pathStr, mp.size)).get(
-            pathStr
-          )
-          a[i] = val
-        } else {
-          for (const key in val) {
-            setValue(a, key === '0' ? path : path.concat(key), val[key])
-          }
-        }
-        return a
-      }
-
-      const result = arr.map((obj) => setValue([], [], obj))
-      return [[...mp.keys()], ...result]
-    },
-
-    toCsv(arr) {
-      return arr
-        .map((row) =>
-          row.map((val) => (isNaN(val) ? JSON.stringify(val) : +val)).join(',')
-        )
-        .join('\n')
-    },
-
-    exportData() {
-      // Conversion to 2D array and then to CSV:
-      // const data = this.toCsv(this.pivot(this.filteredItems))
-
-      const data = this.toCsv(this.pivot(this.currentItems))
-
-      const pom = document.createElement('a')
-
-      const blob = new Blob(['\uFEFF' + data], {
-        type: 'text/csv; charset=utf-8',
-      })
-      const url = URL.createObjectURL(blob)
-      pom.href = url
-      pom.setAttribute('download', 'export.csv')
-      pom.click()
-    },
-
-    genReport() {
-      // fetch('/plugins/pyodide.html').then((response) => {
-      //   console.log(response)
-      // })
+      return this.desserts.map((d) => d[val])
     },
   },
 }
