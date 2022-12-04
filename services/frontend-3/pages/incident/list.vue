@@ -47,6 +47,7 @@
       </template>
     </v-dialog>
     <v-data-table
+      v-model="selected"
       dense
       :search="search"
       :headers="headers"
@@ -144,6 +145,7 @@ export default {
       },
 
       items: [],
+      selected: [],
       currentItems: [],
 
       dialog: false,
@@ -337,12 +339,12 @@ export default {
     exportData() {
       // Conversion to 2D array and then to CSV:
       // const data = this.toCsv(this.pivot(this.filteredItems))
-      console.log(this.currentItems)
-      let data = ''
-      if (this.currentItems.length === 0) {
+      let data = []
+      if (this.selected.length === 0) {
         data = this.toCsv(this.pivot(this.filteredItems))
       } else {
-        data = this.toCsv(this.pivot(this.currentItems))
+        console.log(this.selected)
+        data = this.toCsv(this.pivot(this.selected))
       }
 
       const pom = document.createElement('a')

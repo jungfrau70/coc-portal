@@ -110,6 +110,11 @@ export default {
           title: '..,',
           to: '/',
         },
+        {
+          icon: 'mdi-chart-bubble',
+          title: '보고서',
+          to: '/report',
+        },
       ],
       miniVariant: false,
       right: true,
