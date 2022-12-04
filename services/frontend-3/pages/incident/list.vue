@@ -10,14 +10,18 @@
 
     <v-dialog v-model="dialog" max-width="500px">
       <template #[`activator`]="{ on }">
-        <div class="justify-space-between">
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Search"
-            single-line
-            hide-details
-          ></v-text-field>
+        <v-card-actions class="justify-space-between">
+          <v-col sm="2">
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              class="ml-auto ma-3"
+              maxlength="25"
+              single-line
+              hide-details
+            ></v-text-field>
+          </v-col>
           <!-- <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
               Upload
               <v-icon small>mdi-plus-circle-outline</v-icon>
@@ -35,11 +39,11 @@
             Download
             <v-icon small>mdi-arrow-right-circle-outline</v-icon>
           </v-btn>
-          <v-btn color="primary" dark class="ml-auto ma-3" @click="genReport()">
+          <!-- <v-btn color="primary" dark class="ml-auto ma-3" @click="genReport()">
             Report
             <v-icon small>mdi-plus-circle-outline</v-icon>
-          </v-btn>
-        </div>
+          </v-btn> -->
+        </v-card-actions>
       </template>
     </v-dialog>
     <v-data-table
@@ -333,8 +337,13 @@ export default {
     exportData() {
       // Conversion to 2D array and then to CSV:
       // const data = this.toCsv(this.pivot(this.filteredItems))
-
-      const data = this.toCsv(this.pivot(this.filteredItems))
+      console.log(this.currentItems)
+      let data = ''
+      if (this.currentItems.length === 0) {
+        data = this.toCsv(this.pivot(this.filteredItems))
+      } else {
+        data = this.toCsv(this.pivot(this.currentItems))
+      }
 
       const pom = document.createElement('a')
 

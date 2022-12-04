@@ -29,16 +29,17 @@
           <v-btn
             color="primary"
             dark
+            right
             class="ml-auto ma-3"
             @click="exportData()"
           >
             Download
             <v-icon small>mdi-arrow-right-circle-outline</v-icon>
           </v-btn>
-          <v-btn color="primary" dark class="ml-auto ma-3" @click="genReport()">
+          <!-- <v-btn color="primary" dark class="ml-auto ma-3" @click="genReport()">
             Report
             <v-icon small>mdi-plus-circle-outline</v-icon>
-          </v-btn>
+          </v-btn> -->
         </div>
       </template>
     </v-dialog>
