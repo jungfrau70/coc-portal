@@ -82,18 +82,34 @@ export default {
         },
         {
           icon: 'mdi-chart-bubble',
-          title: '문제관리',
-          to: '/problemlist',
+          title: '인시던트핸들링',
+          to: '/incident/list',
+        },    
+        {
+          icon: 'mdi-chart-bubble',
+          title: '이슈관리',
+          to: '/issue/list',
+        },                        
+        {
+          icon: 'mdi-chart-bubble',
+          title: '장애관리',
+          to: '/problem/list',
         },
         {
           icon: 'mdi-chart-bubble',
+          title: '변경관리',
+          to: '/change/list',
+        },  
+        {
+          icon: 'mdi-chart-bubble',
           title: '요청관리',
-          to: '/requestlist',
+          to: '/request/list',
         },
-      ],
-      tabs: [
-        { name: 'table', icon: 'list', path: '/table' },
-        { name: 'plots', icon: 'playlist_add', path: '/plots' },
+        {
+          icon: 'mdi-chart-bubble',
+          title: '..,',
+          to: '/',
+        },
       ],
       miniVariant: false,
       right: true,
