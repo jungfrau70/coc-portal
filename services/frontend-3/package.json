@@ -26,7 +26,6 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
-    "@nuxt/content": "^2.2.2",
     "@nuxtjs/composition-api": "^0.33.1",
     "@nuxtjs/date-fns": "^1.5.0",
     "@nuxtjs/eslint-config": "^11.0.0",
