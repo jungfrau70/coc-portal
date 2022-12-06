@@ -40,6 +40,7 @@ export default {
   plugins: [
     { src: '~/plugins/vega-embed.js' },
     { src: '~/plugins/vue-quill-editor.js', ssr: false },
+    { src: '~/plugins/iview.js', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
