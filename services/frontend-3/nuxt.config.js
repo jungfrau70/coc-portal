@@ -40,7 +40,11 @@ export default {
   plugins: [
     { src: '~/plugins/vega-embed.js' },
     { src: '~/plugins/vue-quill-editor.js', ssr: false },
+<<<<<<< HEAD
     // { src: '~/plugins/markedWorker.js' },
+=======
+    { src: '~/plugins/iview.js', ssr: false },
+>>>>>>> 1566f87134c820fb892896ec460818486a23dfb3
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
