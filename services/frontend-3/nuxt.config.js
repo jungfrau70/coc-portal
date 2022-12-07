@@ -39,12 +39,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/vega-embed.js' },
-    { src: '~/plugins/vue-quill-editor.js', ssr: false },
-<<<<<<< HEAD
+    // { src: '~/plugins/vue-quill-editor.js', ssr: false },
     // { src: '~/plugins/markedWorker.js' },
-=======
-    { src: '~/plugins/iview.js', ssr: false },
->>>>>>> 1566f87134c820fb892896ec460818486a23dfb3
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

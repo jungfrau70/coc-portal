@@ -15,17 +15,12 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
     "core-js": "^3.25.3",
-<<<<<<< HEAD
     "iview": "^3.5.4",
     "marked": "^4.2.4",
-=======
-    "highlight.js": "^11.7.0",
->>>>>>> 1566f87134c820fb892896ec460818486a23dfb3
     "nuxt": "^2.15.8",
     "vega": "^5.22.1",
     "vega-embed": "^6.21.0",
     "vega-lite": "^5.6.0",
-    "view-design": "^4.7.0",
     "vue": "^2.7.10",
     "vue-debounce": "^4.0.0",
     "vue-quill-editor": "^3.0.6",
