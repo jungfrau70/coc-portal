@@ -7,7 +7,7 @@
         <ProductDetail
           v-for="(product, i) in products"
           :key="i"
-          :v-bind:product="product"
+          :product="product"
         />
       </ul>
     </nav>
