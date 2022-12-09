@@ -45,6 +45,18 @@
           </v-btn> -->
         </v-card-actions>
       </template>
+      <template #[`default`]="dialog = false">
+        <v-toolbar color="primary" dark @click="showAddEditDialog(item)"
+          >Create Record</v-toolbar
+        >
+        <v-card-text>
+          <AddIncident :item="editedItem" />
+        </v-card-text>
+        <v-card-actions class="justify-end">
+          <v-btn text @click="dialog.value = false">Save</v-btn>
+          <v-btn text @click="dialog.value = false">Cancel</v-btn>
+        </v-card-actions>
+      </template>
     </v-dialog>
     <v-data-table
       v-model="selected"
@@ -87,7 +99,7 @@
             small
             class="mr-2"
             color="primary"
-            @click="showEditDialog(item)"
+            @click="showAddEditDialog(item)"
           >
             mdi-pencil
           </v-icon>
@@ -102,10 +114,11 @@
 
 <script>
 import axios from 'axios'
+import AddIncident from '../../components/AddIncident.vue'
 // import { loadPyodide } from 'pyodide'
 
 export default {
-  components: {},
+  components: { AddIncident },
 
   data() {
     return {
@@ -195,7 +208,7 @@ export default {
       return this.items.map((d) => d[val])
     },
 
-    showEditDialog(item) {
+    showAddEditDialog(item) {
       this.editedItem = item || {}
       this.dialog = !this.dialog
     },

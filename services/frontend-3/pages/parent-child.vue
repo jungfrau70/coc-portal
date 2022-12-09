@@ -1,36 +1,36 @@
-<!--UI-->
 <template>
-  <div>
-    <v-btn @click="toggleShowChild">Show Child Component</v-btn>
-    <ProductMenu v-show="showChild" :menu="menu" />
-    <nav>
-      <ul>
-        <ProductDetail
-          v-for="(product, i) in products"
-          v-show="showChild"
-          :key="i"
-          :product="product"
-        />
-      </ul>
-    </nav>
-  </div>
+  <v-row justify="center">
+    <v-dialog transition="dialog-bottom-transition" max-width="1200">
+      <template #[`activator`]="{ on, attrs }">
+        <v-btn color="primary" v-bind="attrs" v-on="on">ADD</v-btn>
+      </template>
+
+      <template #[`default`]="dialog = false">
+        <v-toolbar color="primary" dark>Create Record</v-toolbar>
+        <v-card-text>
+          <ProductDetail
+            v-for="(product, i) in products"
+            :key="i"
+            :product="product"
+          />
+        </v-card-text>
+        <v-card-actions class="justify-end">
+          <v-btn text @click="dialog.value = false">Save</v-btn>
+          <v-btn text @click="dialog.value = false">Cancel</v-btn>
+        </v-card-actions>
+      </template>
+    </v-dialog>
+  </v-row>
 </template>
 
-<!--Script-->
 <script>
-//   import Menu from './components/Menu.vue';
-//   import Product from './components/Product.vue';
-
 export default {
-  name: 'App',
-  components: {
-    // ES6 부터 key, value의 변수명이 같을때 생략이 가능하다
-    // Menu : Menu
-    //   Menu,Product
-  },
   data() {
     return {
-      showChild: false,
+      // dialog: '',
+      notifications: false,
+      sound: true,
+      widgets: false,
       menu: ['HOME', 'ABOUT', 'PRODUCTS', 'ETC'],
       products: [
         {
@@ -56,16 +56,8 @@ export default {
       ],
     }
   },
-  methods: {
-    toggleShowChild() {
-      this.showChild = !this.showChild
-    },
-    goToChild(tag) {
-      // go to child component
-    },
-  },
 }
 </script>
 
-<!--CSS-->
-<style></style>
+<style>
+</style>
