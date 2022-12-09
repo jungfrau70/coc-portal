@@ -17,6 +17,11 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       // { rel: 'stylesheet', type: 'text/css', href: 'https://pyscript.net/latest/pyscript.css' },
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: '//unpkg.com/@highlightjs/cdn-assets@11.5.0/styles/tomorrow-night-blue.min.css',
+      },
     ],
     script: [
       // {
@@ -61,12 +66,22 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/markdownit',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: 'http://localhost:8000/',
+  },
+
+  markdownit: {
+    preset: 'default',
+    linkify: true,
+    breaks: true,
+    injected: true,
+    runtime: true, // Support `$md()`
+    use: ['markdown-it-div', 'markdown-it-attrs', 'markdown-it-highlightjs'],
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

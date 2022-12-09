@@ -1,17 +1,13 @@
 <template>
   <div class="rteditor" background-color: ivory>
-    <h1>Blog Post Creator</h1>
+    <h1>Quill Editor</h1>
     <quill-editor ref="myQuillEditor"></quill-editor>
   </div>
 </template>
 
 <script>
-// import BlogPostCreator from './components/BlogPostCreator.vue'
 export default {
-  name: 'CreatePost',
-  // components: {
-  //   BlogPostCreator
-  // }
+  name: 'QuillEditor',
 }
 </script>
 

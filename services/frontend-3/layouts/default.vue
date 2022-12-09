@@ -113,7 +113,7 @@ export default {
         {
           icon: 'mdi-chart-bubble',
           title: '보고서',
-          to: '/report',
+          to: '/jupyterlite',
         },
       ],
       miniVariant: false,
