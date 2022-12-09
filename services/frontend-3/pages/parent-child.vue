@@ -1,11 +1,13 @@
 <!--UI-->
 <template>
   <div>
-    <ProductMenu :menu="menu" />
+    <v-btn @click="toggleShowChild">Show Child Component</v-btn>
+    <ProductMenu v-show="showChild" :menu="menu" />
     <nav>
       <ul>
         <ProductDetail
           v-for="(product, i) in products"
+          v-show="showChild"
           :key="i"
           :product="product"
         />
@@ -28,6 +30,7 @@ export default {
   },
   data() {
     return {
+      showChild: false,
       menu: ['HOME', 'ABOUT', 'PRODUCTS', 'ETC'],
       products: [
         {
@@ -52,6 +55,14 @@ export default {
         },
       ],
     }
+  },
+  methods: {
+    toggleShowChild() {
+      this.showChild = !this.showChild
+    },
+    goToChild(tag) {
+      // go to child component
+    },
   },
 }
 </script>
