@@ -8,7 +8,7 @@
     </v-tabs>
     <nuxt-child />
 
-    <v-dialog v-model="dialog">
+    <v-dialog v-model="dialog" max-width="500px">
       <template #[`activator`]="{ on }">
         <v-card-actions class="justify-space-between">
           <v-col sm="2">
@@ -38,8 +38,32 @@
         </v-card-actions>
       </template>
       <v-card>
-        <IncidentDetail :editedItem="editedItem" />
-
+        <v-card-title>
+          <span v-if="editedItem.id">Edit {{ editedItem.id }}</span>
+          <span v-else>Create</span>
+        </v-card-title>
+        <v-card-text>
+          <v-row>
+            <v-col cols="12" sm="4">
+              <v-text-field
+                v-model="editedItem.title"
+                label="Title"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="8">
+              <v-text-field
+                v-model="editedItem.description"
+                label="Description"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="12">
+              <v-text-field
+                v-model="editedItem.status"
+                label="Status"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="showEditDialog()"
@@ -50,8 +74,8 @@
           >
         </v-card-actions>
       </v-card>
+      <!-- <EditIncident /> -->
     </v-dialog>
-
     <v-data-table
       v-model="selected"
       dense
@@ -70,6 +94,7 @@
           </th>
 
           <th v-for="header in headers" :key="header.text">
+            <!-- <div v-if="filters.hasOwnProperty(header.value)"> -->
             <div>
               <v-select
                 v-model="filters[header.value]"
@@ -82,6 +107,7 @@
               >
               </v-select>
             </div>
+            <!-- </div> -->
           </th>
         </tr>
       </template>
@@ -100,6 +126,43 @@
           </v-icon>
         </div>
       </template>
+      <v-card>
+        <v-card-title>
+          <span v-if="editedItem.id">Edit {{ editedItem.id }}</span>
+          <span v-else>Create</span>
+        </v-card-title>
+        <v-card-text>
+          <v-row>
+            <v-col cols="12" sm="4">
+              <v-text-field
+                v-model="editedItem.title"
+                label="Title"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="8">
+              <v-text-field
+                v-model="editedItem.description"
+                label="Description"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="12">
+              <v-text-field
+                v-model="editedItem.status"
+                label="Status"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="showEditDialog()"
+            >Cancel</v-btn
+          >
+          <v-btn color="blue darken-1" text @click="saveItem(editedItem)"
+            >Save</v-btn
+          >
+        </v-card-actions>
+      </v-card>
     </v-data-table>
     <!-- delete dialog -->
     <v-dialog v-model="dialogDelete" max-width="500px">
@@ -121,10 +184,12 @@
 </template>
   <script>
 import axios from 'axios'
-import IncidentDetail from '../../components/IncidentDetail.vue'
+// import AddIncident from '../../components/AddIncident.vue'
+// import EditIncident from '../../components/EditIncident.vue'
+// import { loadPyodide } from 'pyodide'
 
 export default {
-  components: { IncidentDetail },
+  // components: { EditIncident },
 
   data() {
     return {
@@ -212,6 +277,11 @@ export default {
 
     columnValueList(val) {
       return this.items.map((d) => d[val])
+    },
+
+    showAddDialog(item) {
+      this.editedItem = item || {}
+      this.dialog = !this.dialog
     },
 
     showEditDialog(item) {
@@ -383,5 +453,23 @@ export default {
       // })
     },
   },
+
+  // methods: {
+  //   toggleAll() {
+  //     if (this.selected.length) this.selected = []
+  //     else this.selected = this.desserts.slice()
+  //   },
+  //   changeSort(column) {
+  //     if (this.pagination.sortBy === column) {
+  //       this.pagination.descending = !this.pagination.descending
+  //     } else {
+  //       this.pagination.sortBy = column
+  //       this.pagination.descending = false
+  //     }
+  //   },
+  //   columnValueList(val) {
+  //     return this.desserts.map((d) => d[val])
+  //   },
+  // },
 }
 </script>
