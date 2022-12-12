@@ -22,10 +22,6 @@
               hide-details
             ></v-text-field>
           </v-col>
-          <!-- <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
-              Upload
-              <v-icon small>mdi-plus-circle-outline</v-icon>
-            </v-btn> -->
           <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
             New Record
             <v-icon small>mdi-plus-circle-outline</v-icon>
@@ -39,24 +35,45 @@
             Download
             <v-icon small>mdi-arrow-right-circle-outline</v-icon>
           </v-btn>
-          <!-- <v-btn color="primary" dark class="ml-auto ma-3" @click="genReport()">
-            Report
-            <v-icon small>mdi-plus-circle-outline</v-icon>
-          </v-btn> -->
         </v-card-actions>
       </template>
-      <template #[`default`]="dialog = false">
-        <v-toolbar color="primary" dark @click="showAddEditDialog(item)"
-          >Create Record</v-toolbar
-        >
+      <v-card>
+        <v-card-title>
+          <span v-if="editedItem.id">Edit {{ editedItem.id }}</span>
+          <span v-else>Create</span>
+        </v-card-title>
         <v-card-text>
-          <AddIncident :item="editedItem" />
+          <v-row>
+            <v-col cols="12" sm="4">
+              <v-text-field
+                v-model="editedItem.title"
+                label="Title"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="8">
+              <v-text-field
+                v-model="editedItem.description"
+                label="Description"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="12">
+              <v-text-field
+                v-model="editedItem.status"
+                label="Status"
+              ></v-text-field>
+            </v-col>
+          </v-row>
         </v-card-text>
-        <v-card-actions class="justify-end">
-          <v-btn text @click="dialog.value = false">Save</v-btn>
-          <v-btn text @click="dialog.value = false">Cancel</v-btn>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="showEditDialog()"
+            >Cancel</v-btn
+          >
+          <v-btn color="blue darken-1" text @click="saveItem(editedItem)"
+            >Save</v-btn
+          >
         </v-card-actions>
-      </template>
+      </v-card>
     </v-dialog>
     <v-data-table
       v-model="selected"
@@ -99,7 +116,7 @@
             small
             class="mr-2"
             color="primary"
-            @click="showAddEditDialog(item)"
+            @click="showEditDialog(item)"
           >
             mdi-pencil
           </v-icon>
@@ -108,17 +125,70 @@
           </v-icon>
         </div>
       </template>
+      <v-card>
+        <v-card-title>
+          <span v-if="editedItem.id">Edit {{ editedItem.id }}</span>
+          <span v-else>Create</span>
+        </v-card-title>
+        <v-card-text>
+          <v-row>
+            <v-col cols="12" sm="4">
+              <v-text-field
+                v-model="editedItem.title"
+                label="Title"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="8">
+              <v-text-field
+                v-model="editedItem.description"
+                label="Description"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="12">
+              <v-text-field
+                v-model="editedItem.status"
+                label="Status"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="showEditDialog()"
+            >Cancel</v-btn
+          >
+          <v-btn color="blue darken-1" text @click="saveItem(editedItem)"
+            >Save</v-btn
+          >
+        </v-card-actions>
+      </v-card>
     </v-data-table>
+    <!-- delete dialog -->
+    <v-dialog v-model="dialogDelete" max-width="500px">
+      <v-card>
+        <v-card-title>Delete</v-card-title>
+        <v-card-text
+          >Weet je zeker dat je `{{ itemToDelete.Name }}` wenst te
+          verwijderen?</v-card-text
+        >
+        <v-card-actions>
+          <v-btn color="primary" text @click="dialogDelete = false"
+            >Close</v-btn
+          >
+          <v-btn color="primary" text @click="deleteItem()">Delete</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
 <script>
 import axios from 'axios'
-import AddIncident from '../../components/AddIncident.vue'
+// import AddIncident from '../../components/AddIncident.vue'
 // import { loadPyodide } from 'pyodide'
 
 export default {
-  components: { AddIncident },
+  // components: { AddIncident },
 
   data() {
     return {
@@ -208,7 +278,12 @@ export default {
       return this.items.map((d) => d[val])
     },
 
-    showAddEditDialog(item) {
+    showAddDialog(item) {
+      this.editedItem = item || {}
+      this.dialog = !this.dialog
+    },
+
+    showEditDialog(item) {
       this.editedItem = item || {}
       this.dialog = !this.dialog
     },

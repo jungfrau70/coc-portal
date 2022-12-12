@@ -91,6 +91,11 @@
           </v-icon>
         </div>
       </template>
+      <template #[`item.details`]="{ item }">
+        <div class="text-truncate" style="width: 180px">
+          {{ item.Details }}
+        </div>
+      </template>
     </v-data-table>
   </v-card>
 </template>
