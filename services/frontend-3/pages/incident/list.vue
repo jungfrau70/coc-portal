@@ -74,6 +74,7 @@
           >
         </v-card-actions>
       </v-card>
+      <!-- <EditIncident /> -->
     </v-dialog>
     <v-data-table
       v-model="selected"
@@ -181,14 +182,14 @@
     </v-dialog>
   </v-card>
 </template>
-
 <script>
 import axios from 'axios'
 // import AddIncident from '../../components/AddIncident.vue'
+// import EditIncident from '../../components/EditIncident.vue'
 // import { loadPyodide } from 'pyodide'
 
 export default {
-  // components: { AddIncident },
+  // components: { EditIncident },
 
   data() {
     return {

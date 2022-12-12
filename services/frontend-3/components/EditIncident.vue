@@ -1,23 +1,26 @@
 <template>
   <v-card>
     <v-card-title>
-      <span v-if="editedItem.id">Edit {{ editedItem.id }}</span>
-      <span v-else>Create</span>
+      <!-- <span v-if="editedItem.id">Edit {{ editedItem.id }}</span> -->
+      <!-- <span v-else>Create</span> -->
     </v-card-title>
     <v-card-text>
       <v-row>
         <v-col cols="12" sm="4">
-          <v-text-field v-model="editedItem.title" label="Title"></v-text-field>
+          <v-text-field
+            item.title="editedItem.title"
+            label="Title"
+          ></v-text-field>
         </v-col>
         <v-col cols="12" sm="8">
           <v-text-field
-            v-model="editedItem.description"
+            item.description="editedItem.description"
             label="Description"
           ></v-text-field>
         </v-col>
         <v-col cols="12" sm="12">
           <v-text-field
-            v-model="editedItem.status"
+            item.status="editedItem.status"
             label="Status"
           ></v-text-field>
         </v-col>
@@ -84,18 +87,24 @@
 
 <script>
 export default {
-  name: 'NewAndEdit',
-  props: {
+  name: 'EditIncident',
+    props: {
     editedItem: {
       type: Object,
       default: null,
     },
   },
-  methods: {
-    showEditDialog(item) {
-      this.editedItem = item || {}
-      this.dialog = !this.dialog
-    },
+  data() {
+    return {
+      item: {},
+    }
   },
+
+  // methods: {
+  //   showEditDialog(item) {
+  //     this.editedItem = item || {}
+  //     this.dialog = !this.dialog
+  //   },
+  // },
 }
 </script>
