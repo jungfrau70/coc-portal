@@ -30,14 +30,15 @@
         <v-col cols="12" sm="4">
           <v-text-field v-model="item.title" label="Title"></v-text-field>
         </v-col>
+      </v-row>
+      <v-row>
         <v-col cols="12" sm="8">
           <v-text-field
             v-model="item.description"
             label="Description"
           ></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="12">
-          <v-text-field v-model="item.status" label="Status"></v-text-field>
+          <!-- <div v-highlight v-html="$md.render(''+item.description)"></div> -->
+          <div v-html="$md.render(''+item.description)"></div>
         </v-col>
       </v-row>
     </v-card-text>
@@ -56,6 +57,7 @@ export default {
   data() {
     return {
       item: {},
+      convertedText: '',
     }
   },
   updated() {

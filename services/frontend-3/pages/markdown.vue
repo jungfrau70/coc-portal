@@ -1,5 +1,6 @@
 <template>
-  <div v-highlight v-html="$md.render(convertedText)"></div>
+  <!-- <div v-highlight v-html="$md.render(convertedText)"></div> -->
+  <div v-html="$md.render(convertedText)"></div>
 </template>
 
 <script>
