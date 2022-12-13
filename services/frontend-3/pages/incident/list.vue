@@ -119,7 +119,7 @@
     </v-dialog>
   </v-card>
 </template>
-  <script>
+<script>
 import axios from 'axios'
 import IncidentDetail from '../../components/IncidentDetail.vue'
 
@@ -131,20 +131,24 @@ export default {
       search: '',
 
       headers: [
-        { text: 'Id', value: 'id' },
-        { text: 'Year', value: 'year' },
-        { text: 'Month', value: 'month', sortable: true },
-        { text: 'Region', value: 'region', sortable: true },
-        { text: 'Tenant', value: 'tenant', sortable: true },
-        { text: 'Progress', value: 'progress', sortable: true },
-        { text: 'Status', value: 'status', sortable: true },
-        { text: 'Title', value: 'title', sortable: true },
+        // { text: 'Id', value: 'id' },
+        { text: 'Year', value: 'year',  width: '75'},
+        { text: 'Month', value: 'month',  width: '100', sortable: true },
+        { text: 'Region', value: 'region', width: '100', sortable: true },
+        { text: 'AZ', value: 'az', width: '75', sortable: true },
+        { text: 'Tenant', value: 'tenant', width: '100', sortable: true },
+        // { text: 'Progress', value: 'progress', sortable: true },
+        { text: 'Status', value: 'status', width: '100', sortable: true },
+        { text: 'Event(Title))', value: 'event', sortable: true },
         {
-          text: 'Description',
-          value: 'description',
+          text: 'Action(Description)',
+          value: 'action',
           sortable: true,
-          width: '180',
+          // width: '240',
         },
+        { text: 'Occurred_at', value: 'occurred_at', width: '100', sortable: false },
+        { text: 'Acknowledged_at', value: 'acknowledged_at', width: '100',sortable: false },
+        { text: 'Propogated_at', value: 'propogated_at', width: '100', sortable: false },
         { text: 'Action', value: 'actions', sortable: false },
       ],
 
@@ -222,7 +226,7 @@ export default {
     loadItems() {
       this.items = []
       axios
-        .get('http://localhost:8000/problem/all', {
+        .get('http://localhost:8000/incident/all', {
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods':
@@ -238,11 +242,27 @@ export default {
               year: item.year,
               month: item.month,
               region: item.region,
+              az: item.az,
               tenant: item.tenant,
-              progress: item.progress,
+              shift_start_date: item.shift_start_date,
+              shift_type: item.shift_type,
+              level_1_engineer1: item.level_1_engineer1,
+              level_1_engineer2: item.level_1_engineer2,
+              level_2_engineers: item.level_2_engineers,
+              how_to_share: item.how_to_share,
+              event: item.event,
+              action: item.action,
               status: item.status,
-              title: item.title,
-              description: item.description,
+              ticket_no: item.ticket_no,
+              escalated_to_l3: item.escalated_to_l3,
+              comment: item.comment,
+              occurred_at: item.occurred_at,
+              acknowledged_at: item.acknowledged_at,
+              propogated_at: item.propogated_at,
+              resolved_at: item.resolved_at,
+              creator: item.creator,
+              reviewer: item.reviewer,
+              updater: item.updater,
             }
           })
         })
