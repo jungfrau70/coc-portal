@@ -17,22 +17,21 @@
           </v-select>
         </v-col>
       </v-row>
-
       <v-row justify="center">
         <v-col cols="12" lg="6">
           <v-menu
-            ref="menu1"
-            v-model="menu1"
+            ref="item['occurred_at']"
+            v-model="item['occurred_at']"
             :close-on-content-click="false"
             transition="scale-transition"
             offset-y
             max-width="290px"
             min-width="auto"
           >
-            <template v-slot:activator="{ on, attrs }">
+            <template #activator="{ on, attrs }">
               <v-text-field
-                v-model="dateFormatted"
-                label="Date"
+                v-model="computedDateFormatted"
+                label="발생일시"
                 hint="MM/DD/YYYY format"
                 persistent-hint
                 prepend-icon="mdi-calendar"
@@ -53,7 +52,10 @@
         </v-col>
       </v-row>
       <v-row>
-        <h1>{{ item['year'] }}년 {{ item['month'] }}월</h1>
+        <h1>
+          {{ item['year'] }}년 {{ item['month'] }}월, {{ item['occurred_at'] }},
+          {{ item['acknowledged_at'] }}, {{ item['propograted_at'] }},
+        </h1>
       </v-row>
 
       <v-row>
@@ -86,51 +88,54 @@
 </template>
 
 <script>
-export default {
-  data: vm => ( {
-      valid: true,
-      item: {
-        year: 2022,
-        month: 1,
-        region: 'KR',
-        az: 1,
-        tenant: 'PRD',
-        status: 'created',
-        created_at: null,
-        updated_at: null,
-        title: null,
-        info: null,
-        action: null,
-        escalated_to_2l: null,
-        escalated_to_3l: null,
-      },
 
-      colOptions: {
-        year: [2022, 2023, 2024, 2025],
-        month: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-        region: ['KR', 'EU'],
-        az: [1, 2],
-        tenant: ['PRD', 'PRE_PRD', 'STG', 'DEV'],
-        status: ['created', 'in-process', 'completed', 'cancelled', 'delayed'],
-      },
-      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+export default {
+  components: {
+  },
+  data: (vm) => ({
+    valid: true,
+    item: {
+      year: 2022,
+      month: 1,
+      region: 'KR',
+      az: 1,
+      tenant: 'PRD',
+      status: 'created',
+      occurred_at: null,
+      acknowledged_at: null,
+      propogated_at: null,
+      updated_at: null,
+      title: null,
+      info: null,
+      action: null,
+      escalated_to_2l: null,
+      escalated_to_3l: null,
+    },
+
+    colOptions: {
+      year: [2022, 2023, 2024, 2025],
+      month: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      region: ['KR', 'EU'],
+      az: [1, 2],
+      tenant: ['PRD', 'PRE_PRD', 'STG', 'DEV'],
+      status: ['created', 'in-process', 'completed', 'cancelled', 'delayed'],
+    },
+    date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+      .toISOString()
+      .substr(0, 10),
+    dateFormatted: vm.formatDate(
+      new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
-        .substr(0, 10),
-      dateFormatted: vm.formatDate(
-        new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-          .toISOString()
-          .substr(0, 10)
-      ),
-      menu1: false,
-      menu2: false,
-    }
-  ),
+        .substr(0, 10)
+    ),
+    menu1: false,
+    menu2: false,
+  }),
   computed: {
     computedDateFormatted() {
       return this.formatDate(this.date)
     },
   },
-
   watch: {
     date(val) {
       this.dateFormatted = this.formatDate(this.date)
