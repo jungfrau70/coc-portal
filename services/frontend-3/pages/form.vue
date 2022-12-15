@@ -38,7 +38,7 @@
         </select>
       </v-col>    
       <v-col>
-        <p>AZ</p>
+        <p>데이터센터</p>
         <select v-model="AZ" class="select selected selected-value">
           <option
             v-for="(option, index) in AZs"
@@ -65,7 +65,7 @@
         <p>상태</p>
         <select v-model="status" class="select selected selected-value">
           <option
-            v-for="(option, index) in status"
+            v-for="(option, index) in statuses"
             :key="index"
             :value="option.value"
           >
@@ -109,20 +109,21 @@ export default {
         { text: 'KR', value: 'KR' },
         { text: 'EU', value: 'EU' },
       ],
-      AZ: 'KR',
+      AZ: '1',
       AZs: [
-        { text: 'KR', value: 'KR' },
-        { text: 'EU', value: 'EU' },
+        { text: '1', value: '1' },
+        { text: '2', value: '2' },
       ],
-      tenant: 'KR',
+      tenant: 'PRD',
       tenants: [
-        { text: 'KR', value: 'KR' },
-        { text: 'EU', value: 'EU' },
+        { text: 'PRD', value: 'PRD' },
+        { text: 'STG', value: 'STG' },
       ],
-      status: 'KR',
-      statuss: [
-        { text: 'KR', value: 'KR' },
-        { text: 'EU', value: 'EU' },
+      status: '생성',
+      statuses: [
+        { text: '생성', value: '생성' },
+        { text: '진행', value: '진행' },
+        { text: '완료', value: '완료' },
       ],
     }
   },
@@ -134,7 +135,7 @@ export default {
   display: inline-block;
   width: 120px;
   border: 1px solid #999;
-  color: white;
+  color: blueviolet;
 }
 
 .select .selected {
