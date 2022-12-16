@@ -17,46 +17,33 @@
           </v-select>
         </v-col>
       </v-row>
-      <v-row justify="center">
-        <v-col cols="12" lg="6">
-          <v-menu
-            ref="item['occurred_at']"
-            v-model="item['occurred_at']"
-            :close-on-content-click="false"
-            transition="scale-transition"
-            offset-y
-            max-width="290px"
-            min-width="auto"
+      <v-row>
+        <v-col>
+          <v-datetime-picker v-model="item['occurred_at']" label="Occurred_at">
+          </v-datetime-picker>
+        </v-col>
+        <v-col>
+          <v-datetime-picker
+            v-model="item['acknowledged_at']"
+            label="Acknowledged_at"
           >
-            <template #activator="{ on, attrs }">
-              <v-text-field
-                v-model="computedDateFormatted"
-                label="발생일시"
-                hint="MM/DD/YYYY format"
-                persistent-hint
-                prepend-icon="mdi-calendar"
-                v-bind="attrs"
-                @blur="date = parseDate(dateFormatted)"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="date"
-              no-title
-              @input="menu1 = false"
-            ></v-date-picker>
-          </v-menu>
-          <p>
-            Date in ISO format: <strong>{{ date }}</strong>
-          </p>
+          </v-datetime-picker>
+        </v-col>
+        <v-col>
+          <v-datetime-picker
+            v-model="item['propogated_at']"
+            label="Propogated_at"
+          >
+          </v-datetime-picker>
         </v-col>
       </v-row>
-      <v-row>
+
+      <!-- <v-row>
         <h1>
           {{ item['year'] }}년 {{ item['month'] }}월, {{ item['occurred_at'] }},
           {{ item['acknowledged_at'] }}, {{ item['propograted_at'] }},
         </h1>
-      </v-row>
+      </v-row> -->
 
       <v-row>
         <v-text-field
@@ -83,15 +70,28 @@
           value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
         ></v-textarea>
       </v-row>
+              <v-card-text style="height: 100px; position: relative">
+            <v-fab-transition>
+              <v-btn
+                v-show="!hidden"
+                color="pink"
+                dark
+                absolute
+                top
+                right
+                fab
+              >
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
+            </v-fab-transition>
+          </v-card-text>
     </v-container>
   </v-form>
 </template>
 
 <script>
-
 export default {
-  components: {
-  },
+  components: {},
   data: (vm) => ({
     valid: true,
     item: {
@@ -120,40 +120,40 @@ export default {
       tenant: ['PRD', 'PRE_PRD', 'STG', 'DEV'],
       status: ['created', 'in-process', 'completed', 'cancelled', 'delayed'],
     },
-    date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-      .toISOString()
-      .substr(0, 10),
-    dateFormatted: vm.formatDate(
-      new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .substr(0, 10)
-    ),
-    menu1: false,
-    menu2: false,
+    // date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    //   .toISOString()
+    //   .substr(0, 10),
+    // dateFormatted: vm.formatDate(
+    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    //     .toISOString()
+    //     .substr(0, 10)
+    // ),
+    // menu1: false,
+    // menu2: false,
   }),
-  computed: {
-    computedDateFormatted() {
-      return this.formatDate(this.date)
-    },
-  },
-  watch: {
-    date(val) {
-      this.dateFormatted = this.formatDate(this.date)
-    },
-  },
-  methods: {
-    formatDate(date) {
-      if (!date) return null
+  // computed: {
+  //   computedDateFormatted() {
+  //     return this.formatDate(this.date)
+  //   },
+  // },
+  // watch: {
+  //   date(val) {
+  //     this.dateFormatted = this.formatDate(this.date)
+  //   },
+  // },
+  // methods: {
+  //   formatDate(date) {
+  //     if (!date) return null
 
-      const [year, month, day] = date.split('-')
-      return `${month}/${day}/${year}`
-    },
-    parseDate(date) {
-      if (!date) return null
+  //     const [year, month, day] = date.split('-')
+  //     return `${month}/${day}/${year}`
+  //   },
+  //   parseDate(date) {
+  //     if (!date) return null
 
-      const [month, day, year] = date.split('/')
-      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-    },
-  },
+  //     const [month, day, year] = date.split('/')
+  //     return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+  //   },
+  // },
 }
 </script>

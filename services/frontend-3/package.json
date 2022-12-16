@@ -15,7 +15,6 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/markdownit": "^2.0.0",
-    "@vuepic/vue-datepicker": "^3.6.3",
     "core-js": "^3.25.3",
     "markdown-it-attrs": "^4.1.4",
     "markdown-it-div": "^1.1.0",
@@ -27,6 +26,7 @@
     "vega-lite": "^5.6.0",
     "vue": "^2.7.10",
     "vuetify": "^2.6.10",
+    "vuetify-datetime-picker": "^2.1.1",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
