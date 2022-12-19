@@ -46,7 +46,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/vega-embed.js' },
-    { src: '~/plugins/vue-datetimepicker.js' }, // datepicker plugin here
+    { src: '~/plugins/vuetify-datetimepicker.js', mode: 'client' }, // datepicker plugin here
     // { src: '~/plugins/vue-quill-editor.js', ssr: false },
     // { src: '~/plugins/markedWorker.js' },
   ],
@@ -106,7 +106,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: ['vega-embed'],
+    transpile: ['vega-embed', 'vuetify-datetimepicker'],
   },
 
   rules: {

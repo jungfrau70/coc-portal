@@ -18,11 +18,20 @@
         </v-col>
       </v-row>
       <v-row>
+        <v-datatime-picker v-model="item['occurred_at']" label="Occurred_at">
+        </v-datatime-picker>
+      </v-row>
+      <!-- <v-row>
         <v-col>
           <v-datetime-picker v-model="item['occurred_at']" label="Occurred_at">
           </v-datetime-picker>
         </v-col>
         <v-col>
+          <DatetimePicker
+            v-model="item['acknowledged_at']"
+            label="Acknowledged_at"
+          >
+          </DatetimePicker>
           <v-datetime-picker
             v-model="item['acknowledged_at']"
             label="Acknowledged_at"
@@ -36,7 +45,7 @@
           >
           </v-datetime-picker>
         </v-col>
-      </v-row>
+      </v-row> -->
 
       <!-- <v-row>
         <h1>
@@ -70,29 +79,23 @@
           value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
         ></v-textarea>
       </v-row>
-              <v-card-text style="height: 100px; position: relative">
-            <v-fab-transition>
-              <v-btn
-                v-show="!hidden"
-                color="pink"
-                dark
-                absolute
-                top
-                right
-                fab
-              >
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
-            </v-fab-transition>
-          </v-card-text>
+      <v-card-text style="height: 100px; position: relative">
+        <v-fab-transition>
+          <v-btn v-show="!hidden" color="pink" dark absolute top right fab>
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </v-fab-transition>
+      </v-card-text>
     </v-container>
   </v-form>
 </template>
 
 <script>
+// import DatetimePicker from 'vuetify-datetime-picker'
 export default {
-  components: {},
+  // components: { vDatetimePicker: DatetimePicker },
   data: (vm) => ({
+    hidden: true,
     valid: true,
     item: {
       year: 2022,
