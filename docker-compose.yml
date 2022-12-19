@@ -2,17 +2,6 @@ version: '3.8'
 
 services:
 
-  frontend:
-    build: ./services/frontend
-    # build: ./frontend
-    volumes:
-      - './services/frontend:/app'
-      # - './frontend/app:/app'
-      
-      - '/app/node_modules'
-    ports:
-      - 3000:3000
-
   backend:
     container_name: backend
     build: ./services/backend
@@ -24,3 +13,15 @@ services:
       # - ./backend/src:/app
     command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
+  frontend:
+    build: ./services/frontend
+    # build: ./frontend
+    depends_on:
+      - backend
+    volumes:
+      - './services/frontend/app:/app'
+      # - './frontend/app:/app'
+      
+      - '/app/node_modules'
+    ports:
+      - 3000:3000
