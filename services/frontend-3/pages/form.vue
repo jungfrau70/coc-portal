@@ -18,10 +18,6 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-datatime-picker v-model="item['occurred_at']" label="Occurred_at">
-        </v-datatime-picker>
-      </v-row>
-      <!-- <v-row>
         <v-col>
           <v-datetime-picker v-model="item['occurred_at']" label="Occurred_at">
           </v-datetime-picker>
@@ -45,15 +41,13 @@
           >
           </v-datetime-picker>
         </v-col>
-      </v-row> -->
-
-      <!-- <v-row>
+      </v-row>
+      <v-row>
         <h1>
           {{ item['year'] }}년 {{ item['month'] }}월, {{ item['occurred_at'] }},
           {{ item['acknowledged_at'] }}, {{ item['propograted_at'] }},
         </h1>
-      </v-row> -->
-
+      </v-row>
       <v-row>
         <v-text-field
           v-model="item['title']"
@@ -87,6 +81,8 @@
         </v-fab-transition>
       </v-card-text>
     </v-container>
+    <v-btn class="mr-4" @submit.prevent="add"> submit </v-btn>
+    <v-btn @click="clear"> clear </v-btn>
   </v-form>
 </template>
 
@@ -144,6 +140,10 @@ export default {
   //     this.dateFormatted = this.formatDate(this.date)
   //   },
   // },
+  methods: {
+    add() {},
+    clear() {},
+  },
   // methods: {
   //   formatDate(date) {
   //     if (!date) return null
