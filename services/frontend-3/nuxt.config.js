@@ -61,7 +61,18 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@nuxt/components',
+    '@nuxtjs/moment',
   ],
+  moment: {
+    defaultLocale: 'en',
+    locales: ['ko'],
+    timezone: true,
+    defaultTimezone: 'Korea/Seoul',
+    plugins: [
+      'moment-strftime',
+      'moment-fquarter'
+    ]
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
