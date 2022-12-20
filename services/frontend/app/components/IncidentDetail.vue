@@ -1,65 +1,170 @@
 <template>
   <v-card>
-    <v-card-title>
-      <span v-if="editedItem.id">Edit {{ editedItem.id }}</span>
-      <span v-else>Create</span>
-    </v-card-title>
-    <v-card-text>
-      <v-row>
-        <v-col cols="12" sm="2">
-          <v-text-field v-model="item.year" label="Year"></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="2">
-          <v-text-field v-model="item.month" label="Month"></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="2">
-          <v-text-field v-model="item.region" label="Region"></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="2">
-          <v-text-field v-model="item.tenant" label="Tenant"></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="2">
-          <v-text-field v-model="item.progress" label="Porgress"></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="2">
-          <v-text-field v-model="item.status" label="Status"></v-text-field>
-        </v-col>
-      </v-row>
-      <v-spacer></v-spacer>
-      <v-row>
-        <v-col cols="12" sm="4">
-          <v-text-field v-model="item.title" label="Title"></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12" sm="8">
+    <v-form ref="form" v-model="valid" lazy-validation>
+      <v-container>
+        <v-row>
+          <v-card-title>
+            <span v-if="editedItem.id">Edit {{ editedItem.id }}</span>
+            <span v-else>Create</span>
+          </v-card-title>
+        </v-row>
+        <v-row>
+          <v-col
+            v-for="(options, index) in colOptions"
+            :key="index"
+            cols="12"
+            md="2"
+          >
+            <v-select
+              v-model="item[index]"
+              :items="options"
+              :label="index"
+              required
+            >
+            </v-select>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-datetime-picker
+              v-model="item['occurred_at']"
+              label="Occurred_at"
+            >
+            </v-datetime-picker>
+          </v-col>
+          <v-col>
+            <DatetimePicker
+              v-model="item['acknowledged_at']"
+              label="Acknowledged_at"
+            >
+            </DatetimePicker>
+            <v-datetime-picker
+              v-model="item['acknowledged_at']"
+              label="Acknowledged_at"
+            >
+            </v-datetime-picker>
+          </v-col>
+          <v-col>
+            <v-datetime-picker
+              v-model="item['propogated_at']"
+              label="Propogated_at"
+            >
+            </v-datetime-picker>
+          </v-col>
+        </v-row>
+        <!-- <v-row>
+          <h1>
+            {{ item['year'] }}년 {{ item['month'] }}월,
+            {{ item['occurred_at'] }}, {{ item['acknowledged_at'] }},
+            {{ item['propograted_at'] }},
+          </h1>
+        </v-row> -->
+        <v-row>
           <v-text-field
-            v-model="item.description"
-            label="Description"
+            v-model="item['title']"
+            label="Title"
+            required
           ></v-text-field>
-          <!-- <div v-highlight v-html="$md.render(''+item.description)"></div> -->
-          <div v-html="$md.render(''+item.description)"></div>
-        </v-col>
-      </v-row>
-    </v-card-text>
+        </v-row>
+        <v-row>
+          <v-textarea
+            v-model="item['info']"
+            filled
+            label="Info"
+            auto-grow
+            value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+          ></v-textarea>
+        </v-row>
+        <v-row>
+          <v-textarea
+            v-model="item['action']"
+            filled
+            label="Action"
+            auto-grow
+            value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+          ></v-textarea>
+        </v-row>
+        <v-spacer></v-spacer>
+        <v-row>
+          <v-btn class="mr-4" @click="handdleAdd"> submit </v-btn>
+          <!-- <v-btn class="mr-4" @submit.prevent="handdleAdd"> submit </v-btn> -->
+          <v-btn @click="clear"> clear </v-btn>
+        </v-row>
+
+        <v-card-text style="height: 100px; position: relative">
+          <v-fab-transition>
+            <v-btn v-show="!hidden" color="pink" dark absolute top right fab>
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </v-fab-transition>
+        </v-card-text>
+      </v-container>
+    </v-form>
   </v-card>
 </template>
 
 <script>
+// import MyDatetimePicker from 'vuetify-datetime-picker'
+
 export default {
-  name: 'EditIncident',
+  name: 'IncidentDetail',
+  // components: { 'v-datetime-picker': MyDatetimePicker },
   props: {
     editedItem: {
       type: Object,
       default: null,
     },
   },
-  data() {
-    return {
-      item: {},
-      convertedText: '',
-    }
-  },
+  // data() {
+  //   return {
+  //     item: {},
+  //     convertedText: '',
+  //   }
+  // },
+  data: (vm) => ({
+    // data() {
+    //   return {
+    hidden: true,
+    valid: true,
+    convertedText: '',
+    item: {
+      year: 2022,
+      month: 1,
+      region: 'KR',
+      az: 1,
+      tenant: 'PRD',
+      status: 'created',
+      occurred_at: null,
+      acknowledged_at: null,
+      propogated_at: null,
+      updated_at: null,
+      title: null,
+      info: null,
+      action: null,
+      escalated_to_2l: null,
+      escalated_to_3l: null,
+    },
+    colOptions: {
+      year: [2022, 2023, 2024, 2025],
+      month: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      region: ['KR', 'EU'],
+      az: [1, 2],
+      tenant: ['PRD', 'PRE_PRD', 'STG', 'DEV'],
+      status: ['created', 'in-process', 'completed', 'cancelled', 'delayed'],
+    },
+    // date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    //   .toISOString()
+    //   .substr(0, 10),
+    // dateFormatted: vm.formatDate(
+    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    //     .toISOString()
+    //     .substr(0, 10)
+    // ),
+    // menu1: false,
+    // menu2: false,
+    // }),
+  }),
+
   updated() {
     this.loadItem()
   },
@@ -67,7 +172,30 @@ export default {
     loadItem() {
       this.item = this.editedItem || {}
       this.$emit('showEditDialog', this.item)
+      // console.log(this)
     },
+
+    async handdleAdd() {
+      console.log(this)
+      const record = this.item
+      await fetch(`${this.$config.apiURL}/incident`, {
+        method: 'POST',
+        body: JSON.stringify(record),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      // const json = await res.json();
+      // this.records.push(json);
+      // this.newRecordText = ''
+    },
+
+    // handdleAdd() {
+    //   console.log(this)
+    //   // this.$emit('add-record', this.item)
+    //   this.$emit('add-record', this.item)
+    // },
+    clear() {},
   },
 }
 </script>

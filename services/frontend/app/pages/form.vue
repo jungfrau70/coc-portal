@@ -81,7 +81,7 @@
         </v-fab-transition>
       </v-card-text>
     </v-container>
-    <v-btn class="mr-4" @submit.prevent="add"> submit </v-btn>
+    <v-btn class="mr-4" @submit.prevent="handdleAdd"> submit </v-btn>
     <v-btn @click="clear"> clear </v-btn>
   </v-form>
 </template>
@@ -141,7 +141,19 @@ export default {
   //   },
   // },
   methods: {
-    add() {},
+    async handdleAdd() {
+      const record = this.item
+      const res = await fetch(`${this.$config.apiURL}/incident`, {
+        method: "POST",
+        body: JSON.stringify(record),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const json = await res.json();
+      this.records.push(json);
+      this.newRecordText = ''
+    },
     clear() {},
   },
   // methods: {

@@ -123,4 +123,8 @@ export default {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
   },
+
+  publicRuntimeConfig: {
+    apiURL: process.env.API_URL
+  },
 }

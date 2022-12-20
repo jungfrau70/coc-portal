@@ -39,16 +39,15 @@
       </template>
       <v-card>
         <IncidentDetail :editedItem="editedItem" />
-
-        <v-card-actions>
+        <!-- <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="showEditDialog()"
             >Cancel</v-btn
           >
-          <v-btn color="blue darken-1" text @click="saveItem(editedItem)"
+          <v-btn color="blue darken-1" text @click="handdleAdd(editedItem)"
             >Save</v-btn
           >
-        </v-card-actions>
+        </v-card-actions> -->
       </v-card>
     </v-dialog>
 
@@ -271,12 +270,27 @@ export default {
         })
     },
 
+    async handdleAdd(item) {
+      console.log(this)
+      const record = this.item
+      await fetch(`${this.$config.apiURL}/incident`, {
+        method: "POST",
+        body: JSON.stringify(record),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      // const json = await res.json();
+      // this.records.push(json);
+      // this.newRecordText = ''
+    },
+
     saveItem(item) {
       /* this is used for both creating and updating API records
            the default method is POST for creating a new item */
       console.log(item)
       let method = 'post'
-      let url = `http://localhost:8000/problem`
+      let url = `http://localhost:8000/incident`
       const id = item.id
 
       // airtable API needs the data to be placed in fields object
@@ -287,7 +301,7 @@ export default {
       if (id) {
         // if the item has an id, we're updating an existing item
         method = 'patch'
-        url = `http://localhost:8000/problem/${id}`
+        url = `http://localhost:8000/incident/${id}`
 
         // must remove id from the data for airtable patch to work
         delete data.fields.id
