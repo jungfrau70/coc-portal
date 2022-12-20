@@ -33,11 +33,6 @@
             </v-datetime-picker>
           </v-col>
           <v-col>
-            <DatetimePicker
-              v-model="item['acknowledged_at']"
-              label="Acknowledged_at"
-            >
-            </DatetimePicker>
             <v-datetime-picker
               v-model="item['acknowledged_at']"
               label="Acknowledged_at"
@@ -86,7 +81,8 @@
         </v-row>
         <v-spacer></v-spacer>
         <v-row>
-          <v-btn class="mr-4" @click="handdleAdd"> submit </v-btn>
+          <!-- <v-btn class="mr-4" type="submit" @submit.prevent="handleAdd"> submit </v-btn> -->
+          <v-btn class="mr-4" @click="addItem"> submit </v-btn>
           <!-- <v-btn class="mr-4" @submit.prevent="handdleAdd"> submit </v-btn> -->
           <v-btn @click="clear"> clear </v-btn>
         </v-row>
@@ -104,23 +100,17 @@
 </template>
 
 <script>
-// import MyDatetimePicker from 'vuetify-datetime-picker'
+// import DatetimePicker from 'vuetify-datetime-picker'
 
 export default {
   name: 'IncidentDetail',
-  // components: { 'v-datetime-picker': MyDatetimePicker },
+  // components: { 'v-datetime-picker': DatetimePicker },
   props: {
     editedItem: {
       type: Object,
       default: null,
     },
   },
-  // data() {
-  //   return {
-  //     item: {},
-  //     convertedText: '',
-  //   }
-  // },
   data: (vm) => ({
     // data() {
     //   return {
@@ -160,41 +150,27 @@ export default {
     //     .toISOString()
     //     .substr(0, 10)
     // ),
-    // menu1: false,
-    // menu2: false,
+    menu1: false,
+    menu2: false,
     // }),
   }),
 
   updated() {
-    this.loadItem()
+  // mounted() {
+      this.loadItem()
   },
   methods: {
     loadItem() {
+      // console.log(this.item)
       this.item = this.editedItem || {}
       this.$emit('showEditDialog', this.item)
       // console.log(this)
     },
 
-    async handdleAdd() {
-      console.log(this)
-      const record = this.item
-      await fetch(`${this.$config.apiURL}/incident`, {
-        method: 'POST',
-        body: JSON.stringify(record),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      // const json = await res.json();
-      // this.records.push(json);
-      // this.newRecordText = ''
+    addItem() {
+      this.item = this.editedItem || {}
+      this.$emit('add-item')
     },
-
-    // handdleAdd() {
-    //   console.log(this)
-    //   // this.$emit('add-record', this.item)
-    //   this.$emit('add-record', this.item)
-    // },
     clear() {},
   },
 }
