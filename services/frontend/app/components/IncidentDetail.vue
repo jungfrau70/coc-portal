@@ -47,18 +47,22 @@
             </v-datetime-picker>
           </v-col>
         </v-row>
-        <v-row>
+        <!-- <v-row>
           <v-btn :item="item" @click="currentDatetime = getNow()">Now</v-btn>
           <h1>{{ currentDatetime }}</h1>
         </v-row>
         <v-row>
-          <v-btn :item="item" @click="item['acknowledged_at'] = getNow()">Now</v-btn>
+          <v-btn :item="item" @click="item['occurred_at'] = getNow()">Now</v-btn>
+          <h1>{{ item['occurred_at'] }}</h1>
+        </v-row>
+        <v-row>
+          <v-btn @click="item['acknowledged_at'] = getNow()">Now</v-btn>
           <h1>{{ item['acknowledged_at'] }}</h1>
         </v-row>
         <v-row>
           <v-btn @click="item['propogated_at'] = getNow()">Now</v-btn>
           <h1>{{ item['propogated_at'] }}</h1>
-        </v-row>
+        </v-row> -->
         <!-- <v-row>
           <h1>
             {{ item['year'] }}년 {{ item['month'] }}월,
@@ -186,14 +190,25 @@ export default {
     },
   },
   created() {
-    // mounted() {
     this.loadItem()
+    this.setDefaultItem()
   },
-  updated() {
-    // mounted() {
-    this.loadItem()
+  mounted() {
+    // this.item.occurred_at = this.getNow()
+    // this.item.acknowledged_at = this.getNow()
   },
+  updated() {},
   methods: {
+    setDefaultItem() {
+      this.item.year = 2022
+      this.item.month = 1
+      this.item.region = 'KR'
+      this.item.az = 1
+      this.item.tenant = 'PRD'
+      this.item.status = 'created'
+      this.item.occurred_at = this.getNow()
+      this.item.acknowledged_at = this.getNow()
+    },
     formatDate(date) {
       if (!date) {
         return null
@@ -215,9 +230,8 @@ export default {
         (today.getMonth() + 1) +
         '-' +
         today.getDate()
-      const time =
-        today.getHours() + ':' + today.getMinutes()
-        // today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+      const time = today.getHours() + ':' + today.getMinutes()
+      // today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
       const timestamp = date + ' ' + time
       return timestamp
     },
