@@ -38,7 +38,7 @@
         </v-card-actions>
       </template>
       <v-card>
-        <IncidentDetail :editedItem="editedItem" @add-item="addItem" />
+        <IncidentDetail :edited-item="editedItem" @add-item="addItem" />
       </v-card>
     </v-dialog>
 
@@ -229,9 +229,9 @@ export default {
       this.dialog = !this.dialog
     },
 
-    loadItems() {
+    async loadItems() {
       this.items = []
-      axios
+      await axios
         .get('http://localhost:8000/incident/all', {
           headers: {
             'Access-Control-Allow-Origin': '*',

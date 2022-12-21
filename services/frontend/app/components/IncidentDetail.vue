@@ -47,6 +47,18 @@
             </v-datetime-picker>
           </v-col>
         </v-row>
+        <v-row>
+          <v-btn :item="item" @click="currentDatetime = getNow()">Now</v-btn>
+          <h1>{{ currentDatetime }}</h1>
+        </v-row>
+        <v-row>
+          <v-btn :item="item" @click="item['acknowledged_at'] = getNow()">Now</v-btn>
+          <h1>{{ item['acknowledged_at'] }}</h1>
+        </v-row>
+        <v-row>
+          <v-btn @click="item['propogated_at'] = getNow()">Now</v-btn>
+          <h1>{{ item['propogated_at'] }}</h1>
+        </v-row>
         <!-- <v-row>
           <h1>
             {{ item['year'] }}년 {{ item['month'] }}월,
@@ -117,6 +129,7 @@ export default {
     hidden: true,
     valid: true,
     convertedText: '',
+    currentDatetime: null,
     item: {
       year: 2022,
       month: 1,
@@ -142,24 +155,72 @@ export default {
       tenant: ['PRD', 'PRE_PRD', 'STG', 'DEV'],
       status: ['created', 'in-process', 'completed', 'cancelled', 'delayed'],
     },
-    // date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-    //   .toISOString()
-    //   .substr(0, 10),
-    // dateFormatted: vm.formatDate(
-    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-    //     .toISOString()
-    //     .substr(0, 10)
-    // ),
-    menu1: false,
-    menu2: false,
+    date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+      .toISOString()
+      .substr(0, 10),
+    dateFormatted: vm.formatDate(
+      new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10)
+    ),
+    // menu1: false,
+    // menu2: false,
     // }),
   }),
-
+  computed: {
+    selected: {
+      get() {
+        return this.value
+      },
+      set(value) {
+        this.$emit('input', value)
+      },
+    },
+    computedDateFormatted() {
+      return this.formatDate(this.date)
+    },
+  },
+  watch: {
+    date(val) {
+      this.value = this.formatDate(this.date)
+    },
+  },
+  created() {
+    // mounted() {
+    this.loadItem()
+  },
   updated() {
-  // mounted() {
-      this.loadItem()
+    // mounted() {
+    this.loadItem()
   },
   methods: {
+    formatDate(date) {
+      if (!date) {
+        return null
+      }
+      return date
+    },
+    parseDate(date) {
+      if (!date) {
+        return null
+      }
+      const [year, month, day] = date.split('-')
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+    },
+    getNow() {
+      const today = new Date()
+      const date =
+        today.getFullYear() +
+        '-' +
+        (today.getMonth() + 1) +
+        '-' +
+        today.getDate()
+      const time =
+        today.getHours() + ':' + today.getMinutes()
+        // today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+      const timestamp = date + ' ' + time
+      return timestamp
+    },
     loadItem() {
       // console.log(this.item)
       this.item = this.editedItem || {}
