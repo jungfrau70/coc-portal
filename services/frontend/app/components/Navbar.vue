@@ -114,36 +114,36 @@ export default {
           title: '인시던트핸들링',
           to: '/incident/list',
         },
-        {
-          icon: 'mdi-chart-bubble',
-          title: '이슈관리',
-          to: '/issue/list',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: '장애관리',
-          to: '/problem/list',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: '변경관리',
-          to: '/change/list',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: '요청관리',
-          to: '/request/list',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: '..,',
-          to: '/',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: '보고서',
-          to: '/jupyterlite',
-        },
+        // {
+        //   icon: 'mdi-chart-bubble',
+        //   title: '이슈관리',
+        //   to: '/issue/list',
+        // },
+        // {
+        //   icon: 'mdi-chart-bubble',
+        //   title: '장애관리',
+        //   to: '/problem/list',
+        // },
+        // {
+        //   icon: 'mdi-chart-bubble',
+        //   title: '변경관리',
+        //   to: '/change/list',
+        // },
+        // {
+        //   icon: 'mdi-chart-bubble',
+        //   title: '요청관리',
+        //   to: '/request/list',
+        // },
+        // {
+        //   icon: 'mdi-chart-bubble',
+        //   title: '..,',
+        //   to: '/',
+        // },
+        // {
+        //   icon: 'mdi-chart-bubble',
+        //   title: '보고서',
+        //   to: '/jupyterlite',
+        // },
       ],
       miniVariant: false,
       right: true,

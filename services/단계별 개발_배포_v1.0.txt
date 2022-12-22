@@ -7,7 +7,9 @@ Step 1. CRUD
       . vuetify date-time picker
       . moment
   1.6 (완료) Dockerization (12/20)
-  1.7 (진행) fastapi 연동 (참고:  https://www.digitalocean.com/community/tutorials/implementing-authentication-in-nuxtjs-app )
+  1.7 (완료) Model 창 날짜 표기 변환(format) (12/23)
+  1.8 (12/23~) Model 창 markdown 표기 변환(format)
+  1.9 fastapi 연동 (참고:  https://www.digitalocean.com/community/tutorials/implementing-authentication-in-nuxtjs-app )
     1) Auth Token
       . Create
       . Read
