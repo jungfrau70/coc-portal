@@ -11,6 +11,8 @@ Step 1. CRUD
   1.8 (12/23~) Model 창 markdown 표기 변환(format)
   1.9 fastapi 연동 (참고:  https://www.digitalocean.com/community/tutorials/implementing-authentication-in-nuxtjs-app )
     1) Auth Token
+      Register/Login/Logout
+    2) CRUD
       . Create
       . Read
       . Update
