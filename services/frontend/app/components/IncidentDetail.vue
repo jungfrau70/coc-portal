@@ -98,9 +98,12 @@
         <v-spacer></v-spacer>
         <v-row>
           <!-- <v-btn class="mr-4" type="submit" @submit.prevent="handleAdd"> submit </v-btn> -->
-          <v-btn class="mr-4" @click="addItem"> submit </v-btn>
+          <v-btn class="mr-4" color="green darken-1" @click="submitItem">
+            submit
+          </v-btn>
           <!-- <v-btn class="mr-4" @submit.prevent="handdleAdd"> submit </v-btn> -->
-          <v-btn @click="clear"> clear </v-btn>
+          <!-- <v-btn @click="clear"> clear </v-btn> -->
+          <v-btn color="dark darken-1" @click="close">Close</v-btn>
         </v-row>
 
         <v-card-text style="height: 100px; position: relative">
@@ -194,20 +197,37 @@ export default {
     this.setDefaultItem()
   },
   mounted() {
-    // this.item.occurred_at = this.getNow()
-    // this.item.acknowledged_at = this.getNow()
+
   },
-  updated() {},
+  updated() {
+
+  },
+  beforedestroyed() {
+    this.resetItem()
+  },
   methods: {
     setDefaultItem() {
-      this.item.year = 2022
-      this.item.month = 1
-      this.item.region = 'KR'
-      this.item.az = 1
-      this.item.tenant = 'PRD'
-      this.item.status = 'created'
-      this.item.occurred_at = this.getNow()
-      this.item.acknowledged_at = this.getNow()
+      this.item.year = this.item.year || 2022
+      this.item.month = this.item.month || 1
+      this.item.region = this.item.region || 'KR'
+      this.item.az = this.item.az || 1
+      this.item.tenant = this.item.tenant || 'PRD'
+      this.item.status = this.item.status || 'created'
+      this.item.occurred_at = this.item.occurred_at || this.getNow()
+      // this.item.acknowledged_at = this.item.acknowledged_at || this.getNow()
+    },
+    resetItem() {
+      this.item.year = null
+      this.item.month = null
+      this.item.region = null
+      this.item.az = null
+      this.item.tenant = null
+      this.item.status = null
+      this.item.occurred_at = null
+      this.item.acknowledged_at = null
+      this.item.title = null
+      this.item.info = null
+      this.item.action = null
     },
     formatDate(date) {
       if (!date) {
@@ -241,12 +261,15 @@ export default {
       this.$emit('showEditDialog', this.item)
       // console.log(this)
     },
-
-    addItem() {
+    submitItem() {
       this.item = this.editedItem || {}
-      this.$emit('add-item')
+      this.$emit('submit-item')
     },
-    clear() {},
+    close() {
+      this.resetItem()
+      this.$emit('close')
+      // console.log(this.item)
+    },
   },
 }
 </script>

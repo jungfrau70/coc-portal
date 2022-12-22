@@ -10,6 +10,7 @@
 
     <v-dialog v-model="dialog">
       <template #[`activator`]="{ on }">
+      <!-- <template> -->
         <v-card-actions class="justify-space-between">
           <v-col sm="2">
             <v-text-field
@@ -22,7 +23,13 @@
               hide-details
             ></v-text-field>
           </v-col>
-          <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
+          <!-- <v-btn
+            color="primary"
+            dark
+            class="ml-auto ma-3"
+            @click="dialog = true"
+          > -->
+            <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
             New Record
             <v-icon small>mdi-plus-circle-outline</v-icon>
           </v-btn>
@@ -38,7 +45,7 @@
         </v-card-actions>
       </template>
       <v-card>
-        <IncidentDetail :edited-item="editedItem" @add-item="addItem" />
+        <IncidentDetail v-if="dialog" :edited-item="editedItem" @submit-item="submitItem"  @close="close"/>
       </v-card>
     </v-dialog>
 
@@ -100,7 +107,7 @@
           verwijderen?</v-card-text
         >
         <v-card-actions>
-          <v-btn color="primary" text @click="dialogDelete = false"
+          <v-btn color="primary" text @click="dialogAdd = false"
             >Close</v-btn
           >
           <v-btn color="primary" text @click="deleteItem()">Delete</v-btn>
@@ -179,6 +186,7 @@ export default {
 
       dialog: false,
       editedItem: {},
+      dialogAdd: false,
       dialogDelete: false,
       itemToDelete: {},
       // pyodide: null,
@@ -202,10 +210,22 @@ export default {
   },
 
   methods: {
+    setDefaultItem() {
+      this.item.year = this.item.year || 2022
+      this.item.month = this.item.month || 1
+      this.item.region = this.item.region || 'KR'
+      this.item.az = this.item.az || 1
+      this.item.tenant = this.item.tenant || 'PRD'
+      this.item.status = this.item.status || 'created'
+      this.item.occurred_at = this.item.occurred_at || this.getNow()
+      this.item.acknowledged_at = this.item.acknowledged_at || this.getNow()
+    },
+    close() {
+      this.dialog = false
+    },
     getFiltered(e) {
       this.currentItems = e
     },
-
     toggleAll() {
       if (this.selected.length) this.selected = []
       else this.selected = this.currentItems.slice()
@@ -291,7 +311,8 @@ export default {
     //   // this.newRecordText = ''
     // },
 
-    addItem() {
+    submitItem() {
+      this.dialog = true
       /* this is used for both creating and updating API records
            the default method is POST for creating a new item */
       console.log(this.editedItem)
