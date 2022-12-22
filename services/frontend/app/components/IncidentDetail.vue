@@ -197,10 +197,8 @@ export default {
     this.setDefaultItem()
   },
   mounted() {
-
   },
   updated() {
-
   },
   beforedestroyed() {
     this.resetItem()

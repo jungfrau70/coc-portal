@@ -10,7 +10,7 @@
 
     <v-dialog v-model="dialog">
       <template #[`activator`]="{ on }">
-      <!-- <template> -->
+        <!-- <template> -->
         <v-card-actions class="justify-space-between">
           <v-col sm="2">
             <v-text-field
@@ -29,7 +29,7 @@
             class="ml-auto ma-3"
             @click="dialog = true"
           > -->
-            <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
+          <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
             New Record
             <v-icon small>mdi-plus-circle-outline</v-icon>
           </v-btn>
@@ -45,7 +45,12 @@
         </v-card-actions>
       </template>
       <v-card>
-        <IncidentDetail v-if="dialog" :edited-item="editedItem" @submit-item="submitItem"  @close="close"/>
+        <IncidentDetail
+          v-if="dialog"
+          :edited-item="editedItem"
+          @submit-item="submitItem"
+          @close="close"
+        />
       </v-card>
     </v-dialog>
 
@@ -84,20 +89,33 @@
       </template>
       <template #[`item.actions`]="{ item }">
         <div class="text-truncate">
-          <v-icon
-            small
-            class="mr-2"
-            color="primary"
-            @click="showEditDialog(item)"
-          >
-            mdi-pencil
-          </v-icon>
+          <v-btn icon>
+            <v-icon>mdi-dots-vertical</v-icon>
+            <v-icon
+              small
+              class="mr-2"
+              color="primary"
+              @click="showEditDialog(item)"
+            >
+              mdi-pencil
+            </v-icon>
+          </v-btn>
           <v-icon small color="pink" @click="showDeleteDialog(item)">
             mdi-delete
           </v-icon>
         </div>
       </template>
+
     </v-data-table>
+    <v-dialog v-model="dialogEdit">
+      <v-card>
+        <IncidentDetail
+          :edited-item="editedItem"
+          @submit-item="submitItem"
+          @close="close"
+        />
+      </v-card>
+    </v-dialog> 
     <!-- delete dialog -->
     <v-dialog v-model="dialogDelete" max-width="500px">
       <v-card>
@@ -107,9 +125,7 @@
           verwijderen?</v-card-text
         >
         <v-card-actions>
-          <v-btn color="primary" text @click="dialogAdd = false"
-            >Close</v-btn
-          >
+          <v-btn color="primary" text @click="dialogAdd = false">Close</v-btn>
           <v-btn color="primary" text @click="deleteItem()">Delete</v-btn>
         </v-card-actions>
       </v-card>
@@ -187,6 +203,7 @@ export default {
       dialog: false,
       editedItem: {},
       dialogAdd: false,
+      dialogEdit: false,
       dialogDelete: false,
       itemToDelete: {},
       // pyodide: null,
@@ -246,7 +263,7 @@ export default {
 
     showEditDialog(item) {
       this.editedItem = item || {}
-      this.dialog = !this.dialog
+      this.dialogEdit = !this.dialogEdit
     },
 
     async loadItems() {
