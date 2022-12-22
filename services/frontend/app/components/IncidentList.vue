@@ -7,10 +7,8 @@
       <v-tab to="/incident/analyzer">분석기</v-tab>
     </v-tabs>
     <nuxt-child />
-
     <v-dialog v-model="dialog">
       <template #[`activator`]="{ on }">
-        <!-- <template> -->
         <v-card-actions class="justify-space-between">
           <v-col sm="2">
             <v-text-field
@@ -23,12 +21,6 @@
               hide-details
             ></v-text-field>
           </v-col>
-          <!-- <v-btn
-            color="primary"
-            dark
-            class="ml-auto ma-3"
-            @click="dialog = true"
-          > -->
           <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
             New Record
             <v-icon small>mdi-plus-circle-outline</v-icon>
@@ -44,14 +36,15 @@
           </v-btn>
         </v-card-actions>
       </template>
-      <v-card>
+      <template >
+        <v-card v-model="dialogAdd">
         <IncidentDetail
-          v-if="dialog"
           :edited-item="editedItem"
           @submit-item="submitItem"
           @close="close"
         />
       </v-card>
+      </template>
     </v-dialog>
 
     <v-data-table
@@ -105,9 +98,11 @@
           </v-icon>
         </div>
       </template>
-
     </v-data-table>
+
+    <!-- Edit dialog -->
     <v-dialog v-model="dialogEdit">
+      <v-card-title>Edit</v-card-title>
       <v-card>
         <IncidentDetail
           :edited-item="editedItem"
@@ -115,7 +110,8 @@
           @close="close"
         />
       </v-card>
-    </v-dialog> 
+    </v-dialog>
+
     <!-- delete dialog -->
     <v-dialog v-model="dialogDelete" max-width="500px">
       <v-card>
@@ -125,7 +121,7 @@
           verwijderen?</v-card-text
         >
         <v-card-actions>
-          <v-btn color="primary" text @click="dialogAdd = false">Close</v-btn>
+          <v-btn color="primary" text @click="dialogDelete = false">Close</v-btn>
           <v-btn color="primary" text @click="deleteItem()">Delete</v-btn>
         </v-card-actions>
       </v-card>
@@ -227,6 +223,9 @@ export default {
   },
 
   methods: {
+    customDatetime(datetime) {
+      return this.$moment(datetime).format('YYYY-MM-DD HH:mm')
+    },
     setDefaultItem() {
       this.item.year = this.item.year || 2022
       this.item.month = this.item.month || 1
@@ -237,7 +236,12 @@ export default {
       this.item.occurred_at = this.item.occurred_at || this.getNow()
       this.item.acknowledged_at = this.item.acknowledged_at || this.getNow()
     },
-    close() {
+    close(id) {
+      if(id) {
+        this.dialogEdit = false
+      } else {
+        this.dialogAdd = false
+      }
       this.dialog = false
     },
     getFiltered(e) {
@@ -299,10 +303,10 @@ export default {
               ticket_no: item.ticket_no,
               escalated_to_l3: item.escalated_to_l3,
               comment: item.comment,
-              occurred_at: item.occurred_at,
-              acknowledged_at: item.acknowledged_at,
-              propogated_at: item.propogated_at,
-              resolved_at: item.resolved_at,
+              occurred_at: this.customDatetime(item.occurred_at),
+              acknowledged_at: this.customDatetime(item.acknowledged_at),
+              propogated_at: this.customDatetime(item.propogated_at),
+              resolved_at: this.customDatetime(item.resolved_at),
               creator: item.creator,
               reviewer: item.reviewer,
               updater: item.updater,
@@ -313,6 +317,9 @@ export default {
           console.log(error)
         })
     },
+    // this.item.occurred_at = this.customDatetime(this.item.occurred_at)
+    //   this.item.acknowledged_at = this.customDatetime(this.item.occurred_at)
+    //   this.item.propogated_at = this.customDatetime(this.item.propogated_at)
 
     // addItem() {
     //   console.log(this.editedItem)

@@ -24,10 +24,11 @@
             </v-select>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row v-if="editedItem.id">
           <v-col>
             <v-datetime-picker
               v-model="item['occurred_at']"
+              :formatter="DatetimePickerFormat"
               label="Occurred_at"
             >
             </v-datetime-picker>
@@ -35,6 +36,7 @@
           <v-col>
             <v-datetime-picker
               v-model="item['acknowledged_at']"
+              :formatter="DatetimePickerFormat"
               label="Acknowledged_at"
             >
             </v-datetime-picker>
@@ -42,11 +44,40 @@
           <v-col>
             <v-datetime-picker
               v-model="item['propogated_at']"
+              :formatter="DatetimePickerFormat"
               label="Propogated_at"
             >
             </v-datetime-picker>
           </v-col>
         </v-row>
+
+        <v-row v-if="!editedItem.id">
+          <v-col>
+            <v-datetime-picker
+              v-model="item['occurred_at']"
+              format="DatetimePickerFormat"
+              label="Occurred_at"
+            >
+            </v-datetime-picker>
+          </v-col>
+          <v-col>
+            <v-datetime-picker
+              v-model="item['acknowledged_at']"
+              format="DatetimePickerFormat"
+              label="Acknowledged_at"
+            >
+            </v-datetime-picker>
+          </v-col>
+          <v-col>
+            <v-datetime-picker
+              v-model="item['propogated_at']"
+              format="DatetimePickerFormat"
+              label="Propogated_at"
+            >
+            </v-datetime-picker>
+          </v-col>
+        </v-row>
+
         <!-- <v-row>
           <v-btn :item="item" @click="currentDatetime = getNow()">Now</v-btn>
           <h1>{{ currentDatetime }}</h1>
@@ -103,7 +134,9 @@
           </v-btn>
           <!-- <v-btn class="mr-4" @submit.prevent="handdleAdd"> submit </v-btn> -->
           <!-- <v-btn @click="clear"> clear </v-btn> -->
-          <v-btn color="dark darken-1" @click="close">Close</v-btn>
+          <v-btn color="dark darken-1" @click="close(editedItem.id)"
+            >Close</v-btn
+          >
         </v-row>
 
         <v-card-text style="height: 100px; position: relative">
@@ -133,10 +166,14 @@ export default {
   data: (vm) => ({
     // data() {
     //   return {
+    dialog: '',
     hidden: true,
     valid: true,
     convertedText: '',
     currentDatetime: null,
+    DatetimePickerFormat: 'yyyy-MM-dd HH:mm',
+    // $moment(editedItem.occurred_at).format(
+    //                 'YYYY-MM-DD [&nbsp;] HH:mm'
     item: {
       year: 2022,
       month: 1,
@@ -162,17 +199,22 @@ export default {
       tenant: ['PRD', 'PRE_PRD', 'STG', 'DEV'],
       status: ['created', 'in-process', 'completed', 'cancelled', 'delayed'],
     },
-    date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-      .toISOString()
-      .substr(0, 10),
-    dateFormatted: vm.formatDate(
-      new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .substr(0, 10)
-    ),
+    // date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    //   .toISOString()
+    //   .substr(0, 10),
+    // dateFormatted: vm.formatDate(
+    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    //     .toISOString()
+    //     .substr(0, 10)
+    // ),
     // menu1: false,
     // menu2: false,
     // }),
+    // filters: {
+    //   moment: function (date) {
+    //     return this.moment(date).format('MMMM Do YYYY, h:mm:ss a')
+    //   },
+    // },
   }),
   computed: {
     selected: {
@@ -194,16 +236,19 @@ export default {
   },
   created() {
     this.loadItem()
-    this.setDefaultItem()
+    if (!this.editedItem.id) {
+      this.setDefaultItem()
+    }
   },
-  mounted() {
-  },
-  updated() {
-  },
+  mounted() {},
+  updated() {},
   beforedestroyed() {
     this.resetItem()
   },
   methods: {
+    customDatetime(datetime) {
+      return this.$moment(datetime).format('YYYY-MM-DD HH:mm')
+    },
     setDefaultItem() {
       this.item.year = this.item.year || 2022
       this.item.month = this.item.month || 1
@@ -211,8 +256,8 @@ export default {
       this.item.az = this.item.az || 1
       this.item.tenant = this.item.tenant || 'PRD'
       this.item.status = this.item.status || 'created'
-      this.item.occurred_at = this.item.occurred_at || this.getNow()
-      // this.item.acknowledged_at = this.item.acknowledged_at || this.getNow()
+      // this.item.occurred_at = this.item.occurred_at || this.getNow()
+      this.item.acknowledged_at = this.item.acknowledged_at || this.getNow()
     },
     resetItem() {
       this.item.year = null
@@ -227,19 +272,19 @@ export default {
       this.item.info = null
       this.item.action = null
     },
-    formatDate(date) {
-      if (!date) {
-        return null
-      }
-      return date
-    },
-    parseDate(date) {
-      if (!date) {
-        return null
-      }
-      const [year, month, day] = date.split('-')
-      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-    },
+    // formatDate(date) {
+    //   if (!date) {
+    //     return null
+    //   }
+    //   return date
+    // },
+    // parseDate(date) {
+    //   if (!date) {
+    //     return null
+    //   }
+    //   const [year, month, day] = date.split('-')
+    //   return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+    // },
     getNow() {
       const today = new Date()
       const date =
@@ -249,7 +294,7 @@ export default {
         '-' +
         today.getDate()
       const time = today.getHours() + ':' + today.getMinutes()
-      // today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+      // const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
       const timestamp = date + ' ' + time
       return timestamp
     },
@@ -262,10 +307,11 @@ export default {
     submitItem() {
       this.item = this.editedItem || {}
       this.$emit('submit-item')
-    },
-    close() {
       this.resetItem()
-      this.$emit('close')
+    },
+    close(id) {
+      this.$emit('close', id)
+      this.resetItem()
       // console.log(this.item)
     },
   },
