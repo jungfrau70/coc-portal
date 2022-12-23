@@ -24,7 +24,7 @@
             </v-select>
           </v-col>
         </v-row>
-        <v-row v-if="editedItem.id">
+        <v-row >
           <v-col>
             <v-datetime-picker
               v-model="item['occurred_at']"
@@ -51,56 +51,6 @@
           </v-col>
         </v-row>
 
-        <v-row v-if="!editedItem.id">
-          <v-col>
-            <v-datetime-picker
-              v-model="item['occurred_at']"
-              format="DatetimePickerFormat"
-              label="Occurred_at"
-            >
-            </v-datetime-picker>
-          </v-col>
-          <v-col>
-            <v-datetime-picker
-              v-model="item['acknowledged_at']"
-              format="DatetimePickerFormat"
-              label="Acknowledged_at"
-            >
-            </v-datetime-picker>
-          </v-col>
-          <v-col>
-            <v-datetime-picker
-              v-model="item['propogated_at']"
-              format="DatetimePickerFormat"
-              label="Propogated_at"
-            >
-            </v-datetime-picker>
-          </v-col>
-        </v-row>
-
-        <!-- <v-row>
-          <v-btn :item="item" @click="currentDatetime = getNow()">Now</v-btn>
-          <h1>{{ currentDatetime }}</h1>
-        </v-row>
-        <v-row>
-          <v-btn :item="item" @click="item['occurred_at'] = getNow()">Now</v-btn>
-          <h1>{{ item['occurred_at'] }}</h1>
-        </v-row>
-        <v-row>
-          <v-btn @click="item['acknowledged_at'] = getNow()">Now</v-btn>
-          <h1>{{ item['acknowledged_at'] }}</h1>
-        </v-row>
-        <v-row>
-          <v-btn @click="item['propogated_at'] = getNow()">Now</v-btn>
-          <h1>{{ item['propogated_at'] }}</h1>
-        </v-row> -->
-        <!-- <v-row>
-          <h1>
-            {{ item['year'] }}년 {{ item['month'] }}월,
-            {{ item['occurred_at'] }}, {{ item['acknowledged_at'] }},
-            {{ item['propograted_at'] }},
-          </h1>
-        </v-row> -->
         <v-row>
           <v-text-field
             v-model="item['title']"
@@ -109,31 +59,38 @@
           ></v-text-field>
         </v-row>
         <v-row>
-          <v-textarea
-            v-model="item['info']"
-            filled
-            label="Info"
-            auto-grow
-            value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-          ></v-textarea>
+          <v-col>
+            <v-textarea
+              v-model="item['action']"
+              filled
+              label="Action"
+              auto-grow
+              value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+            ></v-textarea>
+          </v-col>
+          <!-- <v-col>
+            <div v-html="changeMarkdown"></div>
+          </v-col> -->
         </v-row>
         <v-row>
-          <v-textarea
-            v-model="item['action']"
-            filled
-            label="Action"
-            auto-grow
-            value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-          ></v-textarea>
+          <v-col>
+            <v-textarea
+              v-model="item['comment']"
+              filled
+              label="Comment"
+              auto-grow
+              value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+            ></v-textarea>
+          </v-col>
+          <!-- <v-col>
+            <div v-html="changeMarkdown"></div>
+          </v-col> -->
         </v-row>
         <v-spacer></v-spacer>
         <v-row>
-          <!-- <v-btn class="mr-4" type="submit" @submit.prevent="handleAdd"> submit </v-btn> -->
-          <v-btn class="mr-4" color="green darken-1" @click="submitItem">
-            submit
-          </v-btn>
-          <!-- <v-btn class="mr-4" @submit.prevent="handdleAdd"> submit </v-btn> -->
-          <!-- <v-btn @click="clear"> clear </v-btn> -->
+          <v-btn class="mr-4" color="green darken-1" @click="submitItem"
+            >Submit</v-btn
+          >
           <v-btn color="dark darken-1" @click="close(editedItem.id)"
             >Close</v-btn
           >
@@ -152,11 +109,8 @@
 </template>
 
 <script>
-// import DatetimePicker from 'vuetify-datetime-picker'
-
 export default {
   name: 'IncidentDetail',
-  // components: { 'v-datetime-picker': DatetimePicker },
   props: {
     editedItem: {
       type: Object,
@@ -172,24 +126,32 @@ export default {
     convertedText: '',
     currentDatetime: null,
     DatetimePickerFormat: 'yyyy-MM-dd HH:mm',
-    // $moment(editedItem.occurred_at).format(
-    //                 'YYYY-MM-DD [&nbsp;] HH:mm'
     item: {
-      year: 2022,
-      month: 1,
-      region: 'KR',
-      az: 1,
-      tenant: 'PRD',
-      status: 'created',
+      // id: null,
+      year: null,
+      month: null,
+      region: null,
+      az: null,
+      tenant: null,
+      shift_start_date: null,
+      shift_type: null,
+      level_1_engineer1: null,
+      level_1_engineer2: null,
+      level_2_engineers: null,
+      how_to_share: null,
+      event: null,
+      action: '# Action Required?',
+      status: null,
+      ticket_no: null,
+      escalated_to_l3: null,
+      comment: '# Please comment here',
       occurred_at: null,
       acknowledged_at: null,
       propogated_at: null,
-      updated_at: null,
-      title: null,
-      info: null,
-      action: null,
-      escalated_to_2l: null,
-      escalated_to_3l: null,
+      resolved_at: null,
+      creator: null,
+      reviewer: null,
+      updater: null,
     },
     colOptions: {
       year: [2022, 2023, 2024, 2025],
@@ -228,6 +190,21 @@ export default {
     computedDateFormatted() {
       return this.formatDate(this.date)
     },
+    // changeMarkdown() {
+    //   // marked.setOptions({
+    //   //   renderer: new marked.Renderer(),
+    //   //   gfm: true,
+    //   //   headerIds: false,
+    //   //   tables: true,
+    //   //   breaks: true,
+    //   //   pedantic: false,
+    //   //   sanitize: true,
+    //   //   smartLists: true,
+    //   //   smartypants: false
+    //   // });
+    //   // return marked(this.item.action);
+    //   return this.$md.render(this.item.action)
+    // },
   },
   watch: {
     date(val) {
@@ -235,15 +212,22 @@ export default {
     },
   },
   created() {
+    console.log(this.item.id)
+  },
+  mounted() {
+    console.log(this.item.id)
     this.loadItem()
     if (!this.editedItem.id) {
       this.setDefaultItem()
     }
+    console.log(this.item.id)
   },
-  mounted() {},
-  updated() {},
-  beforedestroyed() {
-    this.resetItem()
+  updated() {
+    console.log(this.item.id)
+  },
+  beforeDestroyed() {
+    console.log(this.item.id)
+    // this.resetItem()
   },
   methods: {
     customDatetime(datetime) {
@@ -253,24 +237,54 @@ export default {
       this.item.year = this.item.year || 2022
       this.item.month = this.item.month || 1
       this.item.region = this.item.region || 'KR'
-      this.item.az = this.item.az || 1
+      this.item.az =this.item.az || 1
       this.item.tenant = this.item.tenant || 'PRD'
+      this.item.shift_start_date = null
+      this.item.shift_type = null
+      this.item.level_1_engineer1 = null
+      this.item.level_1_engineer2 = null
+      this.item.level_2_engineers = null
+      this.item.how_to_share = null
+      this.item.event = null
+      this.item.action = '# Action Required?'
       this.item.status = this.item.status || 'created'
-      // this.item.occurred_at = this.item.occurred_at || this.getNow()
+      this.item.ticket_no = null
+      this.item.escalated_to_l3 = null
+      this.item.comment = '# Please comment here'
+      this.item.occurred_at = null
       this.item.acknowledged_at = this.item.acknowledged_at || this.getNow()
+      this.item.propogated_at = null
+      this.item.resolved_at = null
+      this.item.creator = null
+      this.item.reviewer = null
+      this.item.updater = null
     },
     resetItem() {
+      this.item.id = null
       this.item.year = null
       this.item.month = null
       this.item.region = null
       this.item.az = null
       this.item.tenant = null
+      this.item.shift_start_date = null
+      this.item.shift_type = null
+      this.item.level_1_engineer1 = null
+      this.item.level_1_engineer2 = null
+      this.item.level_2_engineers = null
+      this.item.how_to_share = null
+      this.item.event = null
+      this.item.action = '# Action Required?'
       this.item.status = null
+      this.item.ticket_no = null
+      this.item.escalated_to_l3 = null
+      this.item.comment = '# Please comment here'
       this.item.occurred_at = null
       this.item.acknowledged_at = null
-      this.item.title = null
-      this.item.info = null
-      this.item.action = null
+      this.item.propogated_at = null
+      this.item.resolved_at = null
+      this.item.creator = null
+      this.item.reviewer = null
+      this.item.updater = null
     },
     // formatDate(date) {
     //   if (!date) {
@@ -310,8 +324,11 @@ export default {
       this.resetItem()
     },
     close(id) {
-      this.$emit('close', id)
+      // console.log(id)
       this.resetItem()
+      // console.log(id)
+      this.$emit('close', id)
+
       // console.log(this.item)
     },
   },

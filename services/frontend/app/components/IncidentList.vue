@@ -102,7 +102,6 @@
 
     <!-- Edit dialog -->
     <v-dialog v-model="dialogEdit">
-      <v-card-title>Edit</v-card-title>
       <v-card>
         <IncidentDetail
           :edited-item="editedItem"
@@ -222,6 +221,10 @@ export default {
     this.loadItems()
   },
 
+  created() {
+    // console.log(this.editedItem.id)
+  },
+
   methods: {
     customDatetime(datetime) {
       return this.$moment(datetime).format('YYYY-MM-DD HH:mm')
@@ -243,6 +246,7 @@ export default {
         this.dialogAdd = false
       }
       this.dialog = false
+      this.editedItem.id = null
     },
     getFiltered(e) {
       this.currentItems = e
