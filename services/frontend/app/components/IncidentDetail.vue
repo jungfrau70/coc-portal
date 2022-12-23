@@ -1,4 +1,4 @@
-<template>
+<template >
   <v-card>
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-container>
@@ -24,7 +24,7 @@
             </v-select>
           </v-col>
         </v-row>
-        <v-row >
+        <v-row>
           <v-col>
             <v-datetime-picker
               v-model="item['occurred_at']"
@@ -53,8 +53,8 @@
 
         <v-row>
           <v-text-field
-            v-model="item['title']"
-            label="Title"
+            v-model="item['event']"
+            label="Title(Event)"
             required
           ></v-text-field>
         </v-row>
@@ -68,9 +68,11 @@
               value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
             ></v-textarea>
           </v-col>
-          <!-- <v-col>
-            <div v-html="changeMarkdown"></div>
-          </v-col> -->
+          <v-col>
+            <template>
+              <div v-html="actionMarkdown"></div>
+            </template>
+          </v-col>
         </v-row>
         <v-row>
           <v-col>
@@ -156,10 +158,29 @@ export default {
     colOptions: {
       year: [2022, 2023, 2024, 2025],
       month: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-      region: ['KR', 'EU'],
-      az: [1, 2],
-      tenant: ['PRD', 'PRE_PRD', 'STG', 'DEV'],
-      status: ['created', 'in-process', 'completed', 'cancelled', 'delayed'],
+      region: [
+        'KR',
+        'EU',
+        'NA',
+        'SG',
+        'IN',
+        'RU',
+        'CN',
+        'KR2',
+        'KR Bigdata',
+        'KR R&D',
+      ],
+      az: [1, 2, 3, 4, 5, 6, 7, 8],
+      tenant: ['PRD', 'PRE_PRD', 'STG', 'DEV', 'bigdata', 'stg', 'prd'],
+      status: [
+        'created',
+        'in-process',
+        'completed',
+        'cancelled',
+        'delayed',
+        '완료',
+        'NaN',
+      ],
     },
     // date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
     //   .toISOString()
@@ -190,21 +211,21 @@ export default {
     computedDateFormatted() {
       return this.formatDate(this.date)
     },
-    // changeMarkdown() {
-    //   // marked.setOptions({
-    //   //   renderer: new marked.Renderer(),
-    //   //   gfm: true,
-    //   //   headerIds: false,
-    //   //   tables: true,
-    //   //   breaks: true,
-    //   //   pedantic: false,
-    //   //   sanitize: true,
-    //   //   smartLists: true,
-    //   //   smartypants: false
-    //   // });
-    //   // return marked(this.item.action);
-    //   return this.$md.render(this.item.action)
-    // },
+    actionMarkdown() {
+      // marked.setOptions({
+      //   renderer: new marked.Renderer(),
+      //   gfm: true,
+      //   headerIds: false,
+      //   tables: true,
+      //   breaks: true,
+      //   pedantic: false,
+      //   sanitize: true,
+      //   smartLists: true,
+      //   smartypants: false
+      // });
+      // return marked(this.item.action);
+      return this.$md.render(this.item.action)
+    },
   },
   watch: {
     date(val) {
@@ -212,32 +233,35 @@ export default {
     },
   },
   created() {
-    console.log(this.item.id)
-  },
-  mounted() {
-    console.log(this.item.id)
-    this.loadItem()
-    if (!this.editedItem.id) {
+    console.log('detail created')
+    if (this.editedItem.id) {
+      this.loadItem()
+    } else {
       this.setDefaultItem()
     }
-    console.log(this.item.id)
+  },
+  mounted() {
+    console.log('detail mounted')
   },
   updated() {
-    console.log(this.item.id)
+    console.log('detail updated')
+    if (this.editedItem.id) {
+      this.loadItem()
+    }
   },
-  beforeDestroyed() {
-    console.log(this.item.id)
-    // this.resetItem()
+  beforeDestroy() {
+    console.log('detail beforeDestoryed')
   },
   methods: {
     customDatetime(datetime) {
       return this.$moment(datetime).format('YYYY-MM-DD HH:mm')
     },
     setDefaultItem() {
+      console.log('set default values to item')
       this.item.year = this.item.year || 2022
       this.item.month = this.item.month || 1
       this.item.region = this.item.region || 'KR'
-      this.item.az =this.item.az || 1
+      this.item.az = this.item.az || 1
       this.item.tenant = this.item.tenant || 'PRD'
       this.item.shift_start_date = null
       this.item.shift_type = null
@@ -260,31 +284,7 @@ export default {
       this.item.updater = null
     },
     resetItem() {
-      this.item.id = null
-      this.item.year = null
-      this.item.month = null
-      this.item.region = null
-      this.item.az = null
-      this.item.tenant = null
-      this.item.shift_start_date = null
-      this.item.shift_type = null
-      this.item.level_1_engineer1 = null
-      this.item.level_1_engineer2 = null
-      this.item.level_2_engineers = null
-      this.item.how_to_share = null
-      this.item.event = null
-      this.item.action = '# Action Required?'
-      this.item.status = null
-      this.item.ticket_no = null
-      this.item.escalated_to_l3 = null
-      this.item.comment = '# Please comment here'
-      this.item.occurred_at = null
-      this.item.acknowledged_at = null
-      this.item.propogated_at = null
-      this.item.resolved_at = null
-      this.item.creator = null
-      this.item.reviewer = null
-      this.item.updater = null
+      this.item = {}
     },
     // formatDate(date) {
     //   if (!date) {
@@ -313,7 +313,6 @@ export default {
       return timestamp
     },
     loadItem() {
-      // console.log(this.item)
       this.item = this.editedItem || {}
       this.$emit('showEditDialog', this.item)
       // console.log(this)
@@ -324,12 +323,11 @@ export default {
       this.resetItem()
     },
     close(id) {
-      // console.log(id)
-      this.resetItem()
-      // console.log(id)
-      this.$emit('close', id)
+      console.log('detail close')
+      this.item = {}
+      this.setDefaultItem()
 
-      // console.log(this.item)
+      this.$emit('close', id)
     },
   },
 }

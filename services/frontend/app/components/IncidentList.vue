@@ -39,9 +39,9 @@
       <template >
         <v-card v-model="dialogAdd">
         <IncidentDetail
-          :edited-item="editedItem"
+          :editedItem="newItem"
           @submit-item="submitItem"
-          @close="close"
+          @close="close(newItem)"
         />
       </v-card>
       </template>
@@ -106,7 +106,7 @@
         <IncidentDetail
           :edited-item="editedItem"
           @submit-item="submitItem"
-          @close="close"
+          @close="close(editedItem)"
         />
       </v-card>
     </v-dialog>
@@ -194,9 +194,9 @@ export default {
       selected: [],
       currentItems: [],
       newItem: {},
+      editedItem: {},
 
       dialog: false,
-      editedItem: {},
       dialogAdd: false,
       dialogEdit: false,
       dialogDelete: false,
@@ -217,36 +217,40 @@ export default {
     },
   },
 
-  mounted() {
+  created() {
+    console.log("list created")
     this.loadItems()
   },
-
-  created() {
-    // console.log(this.editedItem.id)
+  mounted() {
+    console.log("list mounted")
+  },
+  updated() {
+    console.log("list updated")
+    console.log(this.editedItem.id)
+  },
+  beforeDestroy() {
+    console.log("list beforeDestroy")
   },
 
+  watch: {
+    dialogAdd: function() {
+      this.newItem = {}
+    },
+  },
   methods: {
     customDatetime(datetime) {
       return this.$moment(datetime).format('YYYY-MM-DD HH:mm')
     },
-    setDefaultItem() {
-      this.item.year = this.item.year || 2022
-      this.item.month = this.item.month || 1
-      this.item.region = this.item.region || 'KR'
-      this.item.az = this.item.az || 1
-      this.item.tenant = this.item.tenant || 'PRD'
-      this.item.status = this.item.status || 'created'
-      this.item.occurred_at = this.item.occurred_at || this.getNow()
-      this.item.acknowledged_at = this.item.acknowledged_at || this.getNow()
-    },
-    close(id) {
-      if(id) {
+    close(item) {
+      console.log("list close")
+      // this.editedItem = {}
+      if(item) {
         this.dialogEdit = false
+        this.editedItem = {}
       } else {
         this.dialogAdd = false
       }
       this.dialog = false
-      this.editedItem.id = null
     },
     getFiltered(e) {
       this.currentItems = e
@@ -270,6 +274,10 @@ export default {
     },
 
     showEditDialog(item) {
+      if (!item.id) {
+        item = {}
+      }
+      // console.log(item)
       this.editedItem = item || {}
       this.dialogEdit = !this.dialogEdit
     },
