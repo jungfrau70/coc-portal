@@ -114,7 +114,7 @@ class ShowDiscussion(BaseModel):
         orm_mode = True      
 
 
-class ShowIncident(BaseModel):
+class IncidentBase(BaseModel):
     id: int
     year: Optional[int]
     month: Optional[int]
@@ -144,8 +144,9 @@ class ShowIncident(BaseModel):
 
     creator: Optional[str]
     reviewer: Optional[str]
-    updater: Optional[str]
+    updater: Optional[str] 
 
+class ShowIncident(IncidentBase):
     class Config():
         orm_mode = True      
 

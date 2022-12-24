@@ -17,6 +17,7 @@ def get_all(db: Session):
     return records
 
 def create(request: Schema, db: Session):
+    
     new_record = Model(title=request.title, body=request.body,user_id=1)
     db.add(new_record)
     db.commit()

@@ -30,7 +30,8 @@ def show(id:int, db: Session = Depends(get_db)):
 
 @router.post('/', status_code=status.HTTP_201_CREATED,)
 # def create(request: schemas.Blog, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
-def create(request: schemas.Blog, db: Session = Depends(get_db)):
+def create(request: schemas.ShowIncident, db: Session = Depends(get_db)):
+    print("I'm Here")
     return incident_handling.create(request, db)
 
 @router.post('/uploadfile', status_code=status.HTTP_201_CREATED,)

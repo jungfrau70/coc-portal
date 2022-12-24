@@ -36,14 +36,14 @@
           </v-btn>
         </v-card-actions>
       </template>
-      <template >
+      <template>
         <v-card v-model="dialogAdd">
-        <IncidentDetail
-          :editedItem="newItem"
-          @submit-item="submitItem"
-          @close="close(newItem)"
-        />
-      </v-card>
+          <IncidentDetail
+            :editedItem="newItem"
+            @submit-item="submitItem"
+            @close="close(newItem)"
+          />
+        </v-card>
       </template>
     </v-dialog>
 
@@ -120,7 +120,9 @@
           verwijderen?</v-card-text
         >
         <v-card-actions>
-          <v-btn color="primary" text @click="dialogDelete = false">Close</v-btn>
+          <v-btn color="primary" text @click="dialogDelete = false"
+            >Close</v-btn
+          >
           <v-btn color="primary" text @click="deleteItem()">Delete</v-btn>
         </v-card-actions>
       </v-card>
@@ -216,35 +218,116 @@ export default {
       })
     },
   },
-
+  watch: {
+    dialogAdd: function () {
+      this.newItem = {}
+    },
+  },
   created() {
-    console.log("list created")
+    console.log('list created')
     this.loadItems()
   },
   mounted() {
-    console.log("list mounted")
+    console.log('list mounted')
   },
   updated() {
-    console.log("list updated")
+    console.log('list updated')
     console.log(this.editedItem.id)
   },
-  beforeDestroy() {
-    console.log("list beforeDestroy")
-  },
 
-  watch: {
-    dialogAdd: function() {
-      this.newItem = {}
-    },
+  beforeDestroy() {
+    console.log('list beforeDestroy')
   },
   methods: {
     customDatetime(datetime) {
       return this.$moment(datetime).format('YYYY-MM-DD HH:mm')
     },
+
+    submitItem(item) {
+      if (item) {
+        this.dialogEdit = false
+        this.editedItem = {}
+      } else {
+        this.dialogAdd = false
+      }
+      this.dialog = false
+
+      // airtable API needs the data to be placed in fields object
+      const data = {
+        // id: item.id,
+        year: item.year,
+        month: item.month,
+        region: item.region,
+        az: item.az,
+        tenant: item.tenant,
+        shift_start_date: item.shift_start_date,
+        shift_type: item.shift_type,
+        level_1_engineer1: item.level_1_engineer1,
+        level_1_engineer2: item.level_1_engineer2,
+        level_2_engineers: item.level_2_engineers,
+        how_to_share: item.how_to_share,
+        event: item.event,
+        action: item.action,
+        status: item.status,
+        ticket_no: item.ticket_no,
+        escalated_to_l3: item.escalated_to_l3,
+        comment: item.comment,
+        occurred_at: this.customDatetime(item.occurred_at),
+        acknowledged_at: this.customDatetime(item.acknowledged_at),
+        propogated_at: this.customDatetime(item.propogated_at),
+        resolved_at: this.customDatetime(item.resolved_at),
+        creator: item.creator,
+        reviewer: item.reviewer,
+        updater: item.updater,
+      }
+      console.log(data)
+
+      const id = item.id || null
+      let method = 'post'
+      let url = `http://localhost:8000/incident`
+
+      // save the record
+      // headers: {
+      //     Authorization: 'Bearer ' + apiToken,
+      //     'Content-Type': 'application/json',
+      //   },
+      axios[method](url, data, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods':
+            'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => {
+        if (response.data && response.data.id) {
+          // add new item to state
+          this.editedItem.id = response.data.id
+          if (!id) {
+            // add the new item to items state
+            this.items.push(this.editedItem)
+          }
+          this.editedItem = {}
+        }
+        this.dialog = !this.dialog
+      })
+
+      if (id) {
+        // if the item has an id, we're updating an existing item
+        console.log(id)
+        method = 'patch'
+        url = `http://localhost:8000/incident/${id}`
+
+        // must remove id from the data for airtable patch to work
+        delete data.fields.id
+      }
+
+    },
+
     close(item) {
-      console.log("list close")
+      console.log('list close')
       // this.editedItem = {}
-      if(item) {
+      if (item) {
         this.dialogEdit = false
         this.editedItem = {}
       } else {
@@ -347,55 +430,10 @@ export default {
     //   // this.newRecordText = ''
     // },
 
-    submitItem() {
-      this.dialog = true
-      /* this is used for both creating and updating API records
-           the default method is POST for creating a new item */
-      console.log(this.editedItem)
-      let method = 'post'
-      let url = `http://localhost:8000/incident`
-      const id = this.editedItem.id
-
-      // airtable API needs the data to be placed in fields object
-      const data = {
-        fields: this.editedItem,
-      }
-
-      if (id) {
-        // if the item has an id, we're updating an existing item
-        method = 'patch'
-        url = `http://localhost:8000/incident/${id}`
-
-        // must remove id from the data for airtable patch to work
-        delete data.fields.id
-      }
-
-      // save the record
-      // headers: {
-      //     Authorization: 'Bearer ' + apiToken,
-      //     'Content-Type': 'application/json',
-      //   },
-      axios[method](url, data, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods':
-            'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
-          'Content-Type': 'application/json',
-        },
-      }).then((response) => {
-        if (response.data && response.data.id) {
-          // add new item to state
-          this.editedItem.id = response.data.id
-          if (!id) {
-            // add the new item to items state
-            this.items.push(this.editedItem)
-          }
-          this.editedItem = {}
-        }
-        this.dialog = !this.dialog
-      })
-    },
+    // submitItem(item) {
+    //   console.log("submit in list")
+    //   // console.log(value)
+    // },
 
     deleteItem() {
       // console.log('deleteItem', this.itemToDelete)

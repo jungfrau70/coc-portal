@@ -224,13 +224,17 @@ export default {
       //   smartypants: false
       // });
       // return marked(this.item.action);
-      return this.$md.render(this.item.action)
+      // return this.$md.render(this.item.action)  || " "
+      return " "
     },
   },
   watch: {
     date(val) {
       this.value = this.formatDate(this.date)
     },
+    dialogEdit: function() {
+      console.log("event occurred")
+    }
   },
   created() {
     console.log('detail created')
@@ -317,9 +321,16 @@ export default {
       this.$emit('showEditDialog', this.item)
       // console.log(this)
     },
+
+    convertedDatetime(datetime) {
+      return ("datetime"+"__")
+    },
+
     submitItem() {
-      this.item = this.editedItem || {}
-      this.$emit('submit-item')
+      // console.log(this.item)
+      // this.item = this.editedItem || {}
+      this.item.acknowledged_at = this.convertedDatetime(this.item.acknowledged_at) || "null"
+      this.$emit('submit-item', this.item)
       this.resetItem()
     },
     close(id) {
