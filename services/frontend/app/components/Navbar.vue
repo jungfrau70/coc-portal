@@ -96,8 +96,13 @@
 </template>
 
 <script>
+// import HomeView from '../views/HomeView.vue'
+
 export default {
   name: 'DefaultLayout',
+  components: {
+    // HomeView,
+  },
   data() {
     return {
       clipped: false,
@@ -108,7 +113,16 @@ export default {
           icon: 'mdi-apps',
           title: 'Home',
           to: '/',
+          // path: '/',
+          // component: HomeView,
         },
+        // {
+        //   icon: 'mdi-apps',
+        //   title: 'Home',
+        //   to: '/home',
+        //   // path: '/',
+        //   // component: HomeView,
+        // },
         {
           icon: 'mdi-chart-bubble',
           title: '인시던트핸들링',

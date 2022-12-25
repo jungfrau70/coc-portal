@@ -6,20 +6,23 @@ from fastapi import APIRouter, Depends, status
 from cruds import user
 
 router = APIRouter(
-    prefix="/account",
+    prefix="/api/auth",
     tags=['Users']
 )
 
 get_db = database.get_db
 
+@router.post('/all', response_model=schemas.ShowUser)
+def create_user(request: schemas.User,db: Session = Depends(get_db)):
+    return user.show(email,db)
 
 @router.post('/register', response_model=schemas.ShowUser)
 def create_user(request: schemas.User,db: Session = Depends(get_db)):
     return user.create(request,db)
 
-# @router.get('/{email}',response_model=schemas.ShowUser)
-# def get_user(email:str, db: Session = Depends(get_db)):
-#     return user.show(email,db)
+@router.get('/{email}',response_model=schemas.ShowUser)
+def get_user(email:str, db: Session = Depends(get_db)):
+    return user.show(email,db)
     
 @router.get('/{id}',response_model=schemas.ShowUser)
 def get_user(id:int, db: Session = Depends(get_db)):
