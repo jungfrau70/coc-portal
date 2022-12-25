@@ -40,26 +40,27 @@
 
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer />
-      <!-- <v-tabs color="deep-purple accent-4" left flat>
-        <v-tab nuxt>리스트</v-tab>
-        <v-tab nuxt>챠트</v-tab>
-      </v-tabs> -->
-      <!-- <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>mdi-menu</v-icon>
-      </v-btn> -->
-      <!-- <section>
-        <div v-if="isLoggedIn" id="logout">
-          <p id="logout">
-            Click <a href="/dashboard">here</a> to view all notes.
-          </p>
+      <div v-if="isLoggedIn">
+        <nuxt-link to="/auth/logout">Logout</nuxt-link>
+      </div>
+      <div v-else>
+        <nuxt-link to="/auth/login">LogIn</nuxt-link>
+        <span> or </span>
+        <nuxt-link to="/auth/signup">SignUp</nuxt-link>
+      </div>
+
+      <!-- <v-container>
+          <div v-if="isLoggedIn" id="logout">
+          <nuxt-link to="/logout">Logout</nuxt-link>
         </div>
         <p v-else>
-          <span><a href="/register">Register</a></span>
+          <nuxt-link to="/register">Sign-in</nuxt-link>
           <span> or </span>
-          <span><a href="/login">Log In</a></span>
+          <nuxt-link to="/login">Log In</nuxt-link>
         </p>
-      </section> -->
-      <div class="navbar-end">
+        </v-container> -->
+
+      <!-- <div class="navbar-end">
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link"> My Account </a>
           <div class="navbar-dropdown">
@@ -72,7 +73,7 @@
           <nuxt-link class="navbar-item" to="/register">Register</nuxt-link>
           <nuxt-link class="navbar-item" to="/login">Log In</nuxt-link>
         </template>
-      </div>
+      </div> -->
     </v-app-bar>
     <v-main>
       <v-container>
@@ -113,16 +114,7 @@ export default {
           icon: 'mdi-apps',
           title: 'Home',
           to: '/',
-          // path: '/',
-          // component: HomeView,
         },
-        // {
-        //   icon: 'mdi-apps',
-        //   title: 'Home',
-        //   to: '/home',
-        //   // path: '/',
-        //   // component: HomeView,
-        // },
         {
           icon: 'mdi-chart-bubble',
           title: '인시던트핸들링',
@@ -174,7 +166,7 @@ export default {
   methods: {
     async logout() {
       await this.$store.dispatch('logOut')
-      this.$router.push('/login')
+      this.$router.push('/auth/login')
     },
   },
 }

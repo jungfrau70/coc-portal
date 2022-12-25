@@ -3,7 +3,7 @@
       <v-main>
          <v-container fluid fill-height>
             <v-layout align-center justify-center>
-               <v-flex> <!-- xs12 sm8 md4> -->
+               <v-flex xs12 sm8 md4>
                   <v-card class="elevation-12">
                      <v-toolbar dark color="primary">
                         <v-toolbar-title>Signup</v-toolbar-title>
@@ -53,7 +53,7 @@
 <script>
 
 export default {
-   name: 'Signup',
+   name: 'UserSignup',
    data() {
       return {
          valid: true,
@@ -82,13 +82,13 @@ export default {
          }
          console.log(data);
          try {
-             const res = await this.$axios.post('/account/register', data)
+             const res = await this.$axios.post('/auth/signup', data)
              console.log(res)
          }
          catch(e) {
              console.log(e.message)
          }
-         await this.$router.push('/login');               
+         await this.$router.push('/auth/login');               
       }
    }
 };

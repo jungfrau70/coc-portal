@@ -3,7 +3,8 @@
       <v-main>
          <v-container fluid fill-height>
             <v-layout align-center justify-center>
-               <v-flex xs12 sm8 md4>
+               <v-flex>
+               <!-- <v-flex xs12 sm8 md4> -->
                   <v-card class="elevation-12">
                      <v-toolbar dark color="primary">
                         <v-toolbar-title>Login form</v-toolbar-title>
@@ -43,7 +44,7 @@
 <script>
 
 export default {
-   name: 'LoginForm',
+   name: 'UserLogout',
    data() {
       return {
          email: '',
@@ -55,9 +56,7 @@ export default {
       async loginHandler() {
          const data = { 'username': this.email, 'password': this.password }
          console.log(data);
-         try{
-            // const res = await this.$axios.post('/login', data)
-            // console.log(res)            
+         try{         
             const response = await this.$auth.loginWith('local', { data: data})
             console.log(response)       
             this.$auth.$storage.setUniversal('bearer', response.data.access_token)
