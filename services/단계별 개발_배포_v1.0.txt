@@ -17,6 +17,7 @@ Step 1. CRUD
       . (완료) Delete :  ex) http DELETE "http://localhost:8000/incident/3755"
       . (진행) Update :  ex) http PUT "http://localhost:8000/incident/3730" region="KR" month=10 year=2023 az=1 tenant="1" event="test3" 
         ==> Internal Server Error
+            sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedFunction) function utc_timestamp() does not exist
     2) Auth Token
       Register/Login/Logout
       

@@ -102,19 +102,22 @@ def update(id:int,request, db:Session):
     if not record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with id {id} not found")
-    updated_record = Model(
-        year = request.year,
-        month = request.month,
-        region = request.region,
-        az = request.az,
-        tenant = request.tenant,
-        event = request.event
-    )
+    db.query(Model).filter(Model.id == id).update({
+        "year": request.year,
+        "month": request.month,
+        "region": request.region,
+        "az": request.az,
+        "tenant": request.tenant,
+        "event": request.event
+    })
     # record.update(request)
-    record.update(updated_record)
+    # record.update(updated_record)
     # db.update(updated_record)
     db.commit()
-    return 'updated'
+    db.refresh(record)
+    # db.refresh(record)
+    return record
+    # return 'updated'
 
 def show(id:int,db:Session):
     record = db.query(Model).filter(Model.id == id).first()
