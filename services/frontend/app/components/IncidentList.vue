@@ -319,7 +319,7 @@ export default {
         url = `http://localhost:8000/incident/${id}`
 
         // must remove id from the data for airtable patch to work
-        delete data.fields.id
+        delete data.id
       }
 
     },

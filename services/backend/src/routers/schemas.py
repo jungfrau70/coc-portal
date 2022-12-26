@@ -115,7 +115,6 @@ class ShowDiscussion(BaseModel):
 
 
 class IncidentBase(BaseModel):
-    id: int
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -142,13 +141,23 @@ class IncidentBase(BaseModel):
     propogated_at: Optional[datetime]
     resolved_at: Optional[datetime]
 
-    creator: Optional[str]
-    reviewer: Optional[str]
-    updater: Optional[str] 
+    # reviewer: Optional[str]
+    # creator: Optional[str]
+    # updater: Optional[str] 
+
+class Incident(IncidentBase):
+    class Config():
+        orm_mode = True    
 
 class ShowIncident(IncidentBase):
+    id: int
+    reviewer: Optional[str]
+    creator: Optional[str]
+    updater: Optional[str] 
+
     class Config():
         orm_mode = True      
+
 
 
 class ShowIssue(BaseModel):

@@ -16,9 +16,15 @@ def get_all(db: Session):
     records = db.query(Model).all()
     return records
 
-def create(request: Schema, db: Session):
-    
-    new_record = Model(title=request.title, body=request.body,user_id=1)
+def create(request: schemas.Incident, db: Session):
+    new_record = Model(
+        year = request.year,
+        month = request.month,
+        region = request.region,
+        az = request.az,
+        tenant = request.tenant,
+        event = request.event
+    )
     db.add(new_record)
     db.commit()
     db.refresh(new_record)
@@ -86,23 +92,34 @@ def destroy(id:int,db: Session):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with id {id} not found")
 
-    record.delete(synchronize_session=False)
+    # record.delete(synchronize_session=False)
+    db.query(Model).filter(Model.id == id).delete()
     db.commit()
     return 'done'
 
-def update(id:int,request:Schema, db:Session):
-    record = db.query(Model).filter(Model.id == id)
-
-    if not record.first():
+def update(id:int,request, db:Session):
+    record = db.query(Model).filter(Model.id == id).first()
+    if not record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with id {id} not found")
-
-    record.update(request)
+    updated_record = Model(
+        year = request.year,
+        month = request.month,
+        region = request.region,
+        az = request.az,
+        tenant = request.tenant,
+        event = request.event
+    )
+    # record.update(request)
+    record.update(updated_record)
+    # db.update(updated_record)
     db.commit()
     return 'updated'
 
 def show(id:int,db:Session):
     record = db.query(Model).filter(Model.id == id).first()
+    
+    # record = db.query(Model).all()[0]
     if not record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with the id {id} is not available")

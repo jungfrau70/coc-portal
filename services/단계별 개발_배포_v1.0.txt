@@ -11,13 +11,14 @@ Step 1. CRUD
   1.8 (중단) Model 창 markdown 표기 변환(format) (12/23, 연동 후 재 시도)
       . markdown & highlight (no error, but not work)
   1.9 fastapi 연동 (참고:  https://www.digitalocean.com/community/tutorials/implementing-authentication-in-nuxtjs-app )
-    1) Auth Token
+    1) CRUD
+      . (완료) Create :  ex) http POST "http://localhost:8000/incident/" region="KR" month=10 year=2023 az=1 tenant="1" event="test3" 
+      . (완료) Read   :  ex) http GET "http://localhost:8000/incident/3730"   
+      . (완료) Delete :  ex) http DELETE "http://localhost:8000/incident/3755"
+      . (진행) Update :  ex) http PUT "http://localhost:8000/incident/3730" region="KR" month=10 year=2023 az=1 tenant="1" event="test3" 
+        ==> Internal Server Error
+    2) Auth Token
       Register/Login/Logout
-    2) CRUD
-      . Create
-      . Read
-      . Update
-      . Delete
       
 Step 2. Tools
   2.1. 그래프
