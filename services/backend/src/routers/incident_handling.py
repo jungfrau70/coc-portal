@@ -51,5 +51,5 @@ def destroy(id:int, db: Session = Depends(get_db)):
 # def update(id:int, request: schemas.Blog, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
 def update(id:int, request: schemas.Incident, db: Session = Depends(get_db)):
     # return { "item_id": id }
-    # return { "request": request }
-    return incident_handling.update(id,request, db)
+    return { "request": request.acknowledged_at }
+    # return incident_handling.update(id,request, db)

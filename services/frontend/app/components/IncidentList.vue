@@ -41,7 +41,7 @@
           <IncidentDetail
             :editedItem="newItem"
             @submit-item="submitItem"
-            @close="close(newItem)"
+            @close="close(newItem.id)"
           />
         </v-card>
       </template>
@@ -106,7 +106,7 @@
         <IncidentDetail
           :edited-item="editedItem"
           @submit-item="submitItem"
-          @close="close(editedItem)"
+          @close="close(editedItem.id)"
         />
       </v-card>
     </v-dialog>
@@ -116,7 +116,7 @@
       <v-card>
         <v-card-title>Delete</v-card-title>
         <v-card-text
-          >Weet je zeker dat je `{{ itemToDelete.Name }}` wenst te
+          >Weet je zeker dat je `{{ itemToDelete.event }}` wenst te
           verwijderen?</v-card-text
         >
         <v-card-actions>
@@ -143,12 +143,12 @@ export default {
       headers: [
         // { text: 'Id', value: 'id' },
         { text: 'Year', value: 'year', width: '75' },
-        { text: 'Month', value: 'month', width: '100', sortable: true },
-        { text: 'Region', value: 'region', width: '100', sortable: true },
+        { text: 'Month', value: 'month', width: '75', sortable: true },
+        { text: 'Region', value: 'region', width: '75', sortable: true },
         { text: 'AZ', value: 'az', width: '75', sortable: true },
-        { text: 'Tenant', value: 'tenant', width: '100', sortable: true },
+        { text: 'Tenant', value: 'tenant', width: '75', sortable: true },
         // { text: 'Progress', value: 'progress', sortable: true },
-        { text: 'Status', value: 'status', width: '100', sortable: true },
+        { text: 'Status', value: 'status', width: '75', sortable: true },
         { text: 'Event(Title))', value: 'event', sortable: true },
         {
           text: 'Action(Description)',
@@ -159,19 +159,25 @@ export default {
         {
           text: 'Occurred_at',
           value: 'occurred_at',
-          width: '100',
+          width: '120',
           sortable: false,
         },
         {
           text: 'Acknowledged_at',
           value: 'acknowledged_at',
-          width: '100',
+          width: '120',
           sortable: false,
         },
         {
           text: 'Propogated_at',
           value: 'propogated_at',
-          width: '100',
+          width: '120',
+          sortable: false,
+        },
+        {
+          text: 'Resolved_at',
+          value: 'resolved_at',
+          width: '120',
           sortable: false,
         },
         { text: 'Action', value: 'actions', sortable: false },
@@ -219,39 +225,36 @@ export default {
     },
   },
   watch: {
-    dialogAdd: function () {
-      this.newItem = {}
-    },
+    // dialogAdd: function () {
+    //   this.newItem = {}
+    // },
   },
   created() {
-    console.log('list created')
+    // console.log('list created')
     this.loadItems()
   },
   mounted() {
-    console.log('list mounted')
+    // console.log('list mounted')
   },
   updated() {
-    console.log('list updated')
-    console.log(this.editedItem.id)
+    // console.log('list updated')
+    // console.log(this.editedItem.id)
+    // this.loadItems()
   },
 
   beforeDestroy() {
-    console.log('list beforeDestroy')
+    // console.log('list beforeDestroy')
   },
   methods: {
-    customDatetime(datetime) {
+    vueDatetime(datetime) {
+      // return this.$moment(datetime).format('YYYY-MM-DD HH:mm:ss')
       return this.$moment(datetime).format('YYYY-MM-DD HH:mm')
+    },
+    dbDatetime(datetime) {
+      return this.$moment(datetime).format('YYYY-MM-DDTHH:mm:ss')
     },
 
     submitItem(item) {
-      if (item) {
-        this.dialogEdit = false
-        this.editedItem = {}
-      } else {
-        this.dialogAdd = false
-      }
-      this.dialog = false
-
       // airtable API needs the data to be placed in fields object
       const data = {
         // id: item.id,
@@ -272,19 +275,45 @@ export default {
         ticket_no: item.ticket_no,
         escalated_to_l3: item.escalated_to_l3,
         comment: item.comment,
-        occurred_at: this.customDatetime(item.occurred_at),
-        acknowledged_at: this.customDatetime(item.acknowledged_at),
-        propogated_at: this.customDatetime(item.propogated_at),
-        resolved_at: this.customDatetime(item.resolved_at),
+        occurred_at: item.occurred_at,
+        acknowledged_at: item.acknowledged_at,
+        propogated_at: item.propogated_at,
+        resolved_at: item.resolved_at,
         creator: item.creator,
         reviewer: item.reviewer,
         updater: item.updater,
       }
-      console.log(data)
-
       const id = item.id || null
-      let method = 'post'
-      let url = `http://localhost:8000/incident`
+      let method = null
+      let url = null
+
+      if (id) {
+        // if the item has an id, we're updating an existing item
+        console.log(id)
+        method = 'put'
+        url = `http://localhost:8000/incident/${id}`
+
+        this.item = {}
+        // must remove id from the data for airtable patch to work
+        delete data.id
+
+        // 편집창 종료
+        this.dialogAdd = false
+        this.dialogEdit = false
+        // this.dialog = !this.dialog
+        this.dialog = false
+      } else {
+        method = 'post'
+        url = `http://localhost:8000/incident`
+
+        // 편집창 종료
+        this.dialogAdd = false
+        this.dialogEdit = false
+        // this.dialog = !this.dialog
+        this.dialog = false
+      }
+
+      console.log(data)
 
       // save the record
       // headers: {
@@ -308,30 +337,30 @@ export default {
             this.items.push(this.editedItem)
           }
           this.editedItem = {}
+          this.loadItems()
         }
-        this.dialog = !this.dialog
       })
 
-      if (id) {
-        // if the item has an id, we're updating an existing item
-        console.log(id)
-        method = 'patch'
-        url = `http://localhost:8000/incident/${id}`
+      // if (id) {
+      //   this.dialogEdit = false
+      //   this.editedItem = {}
+      // } else {
+      //   this.dialogAdd = false
+      // }
+      // this.dialogAdd = false
 
-        // must remove id from the data for airtable patch to work
-        delete data.id
-      }
-
+      this.$forceUpdate();
     },
 
-    close(item) {
-      console.log('list close')
+    close(id) {
+      // console.log('list close')
       // this.editedItem = {}
-      if (item) {
+      if (id) {
         this.dialogEdit = false
         this.editedItem = {}
       } else {
         this.dialogAdd = false
+        this.newItem = {}
       }
       this.dialog = false
     },
@@ -398,10 +427,14 @@ export default {
               ticket_no: item.ticket_no,
               escalated_to_l3: item.escalated_to_l3,
               comment: item.comment,
-              occurred_at: this.customDatetime(item.occurred_at),
-              acknowledged_at: this.customDatetime(item.acknowledged_at),
-              propogated_at: this.customDatetime(item.propogated_at),
-              resolved_at: this.customDatetime(item.resolved_at),
+              // occurred_at: item.occurred_at,
+              // acknowledged_at: item.acknowledged_at,
+              // propogated_at: item.propogated_at,
+              // resolved_at: item.resolved_at,
+              occurred_at: this.vueDatetime(item.occurred_at),
+              acknowledged_at: this.vueDatetime(item.acknowledged_at),
+              propogated_at: this.vueDatetime(item.propogated_at),
+              resolved_at: this.vueDatetime(item.resolved_at),
               creator: item.creator,
               reviewer: item.reviewer,
               updater: item.updater,
@@ -412,45 +445,30 @@ export default {
           console.log(error)
         })
     },
-    // this.item.occurred_at = this.customDatetime(this.item.occurred_at)
-    //   this.item.acknowledged_at = this.customDatetime(this.item.occurred_at)
-    //   this.item.propogated_at = this.customDatetime(this.item.propogated_at)
-
-    // addItem() {
-    //   console.log(this.editedItem)
-    //   fetch('http://localhost:8000/incident', {
-    //     method: 'POST',
-    //     body: JSON.stringify(this.editedItem),
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   })
-    //   // const json = await res.json();
-    //   // this.records.push(json);
-    //   // this.newRecordText = ''
-    // },
-
-    // submitItem(item) {
-    //   console.log("submit in list")
-    //   // console.log(value)
-    // },
 
     deleteItem() {
-      // console.log('deleteItem', this.itemToDelete)
-      const index = this.items.indexOf(this.itemToDelete)
+      const id = this.itemToDelete.id
 
-      /*
-          axios.delete(`https://api.airtable.com/v0/${airTableApp}/${airTableName}/${id}`,
-              { headers: {
-                  Authorization: "Bearer " + apiToken,
-                  "Content-Type": "application/json"
-              }
-          }).then((response) => {
-              this.items.splice(index, 1)
-          })
-          */
+      console.log(id)
+      const method = 'delete'
+      const url = `http://localhost:8000/incident/${id}`
 
-      this.items.splice(index, 1)
+      axios[method](url, {
+        // headers: {
+        //   Authorization: 'Bearer ' + apiToken,
+        //   'Content-Type': 'application/json',
+        // },
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods':
+            'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => {
+        this.items.splice(id, 1)
+        this.loadItems()
+      })
       this.dialogDelete = false
     },
 
@@ -491,13 +509,10 @@ export default {
     },
 
     exportData() {
-      // Conversion to 2D array and then to CSV:
-      // const data = this.toCsv(this.pivot(this.filteredItems))
       let data = []
       if (this.selected.length === 0) {
         data = this.toCsv(this.pivot(this.filteredItems))
       } else {
-        // console.log(this.selected)
         data = this.toCsv(this.pivot(this.selected))
       }
 
@@ -510,12 +525,6 @@ export default {
       pom.href = url
       pom.setAttribute('download', 'export.csv')
       pom.click()
-    },
-
-    genReport() {
-      // fetch('/plugins/pyodide.html').then((response) => {
-      //   console.log(response)
-      // })
     },
   },
 }

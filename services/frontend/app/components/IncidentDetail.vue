@@ -97,7 +97,14 @@
             >Close</v-btn
           >
         </v-row>
-
+        <v-row><p></p></v-row>
+        <v-row><h1>Timestamp</h1></v-row>
+        <v-row>
+          <v-col>{{ item.acknowledged_at }} </v-col>
+          <v-col>{{ vueDatetime(item.acknowledged_at) }} </v-col>
+          <v-col>{{ dbDatetime(item.acknowledged_at) }} </v-col>
+        </v-row>
+        <v-spacer></v-spacer>
         <v-card-text style="height: 100px; position: relative">
           <v-fab-transition>
             <v-btn v-show="!hidden" color="pink" dark absolute top right fab>
@@ -225,16 +232,16 @@ export default {
       // });
       // return marked(this.item.action);
       // return this.$md.render(this.item.action)  || " "
-      return " "
+      return ' '
     },
   },
   watch: {
     date(val) {
       this.value = this.formatDate(this.date)
     },
-    dialogEdit: function() {
-      console.log("event occurred")
-    }
+    // dialogEdit: function() {
+    //   console.log("event occurred")
+    // }
   },
   created() {
     console.log('detail created')
@@ -244,21 +251,34 @@ export default {
       this.setDefaultItem()
     }
   },
+  beforeMounted() {
+    console.log('detail mounted')
+    if (this.editedItem.id) {
+      this.loadItem()
+    } else {
+      this.setDefaultItem()
+    }
+  },
   mounted() {
     console.log('detail mounted')
+    // if (this.editedItem.id) {
+    //   this.loadItem()
+    // } else {
+    //   this.setDefaultItem()
+    // }
   },
   updated() {
     console.log('detail updated')
-    if (this.editedItem.id) {
-      this.loadItem()
-    }
   },
   beforeDestroy() {
     console.log('detail beforeDestoryed')
   },
   methods: {
-    customDatetime(datetime) {
-      return this.$moment(datetime).format('YYYY-MM-DD HH:mm')
+    vueDatetime(datetime) {
+      return this.$moment(datetime).format('YYYY-MM-DD HH:mm:ss')
+    },
+    dbDatetime(datetime) {
+      return this.$moment(datetime).format('YYYY-MM-DDTHH:mm:ss')
     },
     setDefaultItem() {
       console.log('set default values to item')
@@ -323,15 +343,17 @@ export default {
     },
 
     convertedDatetime(datetime) {
-      return ("datetime"+"__")
+      return 'datetime' + '__'
     },
 
     submitItem() {
       // console.log(this.item)
       // this.item = this.editedItem || {}
-      this.item.acknowledged_at = this.convertedDatetime(this.item.acknowledged_at) || "null"
+      // this.item.acknowledged_at = this.convertedDatetime(this.item.acknowledged_at) || "null"
+      // this.item.acknowledged_at = this.item.acknowledged_at || "null"
       this.$emit('submit-item', this.item)
       this.resetItem()
+      this.setDefaultItem()
     },
     close(id) {
       console.log('detail close')
