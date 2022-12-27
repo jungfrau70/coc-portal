@@ -251,11 +251,15 @@ export default {
       return this.$moment(datetime).format('YYYY-MM-DD HH:mm')
     },
     dbDatetime(datetime) {
-      return this.$moment(datetime).format('YYYY-MM-DDTHH:mm:ss')
+      return datetime.toISOString()
+      // return this.$moment(datetime).format('YYYY-MM-DDTHH:mm:ss')
     },
 
     submitItem(item) {
       // airtable API needs the data to be placed in fields object
+      const today = new Date("2022-12-27 22:00")
+      const utcTodayDate = today.toISOString()
+      console.log(utcTodayDate)
       const data = {
         // id: item.id,
         year: item.year,
@@ -275,10 +279,16 @@ export default {
         ticket_no: item.ticket_no,
         escalated_to_l3: item.escalated_to_l3,
         comment: item.comment,
-        occurred_at: item.occurred_at,
-        acknowledged_at: item.acknowledged_at,
-        propogated_at: item.propogated_at,
-        resolved_at: item.resolved_at,
+
+        // occurred_at: item.occurred_at,
+        // acknowledged_at: item.acknowledged_at,
+        // propogated_at: item.propogated_at,
+        // resolved_at: item.resolved_at,
+        occurred_at: utcTodayDate,
+        acknowledged_at: utcTodayDate,
+        propogated_at: utcTodayDate,
+        resolved_at: utcTodayDate,
+
         creator: item.creator,
         reviewer: item.reviewer,
         updater: item.updater,

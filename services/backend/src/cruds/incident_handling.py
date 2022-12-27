@@ -23,7 +23,13 @@ def create(request: schemas.Incident, db: Session):
         region = request.region,
         az = request.az,
         tenant = request.tenant,
-        event = request.event
+        event = request.event,
+        occurred_at = request.occurred_at,
+        acknowledged_at = request.acknowledged_at,
+        propogated_at = request.propogated_at,
+        resolved_at = request.resolved_at,
+        action = request.action,
+        comment = request.comment
     )
     db.add(new_record)
     db.commit()

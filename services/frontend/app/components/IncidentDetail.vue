@@ -103,6 +103,15 @@
           <v-col>{{ item.acknowledged_at }} </v-col>
           <v-col>{{ vueDatetime(item.acknowledged_at) }} </v-col>
           <v-col>{{ dbDatetime(item.acknowledged_at) }} </v-col>
+
+          <div>
+            <div v-show="timestamp">Timestamp:{{ timestamp }}</div>
+            <div v-show="date">Date:{{ date }}</div>
+
+            <div v-show="time">Time:{{ time }}</div>
+
+            <div v-show="currentYear">Only year:{{ currentYear }}</div>
+          </div>
         </v-row>
         <v-spacer></v-spacer>
         <v-card-text style="height: 100px; position: relative">
@@ -133,8 +142,15 @@ export default {
     hidden: true,
     valid: true,
     convertedText: '',
+
+    timestamp: '',
+    date: '',
+    time: '',
+    currentYear: '',
+
     currentDatetime: null,
     DatetimePickerFormat: 'yyyy-MM-dd HH:mm',
+
     item: {
       // id: null,
       year: null,
@@ -215,9 +231,9 @@ export default {
         this.$emit('input', value)
       },
     },
-    computedDateFormatted() {
-      return this.formatDate(this.date)
-    },
+    // computedDateFormatted() {
+    //   return this.formatDate(this.date)
+    // },
     actionMarkdown() {
       // marked.setOptions({
       //   renderer: new marked.Renderer(),
@@ -236,9 +252,9 @@ export default {
     },
   },
   watch: {
-    date(val) {
-      this.value = this.formatDate(this.date)
-    },
+    // date(val) {
+    //   this.value = this.formatDate(this.date)
+    // },
     // dialogEdit: function() {
     //   console.log("event occurred")
     // }
@@ -261,11 +277,10 @@ export default {
   },
   mounted() {
     console.log('detail mounted')
-    // if (this.editedItem.id) {
-    //   this.loadItem()
-    // } else {
-    //   this.setDefaultItem()
-    // }
+    this.date = this.getDate()
+    this.time = this.getTime()
+    this.timestamp = this.getTimestamp()
+    this.currentYear = this.getCurrentYear()
   },
   updated() {
     console.log('detail updated')
@@ -274,6 +289,18 @@ export default {
     console.log('detail beforeDestoryed')
   },
   methods: {
+    getDate: function () {
+      return new Date().toLocaleDateString()
+    },
+    getTime: function () {
+      return new Date().toLocaleTimeString()
+    },
+    getTimestamp: function () {
+      return Date.now()
+    },
+    getCurrentYear: function () {
+      return new Date().getFullYear()
+    },
     vueDatetime(datetime) {
       return this.$moment(datetime).format('YYYY-MM-DD HH:mm:ss')
     },
