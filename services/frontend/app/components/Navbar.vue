@@ -154,7 +154,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Spark Lenz',
+      title: 'Lenz Portal',
     }
   },
   computed: {

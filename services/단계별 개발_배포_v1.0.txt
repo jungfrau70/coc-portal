@@ -11,23 +11,25 @@ Step 1. CRUD
   1.8 (중단) Model 창 markdown 표기 변환(format) (12/23, 연동 후 재 시도)
       . markdown & highlight (no error, but not work)
   1.9 fastapi 연동 (참고:  https://www.digitalocean.com/community/tutorials/implementing-authentication-in-nuxtjs-app )
-    1) CRUD
+    1) fastapi CRUD using httpie
       . (완료) Create :  ex) http POST "http://localhost:8000/incident/" region="KR" month=10 year=2023 az=1 tenant="1" event="test3" 
       . (완료) Read   :  ex) http GET "http://localhost:8000/incident/3730"   
       . (완료) Delete :  ex) http DELETE "http://localhost:8000/incident/3755"
-      . (진행) Update :  ex) http PUT "http://localhost:8000/incident/3730" region="KR" month=10 year=2023 az=1 tenant="1" event="test3" 
-        ==> Internal Server Error
-            sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedFunction) function utc_timestamp() does not exist
-    2) Auth Token
-      Register/Login/Logout
-      
+      . (완료) Update :  ex) http PUT "http://localhost:8000/incident/3730" region="KR" month=10 year=2023 az=1 tenant="1" event="test3" 
+    2) Nuxtjs CRUD 
+      . (완료) Create :  ex) http POST "http://localhost:8000/incident/" region="KR" month=10 year=2023 az=1 tenant="1" event="test3" 
+      . (완료) Read   :  ex) http GET "http://localhost:8000/incident/3730"   
+      . (완료) Delete :  ex) http DELETE "http://localhost:8000/incident/3755"
+      . (완료) Update :  ex) http PUT "http://localhost:8000/incident/3730" region="KR" month=10 year=2023 az=1 tenant="1" event="test3"       
 Step 2. Tools
   2.1. 그래프
   2.2. 대시보드
-  2.3. 분석기    
-Step 3. 실시간 모니터링 (인시던트 핸들링 한정)
-Step 4. 홈페이지
-Step 5. 타 시스템 연동
+  2.3. 분석기  
+Step 3) Auth Token
+      Register/Login/Logout
+Step 4. 실시간 모니터링 (인시던트 핸들링 한정)
+Step 5. 홈페이지
+Step 6. 타 시스템 연동
   . 자산관리?
 ..,
 

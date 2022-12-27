@@ -4,7 +4,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s',
-    title: 'Spark Lenz',
+    title: 'Jungfrau',
     htmlAttrs: {
       lang: 'en',
     },

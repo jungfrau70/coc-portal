@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, TIMESTAMP, text
 from config.database import Base
 from sqlalchemy.orm import relationship
@@ -43,8 +44,10 @@ class User(Base):
 
 class BaseMixin:
     id = Column(Integer, primary_key=True, index=True)
-    created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, onupdate=func.utc_timestamp())
+    # created_at = Column(DateTime(timezone=True), default=func.now())
+    created_at = Column(DateTime, default=datetime.now)
+    # updated_at = Column(DateTime, onupdate=func.utcnow())
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.utcnow)
 
     def all_columns(self):
         return [c for c in self.__table__.columns if c.primary_key is False and c.name != "created_at"]
@@ -246,10 +249,10 @@ class Incident(Base, BaseMixin):
     escalated_to_l3 = Column(String, nullable=True) 
     comment = Column(String(length=3000), nullable=True) 
   
-    occurred_at = Column(DateTime, default=datetime.now)
-    acknowledged_at = Column(DateTime, default=None)
-    propogated_at = Column(DateTime, default=None)        
-    resolved_at = Column(DateTime, default=None)
+    occurred_at = Column(DateTime, default=None, nullable=True)
+    acknowledged_at = Column(DateTime, default=None, nullable=True)
+    propogated_at = Column(DateTime, default=None, nullable=True)        
+    resolved_at = Column(DateTime, default=None, nullable=True)
 
     # time_to_acknowledge = Column(Integer, default=None) # acknowledged_at - occurred_at
     # time_to_propogated = Column(Integer, default=None)  # propogated_at - acknowledged_at
