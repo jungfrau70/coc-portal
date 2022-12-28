@@ -1,36 +1,25 @@
 # Dockerfile
-FROM node:16.16.0-alpine as builder
+# FROM node:16.16.0-alpine as builder
 
-ENV PATH /app/node_modules/.bin:$PATH
+# Dockerfile
+FROM node:11.13.0-alpine
 
-WORKDIR /app
-COPY app/ .
+# create destination directory
+RUN mkdir -p /usr/src/nuxt-app
+WORKDIR /usr/src/nuxt-app
 
-RUN yarn install \
-  --prefer-offline \
-  --frozen-lockfile \
-  --non-interactive \
-  --production=false
+# update and install dependency
+RUN apk update && apk upgrade
+RUN apk add git
 
-# RUN yarn build
+# copy the app, note .dockerignore
+COPY ./app /usr/src/nuxt-app/
+RUN npm install
+RUN npm run build
 
-# RUN rm -rf node_modules && \
-#   NODE_ENV=production yarn install \
-#   --prefer-offline \
-#   --pure-lockfile \
-#   --non-interactive \
-#   --production=true
-
-# FROM node:16.16.0-alpine
-
-# WORKDIR /app
-
-# COPY --from=builder /app  .
-
-ENV HOST 0.0.0.0
 EXPOSE 3000
 
-# ENV NUXT_HOST=0.0.0.0
-# ENV NUXT_PORT=3000
+ENV NUXT_HOST=0.0.0.0
+ENV NUXT_PORT=3000
 
-CMD [ "yarn", "dev" ]
+CMD [ "npm", "start" ]

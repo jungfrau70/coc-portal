@@ -39,7 +39,7 @@
       <template>
         <v-card v-model="dialogAdd">
           <IncidentDetail
-            v-if="!dialogAdd"
+            
             :editedItem="newItem"
             @submit-item="submitItem"
             @close="close(newItem.id)"

@@ -103,11 +103,15 @@
               value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
             ></v-textarea>
           </v-col>
-          <v-col>
-            <template>
-              <div v-html="actionMarkdown"></div>
-            </template>
-          </v-col>
+          <!-- <v-col>
+            <v-dialog>
+              <v-card>
+                <template>
+                  <div v-html="actionMarkdown"></div>
+                </template>
+              </v-card>
+            </v-dialog>
+          </v-col> -->
         </v-row>
         <v-row>
           <v-col>
@@ -162,6 +166,7 @@
 </template>
 
 <script>
+// import marked  from '@/plugins/mark '
 export default {
   name: 'IncidentDetail',
   props: {
@@ -253,50 +258,50 @@ export default {
     // computedDateFormatted() {
     //   return this.formatDate(this.date)
     // },
-    actionMarkdown() {
-      // marked.setOptions({
-      //   renderer: new marked.Renderer(),
-      //   gfm: true,
-      //   headerIds: false,
-      //   tables: true,
-      //   breaks: true,
-      //   pedantic: false,
-      //   sanitize: true,
-      //   smartLists: true,
-      //   smartypants: false
-      // });
-      // return marked(this.item.action);
-      // return this.$md.render(this.item.action)  || " "
-      return ' '
-    },
+    // actionMarkdown() {
+    //   this.$marked.setOptions({
+    //     renderer: new this.$marked.Renderer(),
+    //     gfm: true,
+    //     headerIds: false,
+    //     tables: true,
+    //     breaks: true,
+    //     pedantic: false,
+    //     sanitize: true,
+    //     smartLists: true,
+    //     smartypants: false,
+    //   })
+    //   return this.$marked(this.item.action)
+    //   return this.$md.render(this.item.action)  || " "
+    //   return ' '
+    // },
   },
   watch: {},
   created() {
     // console.log('detail created')
     this.today = new Date()
-    if (this.editedItem.id) {
-      this.loadItem()
-    } else {
-      this.setDefaultItem()
-    }
+    // if (this.editedItem.id) {
+    //   this.loadItem()
+    // } else {
+    //   this.setDefaultItem()
+    // }
   },
   beforeMounted() {
-    // console.log('detail mounted')
-    if (this.editedItem.id) {
-      this.loadItem()
-    } else {
-      this.setDefaultItem()
-    }
+    console.log('detail mounted')
   },
   mounted() {
     console.log('detail mounted')
+    if (this.editedItem.id) {
+      this.loadItem()
+    } else {
+      this.setDefaultItem()
+    }
     this.date = this.getDate()
     this.time = this.getTime()
     this.timestamp = this.getTimestamp()
     this.currentYear = this.getCurrentYear()
   },
   updated() {
-    // console.log('detail updated')
+    console.log('detail updated')
   },
   beforeDestroy() {
     console.log('detail beforeDestoryed')
@@ -334,11 +339,11 @@ export default {
       this.item.level_2_engineers = null
       this.item.how_to_share = null
       this.item.event = null
-      this.item.action = '# Action Required?'
+      this.item.action = null
       this.item.status = this.item.status || 'created'
       this.item.ticket_no = null
       this.item.escalated_to_l3 = null
-      this.item.comment = '# Please comment here'
+      this.item.comment = null
       this.item.occurred_at = this.item.acknowledged_at || this.getNow()
       this.item.acknowledged_at = this.item.acknowledged_at || this.getNow()
       this.item.propogated_at = null

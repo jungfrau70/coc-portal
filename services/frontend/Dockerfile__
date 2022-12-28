@@ -10,12 +10,12 @@ COPY . /app/
 RUN apk update && apk upgrade
 RUN apk add git
 
-
-RUN yarn install \
-  --prefer-offline \
-  --frozen-lockfile \
-  --non-interactive \
-  --production=false
+RUN yarn install
+# RUN yarn install \
+#   --prefer-offline \
+#   --frozen-lockfile \
+#   --non-interactive \
+#   --production=true
 
 RUN yarn build
 
