@@ -23,13 +23,25 @@ def create(request: schemas.Incident, db: Session):
         region = request.region,
         az = request.az,
         tenant = request.tenant,
+
+        shift_start_date = request.shift_start_date,
+        shift_type = request.shift_type,
+        level_1_engineer1 = request.level_1_engineer1,
+        level_1_engineer2 = request.level_1_engineer2,
+        level_2_engineers = request.level_2_engineers,
+        how_to_share = request.how_to_share,
+
         event = request.event,
+        action = request.action,
+        status = request.status,
+        ticket_no = request.ticket_no,
+        escalated_to_l3 =  request.escalated_to_l3,
+        comment =  request.comment,
+
         occurred_at = request.occurred_at,
         acknowledged_at = request.acknowledged_at,
         propogated_at = request.propogated_at,
         resolved_at = request.resolved_at,
-        action = request.action,
-        comment = request.comment
     )
     db.add(new_record)
     db.commit()
@@ -115,13 +127,29 @@ def update(id:int,request, db:Session):
         "region": request.region,
         "az": request.az,
         "tenant": request.tenant,
+
+        "shift_start_date": request.shift_start_date,
+        "shift_type": request.shift_type,
+        "level_1_engineer1": request.level_1_engineer1,
+        "level_1_engineer2": request.level_1_engineer2,
+        "level_2_engineers": request.level_2_engineers,
+        "how_to_share": request.how_to_share,
+
         "event": request.event,
+        "action": request.action,
+        "status": request.status,
+        "ticket_no": request.ticket_no,
+        "escalated_to_l3":  request.escalated_to_l3,
+        "comment":  request.comment,
+
         "occurred_at": request.occurred_at,
         "acknowledged_at": request.acknowledged_at,
         "propogated_at": request.propogated_at,
         "resolved_at": request.resolved_at,
-        "action": request.action,
-        "comment": request.comment
+        
+        # "creator": request.creator,
+        # "reviewer": request.reviewer,
+        # "updater": request.updater,
     })
     db.commit()
     db.refresh(record)

@@ -1,0 +1,27 @@
+# Dockerfile
+FROM node:16.16.0-alpine
+
+RUN mkdir -p app
+WORKDIR /app
+# copy the app, note .dockerignore
+COPY . /app/
+
+# update and install dependency
+RUN apk update && apk upgrade
+RUN apk add git
+
+
+RUN yarn install \
+  --prefer-offline \
+  --frozen-lockfile \
+  --non-interactive \
+  --production=false
+
+RUN yarn build
+
+EXPOSE 3000
+
+ENV NUXT_HOST=0.0.0.0
+ENV NUXT_PORT=3000
+
+CMD [ "yarn", "start" ]

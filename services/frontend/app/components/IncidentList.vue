@@ -38,7 +38,8 @@
       </template>
       <template>
         <v-card v-model="dialogAdd">
-          <IncidentDetail v-if="dialogAdd"
+          <IncidentDetail
+            v-if="!dialogAdd"
             :editedItem="newItem"
             @submit-item="submitItem"
             @close="close(newItem.id)"
@@ -103,7 +104,8 @@
     <!-- Edit dialog -->
     <v-dialog v-model="dialogEdit">
       <v-card>
-        <IncidentDetail v-if="dialogEdit"
+        <IncidentDetail
+          v-if="dialogEdit"
           :edited-item="editedItem"
           @submit-item="submitItem"
           @close="close(editedItem.id)"
@@ -251,15 +253,19 @@ export default {
       return this.$moment(datetime).format('YYYY-MM-DD HH:mm')
     },
     dbDatetime(datetime) {
-      return datetime.toISOString()
+      //   return datetime.toISOString()
+
+      const today = new Date(datetime)
+      const utcTodayDate = today.toISOString()
+      return utcTodayDate
       // return this.$moment(datetime).format('YYYY-MM-DDTHH:mm:ss')
     },
 
     submitItem(item) {
       // airtable API needs the data to be placed in fields object
-      const today = new Date("2022-12-27 22:00")
-      const utcTodayDate = today.toISOString()
-      console.log(utcTodayDate)
+      // const today = new Date("2022-12-27 22:00")
+      // const utcTodayDate = today.toISOString()
+      // console.log(utcTodayDate)
       const data = {
         // id: item.id,
         year: item.year,
@@ -280,18 +286,19 @@ export default {
         escalated_to_l3: item.escalated_to_l3,
         comment: item.comment,
 
-        // occurred_at: item.occurred_at,
-        // acknowledged_at: item.acknowledged_at,
-        // propogated_at: item.propogated_at,
-        // resolved_at: item.resolved_at,
-        occurred_at: utcTodayDate,
-        acknowledged_at: utcTodayDate,
-        propogated_at: utcTodayDate,
-        resolved_at: utcTodayDate,
+        occurred_at: this.dbDatetime(item.occurred_at),
+        acknowledged_at: this.dbDatetime(item.acknowledged_at),
+        propogated_at: this.dbDatetime(item.propogated_at),
+        resolved_at: this.dbDatetime(item.resolved_at),
 
-        creator: item.creator,
-        reviewer: item.reviewer,
-        updater: item.updater,
+        // occurred_at: utcTodayDate,
+        // acknowledged_at: utcTodayDate,
+        // propogated_at: utcTodayDate,
+        // resolved_at: utcTodayDate,
+
+        // creator: item.creator,
+        // reviewer: item.reviewer,
+        // updater: item.updater,
       }
       const id = item.id || null
       let method = null
@@ -312,7 +319,6 @@ export default {
         this.dialogEdit = false
         // this.dialog = !this.dialog
         this.dialog = false
-        
       } else {
         method = 'post'
         url = `http://localhost:8000/incident`
@@ -360,7 +366,7 @@ export default {
       // }
       // this.dialogAdd = false
 
-      this.$forceUpdate();
+      this.$forceUpdate()
     },
 
     close(id) {

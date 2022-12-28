@@ -49,6 +49,41 @@
             >
             </v-datetime-picker>
           </v-col>
+          <v-col>
+            <v-datetime-picker
+              v-model="item['resolved_at']"
+              :formatter="DatetimePickerFormat"
+              label="Resolved_at"
+            >
+            </v-datetime-picker>
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="item['creator']"
+              label="Creator"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="item['ticket_no']"
+              label="Ticket No."
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="item['level_2_engineer1']"
+              label="Engineer(L2)"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="item['how_to_share']"
+              label="How_to_share"
+            ></v-text-field>
+          </v-col>
         </v-row>
 
         <v-row>
@@ -197,7 +232,7 @@ export default {
       tenant: ['PRD', 'PRE_PRD', 'STG', 'DEV'],
       status: [
         'created',
-        'scheduled',        
+        'scheduled',
         'work-in-progress',
         'completed',
         'cancelled',
@@ -235,8 +270,7 @@ export default {
       return ' '
     },
   },
-  watch: {
-  },
+  watch: {},
   created() {
     // console.log('detail created')
     this.today = new Date()

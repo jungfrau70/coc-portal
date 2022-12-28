@@ -254,13 +254,12 @@ class Incident(Base, BaseMixin):
     propogated_at = Column(DateTime, default=None, nullable=True)        
     resolved_at = Column(DateTime, default=None, nullable=True)
 
-    # time_to_acknowledge = Column(Integer, default=None) # acknowledged_at - occurred_at
-    # time_to_propogated = Column(Integer, default=None)  # propogated_at - acknowledged_at
-
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)     
     updater = Column(String, nullable=True) 
 
+    # time_to_acknowledge = Column(Integer, default=None) # acknowledged_at - occurred_at
+    # time_to_propogated = Column(Integer, default=None)  # propogated_at - acknowledged_at
 
 class License(Base, BaseMixin):
     __tablename__ = 'licenses'

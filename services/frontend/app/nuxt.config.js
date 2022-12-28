@@ -25,7 +25,7 @@ export default {
 
       {
         rel: 'stylesheet',
-        href: 'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css'
+        href: 'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css',
       },
     ],
     script: [
@@ -73,10 +73,7 @@ export default {
     locales: ['ko'],
     timezone: true,
     defaultTimezone: 'Korea/Seoul',
-    plugins: [
-      'moment-strftime',
-      'moment-fquarter'
-    ]
+    plugins: ['moment-strftime', 'moment-fquarter'],
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -88,11 +85,20 @@ export default {
     '@nuxtjs/moment',
   ],
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
+    proxy: true,
     baseURL: 'http://localhost:8000/',
   },
+  proxy: {
+    '/api': 'https://localhost:8000',
+  },
+
+  // // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  // axios: {
+
+  //   // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
+  //   baseURL: 'http://localhost:8000/',
+  // },
 
   auth: {
     strategies: {
@@ -100,10 +106,10 @@ export default {
         endpoints: {
           login: { url: 'login', method: 'post', propertyName: 'data.token' },
           user: { url: 'me', method: 'get', propertyName: 'data' },
-          logout: false
-        }
-      }
-    }
+          logout: false,
+        },
+      },
+    },
   },
 
   markdownit: {
@@ -144,6 +150,6 @@ export default {
   },
 
   publicRuntimeConfig: {
-    apiURL: process.env.API_URL
+    apiURL: process.env.API_URL,
   },
 }
