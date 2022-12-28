@@ -38,7 +38,7 @@
       </template>
       <template>
         <v-card v-model="dialogAdd">
-          <IncidentDetail
+          <IncidentDetail v-if="dialogAdd"
             :editedItem="newItem"
             @submit-item="submitItem"
             @close="close(newItem.id)"
@@ -103,7 +103,7 @@
     <!-- Edit dialog -->
     <v-dialog v-model="dialogEdit">
       <v-card>
-        <IncidentDetail
+        <IncidentDetail v-if="dialogEdit"
           :edited-item="editedItem"
           @submit-item="submitItem"
           @close="close(editedItem.id)"
@@ -305,13 +305,14 @@ export default {
 
         this.item = {}
         // must remove id from the data for airtable patch to work
-        delete data.id
+        // delete data.id
 
         // 편집창 종료
         this.dialogAdd = false
         this.dialogEdit = false
         // this.dialog = !this.dialog
         this.dialog = false
+        
       } else {
         method = 'post'
         url = `http://localhost:8000/incident`

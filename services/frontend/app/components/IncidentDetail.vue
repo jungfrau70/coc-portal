@@ -1,4 +1,4 @@
-<template >
+<template>
   <v-card>
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-container>
@@ -97,7 +97,7 @@
             >Close</v-btn
           >
         </v-row>
-        <v-row><p></p></v-row>
+        <!-- <v-row><p></p></v-row>
         <v-row><h1>Timestamp</h1></v-row>
         <v-row>
           <v-col>{{ item.acknowledged_at }} </v-col>
@@ -112,7 +112,7 @@
 
             <div v-show="currentYear">Only year:{{ currentYear }}</div>
           </div>
-        </v-row>
+        </v-row> -->
         <v-spacer></v-spacer>
         <v-card-text style="height: 100px; position: relative">
           <v-fab-transition>
@@ -141,12 +141,13 @@ export default {
     dialog: '',
     hidden: true,
     valid: true,
-    convertedText: '',
+    // convertedText: '',
 
-    timestamp: '',
-    date: '',
-    time: '',
-    currentYear: '',
+    today: null,
+    timestamp: null,
+    date: null,
+    time: null,
+    currentYear: null,
 
     currentDatetime: null,
     DatetimePickerFormat: 'yyyy-MM-dd HH:mm',
@@ -182,45 +183,28 @@ export default {
       year: [2022, 2023, 2024, 2025],
       month: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       region: [
-        'KR',
-        'EU',
-        'NA',
-        'SG',
-        'IN',
-        'RU',
         'CN',
-        'KR2',
+        'EU',
+        'IN',
+        'KR',
         'KR Bigdata',
         'KR R&D',
+        'NA',
+        'RU',
+        'SG',
       ],
       az: [1, 2, 3, 4, 5, 6, 7, 8],
-      tenant: ['PRD', 'PRE_PRD', 'STG', 'DEV', 'bigdata', 'stg', 'prd'],
+      tenant: ['PRD', 'PRE_PRD', 'STG', 'DEV'],
       status: [
         'created',
-        'in-process',
+        'scheduled',        
+        'work-in-progress',
         'completed',
         'cancelled',
         'delayed',
-        '완료',
-        'NaN',
+        'failed',
       ],
     },
-    // date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-    //   .toISOString()
-    //   .substr(0, 10),
-    // dateFormatted: vm.formatDate(
-    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-    //     .toISOString()
-    //     .substr(0, 10)
-    // ),
-    // menu1: false,
-    // menu2: false,
-    // }),
-    // filters: {
-    //   moment: function (date) {
-    //     return this.moment(date).format('MMMM Do YYYY, h:mm:ss a')
-    //   },
-    // },
   }),
   computed: {
     selected: {
@@ -252,15 +236,10 @@ export default {
     },
   },
   watch: {
-    // date(val) {
-    //   this.value = this.formatDate(this.date)
-    // },
-    // dialogEdit: function() {
-    //   console.log("event occurred")
-    // }
   },
   created() {
-    console.log('detail created')
+    // console.log('detail created')
+    this.today = new Date()
     if (this.editedItem.id) {
       this.loadItem()
     } else {
@@ -268,7 +247,7 @@ export default {
     }
   },
   beforeMounted() {
-    console.log('detail mounted')
+    // console.log('detail mounted')
     if (this.editedItem.id) {
       this.loadItem()
     } else {
@@ -283,7 +262,7 @@ export default {
     this.currentYear = this.getCurrentYear()
   },
   updated() {
-    console.log('detail updated')
+    // console.log('detail updated')
   },
   beforeDestroy() {
     console.log('detail beforeDestoryed')
@@ -309,8 +288,8 @@ export default {
     },
     setDefaultItem() {
       console.log('set default values to item')
-      this.item.year = this.item.year || 2022
-      this.item.month = this.item.month || 1
+      this.item.year = this.item.year || this.today.getFullYear()
+      this.item.month = this.item.month || this.today.getMonth() + 1
       this.item.region = this.item.region || 'KR'
       this.item.az = this.item.az || 1
       this.item.tenant = this.item.tenant || 'PRD'
@@ -326,7 +305,7 @@ export default {
       this.item.ticket_no = null
       this.item.escalated_to_l3 = null
       this.item.comment = '# Please comment here'
-      this.item.occurred_at = null
+      this.item.occurred_at = this.item.acknowledged_at || this.getNow()
       this.item.acknowledged_at = this.item.acknowledged_at || this.getNow()
       this.item.propogated_at = null
       this.item.resolved_at = null
@@ -337,19 +316,6 @@ export default {
     resetItem() {
       this.item = {}
     },
-    // formatDate(date) {
-    //   if (!date) {
-    //     return null
-    //   }
-    //   return date
-    // },
-    // parseDate(date) {
-    //   if (!date) {
-    //     return null
-    //   }
-    //   const [year, month, day] = date.split('-')
-    //   return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-    // },
     getNow() {
       const today = new Date()
       const date =
@@ -369,25 +335,17 @@ export default {
       // console.log(this)
     },
 
-    convertedDatetime(datetime) {
-      return 'datetime' + '__'
-    },
-
     submitItem() {
-      // console.log(this.item)
-      // this.item = this.editedItem || {}
-      // this.item.acknowledged_at = this.convertedDatetime(this.item.acknowledged_at) || "null"
-      // this.item.acknowledged_at = this.item.acknowledged_at || "null"
       this.$emit('submit-item', this.item)
       this.resetItem()
       this.setDefaultItem()
     },
     close(id) {
       console.log('detail close')
-      this.item = {}
-      this.setDefaultItem()
-
+      // this.item = {}
+      // this.$parent.editedItem.id = null
       this.$emit('close', id)
+      this.setDefaultItem()
     },
   },
 }

@@ -12,15 +12,16 @@ Step 1. CRUD
       . markdown & highlight (no error, but not work)
   1.9 fastapi 연동 (참고:  https://www.digitalocean.com/community/tutorials/implementing-authentication-in-nuxtjs-app )
     1) fastapi CRUD using httpie
-      . (완료) Create :  ex) http POST "http://localhost:8000/incident/" region="KR" month=10 year=2023 az=1 tenant="1" event="test3" 
-      . (완료) Read   :  ex) http GET "http://localhost:8000/incident/3730"   
-      . (완료) Delete :  ex) http DELETE "http://localhost:8000/incident/3755"
       . (완료) Update :  ex) http PUT "http://localhost:8000/incident/3730" region="KR" month=10 year=2023 az=1 tenant="1" event="test3" 
-    2) Nuxtjs CRUD 
       . (완료) Create :  ex) http POST "http://localhost:8000/incident/" region="KR" month=10 year=2023 az=1 tenant="1" event="test3" 
       . (완료) Read   :  ex) http GET "http://localhost:8000/incident/3730"   
       . (완료) Delete :  ex) http DELETE "http://localhost:8000/incident/3755"
-      . (완료) Update :  ex) http PUT "http://localhost:8000/incident/3730" region="KR" month=10 year=2023 az=1 tenant="1" event="test3"       
+    2) Nuxtjs CRUD 
+      . (진행) Update thru components (List & Detail)
+      . Create 
+      . Read  
+      . Delete
+      
 Step 2. Tools
   2.1. 그래프
   2.2. 대시보드
