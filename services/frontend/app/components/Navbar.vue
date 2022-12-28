@@ -116,40 +116,75 @@ export default {
           to: '/',
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: '인시던트핸들링',
-          to: '/incident/list',
+          icon: 'mdi-account-multiple',
+          title: 'Discussion',
+          to: '/discussion/list',
         },
-        // {
-        //   icon: 'mdi-chart-bubble',
-        //   title: '이슈관리',
-        //   to: '/issue/list',
-        // },
-        // {
-        //   icon: 'mdi-chart-bubble',
-        //   title: '장애관리',
-        //   to: '/problem/list',
-        // },
-        // {
-        //   icon: 'mdi-chart-bubble',
-        //   title: '변경관리',
-        //   to: '/change/list',
-        // },
-        // {
-        //   icon: 'mdi-chart-bubble',
-        //   title: '요청관리',
-        //   to: '/request/list',
-        // },
-        // {
-        //   icon: 'mdi-chart-bubble',
-        //   title: '..,',
-        //   to: '/',
-        // },
-        // {
-        //   icon: 'mdi-chart-bubble',
-        //   title: '보고서',
-        //   to: '/jupyterlite',
-        // },
+        {
+          icon: 'mdi-alert-octagon',
+          title: 'Incident Handling',
+          to: '/management-incident/list',
+        },
+        {
+          icon: 'mdi-alert-outline',
+          title: 'Issue',
+          to: '/management-issue/list',
+        },
+        {
+          icon: 'mdi-ambulance',
+          title: 'Problem',
+          to: '/management-problem/list',
+        },
+        {
+          icon: 'mdi-key-change',
+          title: 'Change',
+          to: '/management-change/list',
+        },
+        {
+          icon: 'mdi-import',
+          title: 'Request',
+          to: '/management-request/list',
+        },
+        {
+          icon: 'mdi-magnify-plus',
+          title: 'Capacity',
+          to: '/management-capacity/list',
+        },
+        {
+          icon: 'mdi-content-save-all',
+          title: 'Backup',
+          to: '/management-backup/list',
+        },
+        {
+          icon: 'mdi-numeric-1-box-multiple-outline',
+          title: 'Instance',
+          to: '/inventory-instance/list',
+        },
+        {
+          icon: 'mdi-numeric-2-box-multiple-outline',
+          title: 'Kubernetes',
+          to: '/inventory-kubernetes/list',
+        },
+        {
+          icon: 'mdi-numeric-3-box-multiple-outline',
+          title: 'Database',
+          to: '/inventory-database/list',
+        },
+        {
+          icon: 'mdi-numeric-4-box-multiple-outline',
+          title: 'License',
+          to: '/inventory-license/list',
+        },
+        {
+          icon: 'mdi-lock-plus',
+          title: 'Vulnerability',
+          to: '/vulnerability-activity/list',
+        },
+        {
+          icon: 'mdi-wrench',
+          title: 'PM',
+          to: '/preventive-maintenance/list',
+        },
       ],
       miniVariant: false,
       right: true,

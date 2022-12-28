@@ -261,29 +261,6 @@ class Incident(Base, BaseMixin):
     # time_to_acknowledge = Column(Integer, default=None) # acknowledged_at - occurred_at
     # time_to_propogated = Column(Integer, default=None)  # propogated_at - acknowledged_at
 
-class License(Base, BaseMixin):
-    __tablename__ = 'licenses'
-
-    year = Column(Integer, nullable=False)
-    month = Column(Integer, nullable=False)
-    region = Column(String, nullable=False)
-    az = Column(Integer, nullable=False)
-    tenant = Column(String, nullable=False)
-
-    vendor = Column(String, nullable=True)
-    license_type = Column(String, nullable=True)     
-    status = Column(String, nullable=True)
-    instance_name = Column(String, nullable=True) 
-    comment = Column(String(length=3000), nullable=True) 
-    installed_at = Column(String, nullable=True)    
-
-    occurred_at = Column(DateTime, default=datetime.now)
-    resolved_at = Column(DateTime, default=None)
-
-    creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
-
 
 class Issue(Base, BaseMixin):
     __tablename__ = 'issues'
@@ -414,8 +391,8 @@ class Capacity(Base, BaseMixin):
     updater = Column(String, nullable=True) 
 
 
-class Backup(Base, BaseMixin):
-    __tablename__ = 'backups'
+class License(Base, BaseMixin):
+    __tablename__ = 'licenses'
 
     year = Column(Integer, nullable=False)
     month = Column(Integer, nullable=False)
@@ -423,75 +400,15 @@ class Backup(Base, BaseMixin):
     az = Column(Integer, nullable=False)
     tenant = Column(String, nullable=False)
 
-    progress = Column(String, nullable=True)
+    vendor = Column(String, nullable=True)
+    license_type = Column(String, nullable=True)     
     status = Column(String, nullable=True)
-
-    db_type = Column(String, nullable=True) 
     instance_name = Column(String, nullable=True) 
-    instance_ip = Column(String, nullable=True) 
-    freq_full_archive = Column(String, nullable=True) 
     comment = Column(String(length=3000), nullable=True) 
+    installed_at = Column(String, nullable=True)    
 
-    creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
-    
-
-class Security(Base, BaseMixin):
-    __tablename__ = 'securities'
-
-    year = Column(Integer, nullable=False)
-    month = Column(Integer, nullable=False)
-    region = Column(String, nullable=False)
-    az = Column(Integer, nullable=False)
-    tenant = Column(String, nullable=False)
-
-    progress = Column(String, nullable=True)
-    status = Column(String, nullable=True)
-
-    ticket_no = Column(String, nullable=True) 
-    title = Column(String, nullable=True) 
-    task_type = Column(String, nullable=True) 
-
-    creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)
-    updater = Column(String, nullable=True) 
-
-
-class RegularCheck(Base, BaseMixin):
-    __tablename__ = 'regularchecks'
-
-    year = Column(Integer, nullable=False)
-    month = Column(Integer, nullable=False)
-    region = Column(String, nullable=False)
-    az = Column(Integer, nullable=False)
-    tenant = Column(String, nullable=False)
-
-    progress = Column(String, nullable=True)
-    status = Column(String, nullable=True)
-
-    freq = Column(String, nullable=True) 
-    vendor = Column(String, nullable=True) 
-    title = Column(String, nullable=True) 
-    description = Column(String(length=3000), nullable=True) 
-
-    creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
-
-
-class Database(Base, BaseMixin):
-    __tablename__ = 'databases'
-
-    year = Column(Integer, nullable=False)
-    month = Column(Integer, nullable=False)
-    region = Column(String, nullable=False)
-    az = Column(Integer, nullable=False)
-    tenant = Column(String, nullable=False)
-
-    db_type = Column(String, nullable=False)
-    count = Column(Integer, nullable=False)
-    status = Column(String, nullable=True) 
+    occurred_at = Column(DateTime, default=datetime.now)
+    resolved_at = Column(DateTime, default=None)
 
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)     
@@ -544,6 +461,90 @@ class Kubernetes(Base, BaseMixin):
     reviewer = Column(String, nullable=True)     
     updater = Column(String, nullable=True) 
 
+
+class Database(Base, BaseMixin):
+    __tablename__ = 'databases'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    db_type = Column(String, nullable=False)
+    count = Column(Integer, nullable=False)
+    status = Column(String, nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+    
+
+class Security(Base, BaseMixin):
+    __tablename__ = 'securities'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True)
+
+    ticket_no = Column(String, nullable=True) 
+    title = Column(String, nullable=True) 
+    task_type = Column(String, nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True) 
+
+
+class RegularCheck(Base, BaseMixin):
+    __tablename__ = 'regularchecks'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True)
+
+    freq = Column(String, nullable=True) 
+    vendor = Column(String, nullable=True) 
+    title = Column(String, nullable=True) 
+    description = Column(String(length=3000), nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+
+
+class Backup(Base, BaseMixin):
+    __tablename__ = 'backups'
+
+    year = Column(Integer, nullable=False)
+    month = Column(Integer, nullable=False)
+    region = Column(String, nullable=False)
+    az = Column(Integer, nullable=False)
+    tenant = Column(String, nullable=False)
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True)
+
+    db_type = Column(String, nullable=True) 
+    instance_name = Column(String, nullable=True) 
+    instance_ip = Column(String, nullable=True) 
+    freq_full_archive = Column(String, nullable=True) 
+    comment = Column(String(length=3000), nullable=True) 
+
+    creator = Column(String, nullable=True)
+    reviewer = Column(String, nullable=True)     
+    updater = Column(String, nullable=True) 
+    
 
 class Report(Base, BaseMixin):
     __tablename__ = 'reports'

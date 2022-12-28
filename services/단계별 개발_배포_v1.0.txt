@@ -10,21 +10,28 @@ Step 1. CRUD
   1.7 (완료) Model 창 날짜 표기 변환(format) (12/23)
   1.8 (중단) Model 창 markdown 표기 변환(format) (12/23, 연동 후 재 시도)
       . markdown & highlight (no error, but not work)
-  1.9 fastapi 연동 (참고:  https://www.digitalocean.com/community/tutorials/implementing-authentication-in-nuxtjs-app )
+  1.9 (완료) fastapi 연동 (참고:  https://www.digitalocean.com/community/tutorials/implementing-authentication-in-nuxtjs-app )
     1) fastapi CRUD using httpie
-      . (완료) Update :  ex) http PUT "http://localhost:8000/incident/3730" region="KR" month=10 year=2023 az=1 tenant="1" event="test3" 
-      . (완료) Create :  ex) http POST "http://localhost:8000/incident/" region="KR" month=10 year=2023 az=1 tenant="1" event="test3" 
-      . (완료) Read   :  ex) http GET "http://localhost:8000/incident/3730"   
-      . (완료) Delete :  ex) http DELETE "http://localhost:8000/incident/3755"
-    2) Nuxtjs CRUD 
-      . (진행) Update thru components (List & Detail)
-      . Create 
-      . Read  
-      . Delete
-      
+      . Update :  ex) http PUT "http://localhost:8000/incident/3730" region="KR" month=10 year=2023 az=1 tenant="1" event="test3" 
+      . Create :  ex) http POST "http://localhost:8000/incident/" region="KR" month=10 year=2023 az=1 tenant="1" event="test3" 
+      . Read   :  ex) http GET "http://localhost:8000/incident/3730"   
+      . Delete :  ex) http DELETE "http://localhost:8000/incident/3755"
+    2) frontend(Nuxtjs) 연계 CRUD 
+  1.10 다른 Topic 으로 횡전개
+    1) Topic별 진행 - 백업관리(시작)
+      A] frontend
+        . (완료) Navbar 설정 외 기본틀 구성
+        . topic별 대시보드 (list 내 링크 조정)
+        . Detial 내 field 첨삭
+      B] backend
+        . Model
+        . CRUD
+        . Router
+        . Schema
+
 Step 2. Tools
-  2.1. 그래프
-  2.2. 대시보드
+  2.1. 대시보드
+  2.2. 그래프
   2.3. 분석기  
 Step 3) Auth Token
       Register/Login/Logout
