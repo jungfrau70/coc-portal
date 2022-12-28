@@ -86,12 +86,12 @@ export default {
   ],
 
   axios: {
-    proxy: true,
+    // proxy: true,
     baseURL: 'http://localhost:8000/',
   },
-  proxy: {
-    '/api': 'https://localhost:8000',
-  },
+  // proxy: {
+  //   '/api': 'https://localhost:8000',
+  // },
 
   // // Axios module configuration: https://go.nuxtjs.dev/config-axios
   // axios: {

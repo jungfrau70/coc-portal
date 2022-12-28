@@ -1,14 +1,13 @@
 version: '3.8'
 
 services:
-
   frontend:
     # build: ./services/frontend
     build: ./frontend
     volumes:
-      # - './services/frontend:/app'
+      # - './services/frontend/app:/app'
       - './frontend/app:/app'
-      
+      # - '/app/node_modules'
       - '/app/node_modules'
     ports:
       - 3000:3000
