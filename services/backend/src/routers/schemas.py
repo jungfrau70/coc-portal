@@ -91,8 +91,7 @@ class TokenData(BaseModel):
 #             file=file
 #         )
 
-class ShowDiscussion(BaseModel):
-    id: int
+class DiscussionBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -106,12 +105,18 @@ class ShowDiscussion(BaseModel):
     status: Optional[str]
     discussion_topic: Optional[str]
 
+class Discussion(DiscussionBase):
+    class Config():
+        orm_mode = True 
+
+class ShowDiscussion(DiscussionBase):
+    id: int
     creator: Optional[str]
     reviewer: Optional[str]
     updater: Optional[str]
 
     class Config():
-        orm_mode = True      
+        orm_mode = True 
 
 
 class IncidentBase(BaseModel):
@@ -141,10 +146,6 @@ class IncidentBase(BaseModel):
     propogated_at: Optional[datetime]
     resolved_at: Optional[datetime]
 
-    # reviewer: Optional[str]
-    # creator: Optional[str]
-    # updater: Optional[str] 
-
 class Incident(IncidentBase):
     class Config():
         orm_mode = True    
@@ -159,9 +160,7 @@ class ShowIncident(IncidentBase):
         orm_mode = True      
 
 
-
-class ShowIssue(BaseModel):
-    id: int
+class IssueBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -178,6 +177,12 @@ class ShowIssue(BaseModel):
     occurred_at: Optional[datetime]
     resloved_at: Optional[datetime]
 
+class Issue(IssueBase):
+    class Config():
+        orm_mode = True   
+
+class ShowIssue(IssueBase):
+    id: int
     creator: Optional[str]
     reviewer: Optional[str]
     updater: Optional[str]
@@ -186,8 +191,7 @@ class ShowIssue(BaseModel):
         orm_mode = True      
 
 
-class ShowProblem(BaseModel):
-    id: int
+class ProblemBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -198,25 +202,6 @@ class ShowProblem(BaseModel):
     status: Optional[str]
     impact: Optional[str]
 
-
-    # year = Column(Integer, nullable=False)
-    # month = Column(Integer, nullable=False)
-    # region = Column(String, nullable=False)
-    # az = Column(Integer, nullable=False)
-    # tenant = Column(String, nullable=False)
-
-    # vendor = Column(String, nullable=True)
-    # license_type = Column(String, nullable=True)     
-    # status = Column(String, nullable=True)
-    # instance_name = Column(String, nullable=True)
-    # installed_at = Column(String, nullable=True)     
-    # comment = Column(String(length=3000), nullable=True) 
-
-    # creator = Column(String, nullable=True)
-    # reviewer = Column(String, nullable=True)     
-    # updater = Column(String, nullable=True) 
-
-    occurred_at: Optional[datetime]
     title: Optional[str]
     description: Optional[str]
     action: Optional[str]
@@ -224,9 +209,17 @@ class ShowProblem(BaseModel):
     ticket_no: Optional[str]
 
     rca_desc: Optional[str]
-    reviewed_at: Optional[datetime]
     review_desc: Optional[str]
 
+    occurred_at: Optional[datetime]
+    reviewed_at: Optional[datetime]
+
+class Problem(ProblemBase):
+    class Config():
+        orm_mode = True   
+
+class ShowProblem(ProblemBase):
+    id: int
     creator: Optional[str]
     reviewer: Optional[str]
     updater: Optional[str]
@@ -235,8 +228,7 @@ class ShowProblem(BaseModel):
         orm_mode = True    
 
 
-class ShowChange(BaseModel):
-    id: int
+class ChangeBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -250,6 +242,12 @@ class ShowChange(BaseModel):
     title: Optional[str]
     description: Optional[str]
 
+class Change(ChangeBase):
+    class Config():
+        orm_mode = True  
+
+class ShowChange(ChangeBase):
+    id: int
     creator: Optional[str]
     reviewer: Optional[str]
     updater: Optional[str]
@@ -258,8 +256,7 @@ class ShowChange(BaseModel):
         orm_mode = True  
 
 
-class ShowRequest(BaseModel):
-    id: int
+class RequestBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -274,6 +271,12 @@ class ShowRequest(BaseModel):
     description: Optional[str]
     work_type: Optional[str]
 
+class Request(RequestBase):
+    class Config():
+        orm_mode = True  
+
+class ShowRequest(RequestBase):
+    id: int
     creator: Optional[str]
     reviewer: Optional[str]
     updater: Optional[str]
@@ -282,8 +285,7 @@ class ShowRequest(BaseModel):
         orm_mode = True  
 
 
-class ShowCapacity(BaseModel):
-    id: int
+class CapacityBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -298,6 +300,12 @@ class ShowCapacity(BaseModel):
     title: Optional[str]
     description: Optional[str]
 
+class Capacity(CapacityBase):
+    class Config():
+        orm_mode = True 
+
+class ShowCapacity(CapacityBase):
+    id: int
     creator: Optional[str]
     reviewer: Optional[str]
     updater: Optional[str]
@@ -306,8 +314,7 @@ class ShowCapacity(BaseModel):
         orm_mode = True   
 
 
-class ShowBackup(BaseModel):
-    id: int
+class BackupBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -323,6 +330,12 @@ class ShowBackup(BaseModel):
     freq_full_archive: Optional[str]
     comment: Optional[str]
 
+class Backup(BackupBase):
+    class Config():
+        orm_mode = True  
+
+class ShowBackup(BackupBase):
+    id: int
     creator: Optional[str]
     reviewer: Optional[str]
     updater: Optional[str]
@@ -331,8 +344,7 @@ class ShowBackup(BaseModel):
         orm_mode = True     
 
 
-class ShowSecurity(BaseModel):
-    id: int
+class SecurityBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -346,6 +358,12 @@ class ShowSecurity(BaseModel):
     title: Optional[str]
     task_type: Optional[str]
 
+class Security(SecurityBase):
+    class Config():
+        orm_mode = True  
+
+class ShowSecurity(SecurityBase):
+    id: int
     creator: Optional[str]
     reviewer: Optional[str]
     updater: Optional[str]
@@ -354,8 +372,7 @@ class ShowSecurity(BaseModel):
         orm_mode = True   
 
 
-class ShowLicense(BaseModel):
-    id: int
+class LicenseBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -369,6 +386,12 @@ class ShowLicense(BaseModel):
     installed_at: Optional[str]
     comment: Optional[str]
 
+class License(LicenseBase):
+    class Config():
+        orm_mode = True 
+
+class ShowLicense(LicenseBase):
+    id: int
     creator: Optional[str]
     reviewer: Optional[str]
     updater: Optional[str]
@@ -377,8 +400,7 @@ class ShowLicense(BaseModel):
         orm_mode = True     
 
 
-class ShowDatabase(BaseModel):
-    id: int
+class DatabaseBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -387,7 +409,13 @@ class ShowDatabase(BaseModel):
 
     db_type: Optional[str]
     count: Optional[int]
+   
+class Database(DatabaseBase):
+    class Config():
+        orm_mode = True   
 
+class ShowDatabase(DatabaseBase):
+    id: int
     creator: Optional[str]
     reviewer: Optional[str]
     updater: Optional[str]
@@ -395,8 +423,8 @@ class ShowDatabase(BaseModel):
     class Config():
         orm_mode = True      
 
-class ShowKubernetes(BaseModel):
-    id: int
+
+class KubernetesBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -419,6 +447,12 @@ class ShowKubernetes(BaseModel):
     ca_cert_expired_date: Optional[datetime]
     etcd_cert_expired_date: Optional[datetime]
 
+class Kubernetes(KubernetesBase):
+    class Config():
+        orm_mode = True    
+
+class ShowKubernetes(KubernetesBase):
+    id: int
     creator: Optional[str]
     reviewer: Optional[str]
     updater: Optional[str]
@@ -426,8 +460,8 @@ class ShowKubernetes(BaseModel):
     class Config():
         orm_mode = True      
 
-class ShowInstance(BaseModel):
-    id: int
+
+class InstanceBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -444,9 +478,21 @@ class ShowInstance(BaseModel):
     class Config():
         orm_mode = True      
 
+class Instance(InstanceBase):
+    class Config():
+        orm_mode = True  
 
-class ShowRegularCheck(BaseModel):
+class ShowInstance(InstanceBase):
     id: int
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True  
+
+
+class RegularCheckBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -461,6 +507,12 @@ class ShowRegularCheck(BaseModel):
     title: Optional[str]
     description: Optional[str]
 
+class RegularCheck(RegularCheckBase):
+    class Config():
+        orm_mode = True   
+
+class ShowRegularCheck(RegularCheckBase):
+    id: int
     creator: Optional[str]
     reviewer: Optional[str]
     updater: Optional[str]
@@ -468,9 +520,7 @@ class ShowRegularCheck(BaseModel):
     class Config():
         orm_mode = True   
 
-
-class ShowReport(BaseModel):
-    id: int
+class ReportBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -482,11 +532,17 @@ class ShowReport(BaseModel):
 
     vendor: Optional[str]
     report_name: Optional[str]
-    comment: Optional[str]
+    comment: Optional[str]   
 
+class Report(ReportBase):
+    class Config():
+        orm_mode = True
+
+class ShowReport(ReportBase):
+    id: int
     creator: Optional[str]
     reviewer: Optional[str]
     updater: Optional[str]
 
     class Config():
-        orm_mode = True      
+        orm_mode = True

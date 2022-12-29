@@ -12,8 +12,9 @@ router = APIRouter(
 )
 
 get_db = database.get_db
+Schema = schemas.ShowBlog
 
-@router.get('/', response_model=List[schemas.ShowBlog])
+@router.get('/', response_model=List[Schema])
 def all(db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
     return blog.get_all(db)
 

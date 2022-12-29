@@ -3,31 +3,40 @@ from cruds import models
 from routers import schemas
 from fastapi import HTTPException,status, File, UploadFile, BackgroundTasks
 from io import BytesIO, StringIO
-from datetime import datetime
 
 import pandas as pd
 import numpy as np
 import csv, codecs
 
-Model = models.Issue
-Schema = schemas.ShowIssue
+Model = models.Database
+Schema = schemas.ShowDatabase
 
 def get_all(db: Session):
     records = db.query(Model).all()
     return records
 
+
 def create(request: Schema, db: Session):
-    new_record = Model(title=request.title, body=request.body,user_id=1)
+    new_record = Model(
+        year = request.year,
+        month = request.month,
+        region = request.region,
+        az = request.az,
+        tenant = request.tenant,
+
+        db_type = request.db_type,
+        count = request.count,
+        status = request.status,
+    )
     db.add(new_record)
     db.commit()
     db.refresh(new_record)
     return new_record
 
-
 def upload_csv(file, db: Session):
     contents = file.file.read()
     data = BytesIO(contents)
-    df = pd.read_csv(data)    
+    df = pd.read_csv(data)
     data.close()
     file.file.close()
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
@@ -36,16 +45,12 @@ def upload_csv(file, db: Session):
     df['month'] = df['month'].fillna(np.nan).replace([np.nan], 0)
     df['region'] = df['region'].fillna(np.nan).replace([np.nan], ['NA'])
     df['az'] = df['az'].fillna(np.nan).replace([np.nan], 0)
+    df['count'] = df['count'].fillna(np.nan).replace([np.nan], 0)
 
     df['year'] = df['year'].astype(int)
     df['month'] = df['month'].astype(int)
     df['az'] = df['az'].astype(int)
-
-    df['occurred_at'] = df['occurred_at'].fillna(np.nan).replace([np.nan], ['1900-01-01'])
-    df['occurred_at'] = pd.to_datetime(df['occurred_at'])
-
-    df['resolved_at'] = df['resolved_at'].fillna(np.nan).replace([np.nan], ['1900-01-01'])
-    df['resolved_at'] = pd.to_datetime(df['resolved_at'])
+    df['count'] = df['count'].astype(int)    
 
     try:
         db.query(Model).delete()
@@ -69,6 +74,7 @@ def destroy(id:int,db: Session):
     db.commit()
     return 'done'
 
+
 def update(id:int,request:Schema, db:Session):
     record = db.query(Model).filter(Model.id == id)
 
@@ -76,9 +82,23 @@ def update(id:int,request:Schema, db:Session):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with id {id} not found")
 
-    record.update(request)
+    db.query(Model).filter(Model.id == id).update({
+
+        "year": request.year,
+        "month": request.month,
+        "region": request.region,
+        "az": request.az,
+        "tenant": request.tenant,
+
+        "db_type": request.db_type,
+        "count":  request.count,
+        "status":  request.status,
+        
+    })
     db.commit()
+    db.refresh(record)
     return 'updated'
+
 
 def show(id:int,db:Session):
     record = db.query(Model).filter(Model.id == id).first()

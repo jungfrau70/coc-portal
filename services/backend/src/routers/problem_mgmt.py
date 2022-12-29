@@ -5,9 +5,10 @@ from pandas_ods_reader import read_ods
 
 from config import database
 from routers import schemas
+from services.backend.src.cruds import _problem_mgmt
 from utils import oauth2
 from sqlalchemy.orm import Session
-from cruds import models, problem_mgmt
+from cruds import models
 from sqlalchemy.sql import func
 from datetime import datetime
 
@@ -23,7 +24,7 @@ Schema = schemas.ShowProblem
 @router.get('/all', response_model=List[Schema])
 # def all(db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
 def all(db: Session = Depends(get_db)):
-    return problem_mgmt.get_all(db)
+    return _problem_mgmt.get_all(db)
 
 # @router.get('/all', response_model=List[Schema])
 # # def all(db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
@@ -53,28 +54,28 @@ def all(db: Session = Depends(get_db)):
 @router.get('/{id}', status_code=200, response_model=Schema)
 # def show(id:int, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
 def show(id:int, db: Session = Depends(get_db)):
-    return problem_mgmt.show(id,db)
+    return _problem_mgmt.show(id,db)
 
 @router.post('/', status_code=status.HTTP_201_CREATED,)
 # def create(request: schemas.Blog, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
-def create(request: schemas.Blog, db: Session = Depends(get_db)):
-    return problem_mgmt.create(request, db)
+def create(request: Schema, db: Session = Depends(get_db)):
+    return _problem_mgmt.create(request, db)
 
 # @router.post('/uploadfile', status_code=status.HTTP_201_CREATED,)
 # async def post_form(request: Request, form_data: schemas.AwesomeForm = Depends(schemas.AwesomeForm.as_form), db: Session = Depends(get_db)):
 @router.post('/uploadfile', status_code=status.HTTP_201_CREATED,)
 async def upload_file(file: Union[UploadFile, None] = None, db: Session = Depends(get_db)):
     if file.filename.lower().endswith(('.csv')):
-        return problem_mgmt.upload_csv(file, db)
+        return _problem_mgmt.upload_csv(file, db)
     else:
         return {"message": "No csv upload file sent"}  
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
 # def destroy(id:int, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
 def destroy(id:int, db: Session = Depends(get_db)):
-    return problem_mgmt.destroy(id,db)
+    return _problem_mgmt.destroy(id,db)
 
 @router.put('/{id}', status_code=status.HTTP_202_ACCEPTED)
 # def update(id:int, request: schemas.Blog, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
-def update(id:int, request: schemas.Blog, db: Session = Depends(get_db)):
-    return problem_mgmt.update(id,request, db)
+def update(id:int, request: Schema, db: Session = Depends(get_db)):
+    return _problem_mgmt.update(id,request, db)

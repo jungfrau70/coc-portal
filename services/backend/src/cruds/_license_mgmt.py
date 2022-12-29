@@ -8,19 +8,37 @@ import pandas as pd
 import numpy as np
 import csv, codecs
 
-Model = models.Kubernetes
-Schema = schemas.ShowKubernetes
+Model = models.License
+Schema = schemas.ShowLicense
 
 def get_all(db: Session):
     records = db.query(Model).all()
     return records
 
+
 def create(request: Schema, db: Session):
-    new_record = Model(title=request.title, body=request.body,user_id=1)
+    new_record = Model(
+        year = request.year,
+        month = request.month,
+        region = request.region,
+        az = request.az,
+        tenant = request.tenant,
+
+        vendor = request.vendor,
+        license_type = request.license_type,        
+        status = request.status,
+        instance_name = request.instance_name,
+        comment = request.comment,
+        installed_at = request.installed_at,
+
+        occurred_at = request.occurred_at,
+        resolved_at = request.resolved_at,
+    )
     db.add(new_record)
     db.commit()
     db.refresh(new_record)
     return new_record
+
 
 def upload_csv(file, db: Session):
     contents = file.file.read()
@@ -31,7 +49,7 @@ def upload_csv(file, db: Session):
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
     
     df['region'] = df['region'].fillna(np.nan).replace([np.nan], ['NA']) 
-    
+
     df['year'] = df['year'].fillna(np.nan).replace([np.nan], 0)
     df['month'] = df['month'].fillna(np.nan).replace([np.nan], 0)
     df['az'] = df['az'].fillna(np.nan).replace([np.nan], 0)
@@ -39,15 +57,7 @@ def upload_csv(file, db: Session):
     df['year'] = df['year'].astype(int)
     df['month'] = df['month'].astype(int)
     df['az'] = df['az'].astype(int)
-
-    df['api_cert_expired_date'] = df['api_cert_expired_date'].fillna(np.nan).replace([np.nan], ['1900-01-01'])
-    df['ca_cert_expired_date'] = df['ca_cert_expired_date'].fillna(np.nan).replace([np.nan], ['1900-01-01'])
-    df['etcd_cert_expired_date'] = df['etcd_cert_expired_date'].fillna(np.nan).replace([np.nan], ['1900-01-01'])
-
-    df['api_cert_expired_date'] = pd.to_datetime(df['api_cert_expired_date'])
-    df['ca_cert_expired_date'] = pd.to_datetime(df['ca_cert_expired_date'])
-    df['etcd_cert_expired_date'] = pd.to_datetime(df['etcd_cert_expired_date'])
-
+    
     try:
         db.query(Model).delete()
         dicts = df.to_dict(orient='records')
@@ -59,42 +69,6 @@ def upload_csv(file, db: Session):
 
     return f"uploaded {file.filename}"
 
-# def upload_csv(file, db: Session):
-#     contents = file.file.read()
-#     data = BytesIO(contents)
-#     df = pd.read_csv(file.file, na_filter = False)
-#     file.file.close()
-
-#     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
-#     df.info()
-
-#     df['year'] = df['year'].fillna(np.nan).replace([np.nan], 0)
-#     df['month'] = df['month'].fillna(np.nan).replace([np.nan], 0)
-#     df['az'] = df['az'].fillna(np.nan).replace([np.nan], 0)
-
-#     df['year'] = df['year'].astype(int)
-#     df['month'] = df['month'].astype(int)
-#     df['az'] = df['az'].astype(int)
-
-#     df['api_cert_expired_date'] = df['api_cert_expired_date'].fillna(np.na).replace([np.nan], ['1900-01-01'])
-#     df['ca_cert_expired_date'] = df['ca_cert_expired_date'].fillna(np.nan).replace([np.nan], ['1900-01-01'])
-#     df['etcd_cert_expired_date'] = df['etcd_cert_expired_date'].fillna(np.nan).replace([np.nan], ['1900-01-01'])
-
-#     df['api_cert_expired_date'] = pd.to_datetime(df['api_cert_expired_date'])
-#     df['ca_cert_expired_date'] = pd.to_datetime(df['ca_cert_expired_date'])
-#     df['etcd_cert_expired_date'] = pd.to_datetime(df['etcd_cert_expired_date'])
-
-#     try:
-#         db.query(Model).delete()
-#         dicts = df.to_dict(orient='records')
-#         db.bulk_insert_mappings(Model, dicts)        
-#         db.commit()
-#     except Exception as e:
-#         print(e)
-#         print("Sorry, some error has occurred!")
-
-#     return "uploaded"
-
 def destroy(id:int,db: Session):
     record = db.query(Model).filter(Model.id == id)
 
@@ -102,9 +76,11 @@ def destroy(id:int,db: Session):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with id {id} not found")
 
-    record.delete(synchronize_session=False)
+    # record.delete(synchronize_session=False)
+    db.query(Model).filter(Model.id == id).delete()
     db.commit()
     return 'done'
+
 
 def update(id:int,request:Schema, db:Session):
     record = db.query(Model).filter(Model.id == id)
@@ -113,8 +89,30 @@ def update(id:int,request:Schema, db:Session):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with id {id} not found")
 
-    record.update(request)
+    db.query(Model).filter(Model.id == id).update({
+
+        "year": request.year,
+        "month": request.month,
+        "region": request.region,
+        "az": request.az,
+        "tenant": request.tenant,
+
+        "progress": request.progress,
+        "status": request.status,
+
+        "vendor": request.vendor,
+        "license_type": request.license_type,
+        "status": request.status,
+        "instance_name": request.instance_name,
+        "comment": request.comment,
+        "installed_at": request.installed_at,
+
+        "occurred_at": request.occurred_at,
+        "resolved_at": request.resolved_at,
+        
+    })
     db.commit()
+    db.refresh(record)
     return 'updated'
 
 def show(id:int,db:Session):

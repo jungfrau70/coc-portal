@@ -17,7 +17,21 @@ def get_all(db: Session):
     return records
 
 def create(request: Schema, db: Session):
-    new_record = Model(title=request.title, body=request.body,user_id=1)
+    new_record = Model(
+        year = request.year,
+        month = request.month,
+        region = request.region,
+        az = request.az,
+        tenant = request.tenant,
+
+        progress = request.progress,
+        status = request.status,
+
+        ticket_no = request.ticket_no,
+        title = request.title,
+        description = request.description,
+        work_type = request.work_type,
+    )
     db.add(new_record)
     db.commit()
     db.refresh(new_record)
@@ -60,7 +74,8 @@ def destroy(id:int,db: Session):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with id {id} not found")
 
-    record.delete(synchronize_session=False)
+    # record.delete(synchronize_session=False)
+    db.query(Model).filter(Model.id == id).delete()
     db.commit()
     return 'done'
 
@@ -71,8 +86,25 @@ def update(id:int,request:Schema, db:Session):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with id {id} not found")
 
-    record.update(request)
+    db.query(Model).filter(Model.id == id).update({
+
+        "year": request.year,
+        "month": request.month,
+        "region": request.region,
+        "az": request.az,
+        "tenant": request.tenant,
+
+        "progress": request.progress,
+        "status": request.status,
+
+        "title": request.title,
+        "description":  request.description,
+        "ticket_no":  request.ticket_no,
+        "work_type":  request.work_type,
+        
+    })
     db.commit()
+    db.refresh(record)
     return 'updated'
 
 def show(id:int,db:Session):

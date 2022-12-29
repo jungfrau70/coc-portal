@@ -15,12 +15,29 @@ def get_all(db: Session):
     records = db.query(Model).all()
     return records
 
+
 def create(request: Schema, db: Session):
-    new_record = Model(title=request.title, body=request.body,user_id=1)
+    new_record = Model(
+        year = request.year,
+        month = request.month,
+        region = request.region,
+        az = request.az,
+        tenant = request.tenant,
+
+        progress = request.progress,
+        status = request.status,
+
+        title = request.title,
+        description = request.description,
+        category = request.category,
+        ticket_no = request.ticket_no,
+
+    )
     db.add(new_record)
     db.commit()
     db.refresh(new_record)
     return new_record
+
 
 def upload_csv(file, db: Session):
     contents = file.file.read()
@@ -63,15 +80,33 @@ def destroy(id:int,db: Session):
     db.commit()
     return 'done'
 
+
 def update(id:int,request:Schema, db:Session):
     record = db.query(Model).filter(Model.id == id)
 
     if not record.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with id {id} not found")
+   
+    db.query(Model).filter(Model.id == id).update({
 
-    record.update(request)
+        "year": request.year,
+        "month": request.month,
+        "region": request.region,
+        "az": request.az,
+        "tenant": request.tenant,
+
+        "progress": request.progress,
+        "status": request.status,
+
+        "title": request.title,
+        "description":  request.description,
+        "category":  request.category,
+        "ticket_no":  request.ticket_no,
+        
+    })
     db.commit()
+    db.refresh(record)
     return 'updated'
 
 def show(id:int,db:Session):

@@ -1,13 +1,11 @@
 from sqlalchemy.orm import Session
 from cruds import models
 from routers import schemas
-from fastapi import HTTPException,status, File, UploadFile, BackgroundTasks
-from io import BytesIO, StringIO
-from datetime import datetime
+from fastapi import HTTPException,status
+from io import BytesIO
 
 import pandas as pd
 import numpy as np
-import csv, codecs
 
 Model = models.Incident
 Schema = schemas.ShowIncident
@@ -16,7 +14,7 @@ def get_all(db: Session):
     records = db.query(Model).all()
     return records
 
-def create(request: schemas.Incident, db: Session):
+def create(request: Schema, db: Session):
     new_record = Model(
         year = request.year,
         month = request.month,
@@ -115,6 +113,7 @@ def destroy(id:int,db: Session):
     db.commit()
     return 'done'
 
+
 def update(id:int,request, db:Session):
     record = db.query(Model).filter(Model.id == id).first()
     if not record:
@@ -153,13 +152,12 @@ def update(id:int,request, db:Session):
     })
     db.commit()
     db.refresh(record)
-    return record
-    # return 'updated'
+    return 'updated'
+
 
 def show(id:int,db:Session):
     record = db.query(Model).filter(Model.id == id).first()
     
-    # record = db.query(Model).all()[0]
     if not record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with the id {id} is not available")
