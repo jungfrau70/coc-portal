@@ -168,7 +168,6 @@
 <script>
 // import marked  from '@/plugins/mark '
 export default {
-  name: 'IssueDetail',
   props: {
     editedItem: {
       type: Object,

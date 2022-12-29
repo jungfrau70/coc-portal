@@ -38,8 +38,7 @@
       </template>
       <template>
         <v-card v-model="dialogAdd">
-          <kubernetesDetail
-            
+          <KubernetesDetail
             :editedItem="newItem"
             @submit-item="submitItem"
             @close="close(newItem.id)"
@@ -104,7 +103,7 @@
     <!-- Edit dialog -->
     <v-dialog v-model="dialogEdit">
       <v-card>
-        <kubernetesDetail
+        <KubernetesDetail
           v-if="dialogEdit"
           :edited-item="editedItem"
           @submit-item="submitItem"
@@ -132,10 +131,10 @@
 </template>
 <script>
 import axios from 'axios'
-import kubernetesDetail from '~/components/kubernetesDetail.vue'
+import KubernetesDetail from '~/components/KubernetesDetail.vue'
 
 export default {
-  components: { kubernetesDetail },
+  components: { KubernetesDetail },
 
   data() {
     return {

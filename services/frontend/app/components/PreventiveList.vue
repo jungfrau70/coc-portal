@@ -1,7 +1,7 @@
-<template>preventive-maintenance
+<template>
   <v-card>
     <v-tabs>
-      <v-tab to="/preventive-maintenance/list">리스트</v-tab>
+      <v-tab to="/preventive/list">리스트</v-tab>
       <!-- <v-tab to="/preventive-maintenance/graph">그래프</v-tab>
       <v-tab to="/preventive-maintenance/dashboard">대시보드</v-tab>
       <v-tab to="/preventive-maintenance/analyzer">분석기</v-tab> -->
@@ -38,7 +38,7 @@
       </template>
       <template>
         <v-card v-model="dialogAdd">
-          <preventive-maintenanceDetail
+          <PreventiveDetail
             
             :editedItem="newItem"
             @submit-item="submitItem"
@@ -104,7 +104,7 @@
     <!-- Edit dialog -->
     <v-dialog v-model="dialogEdit">
       <v-card>
-        <preventive-maintenanceDetail
+        <PreventiveDetail
           v-if="dialogEdit"
           :edited-item="editedItem"
           @submit-item="submitItem"
@@ -132,10 +132,10 @@
 </template>
 <script>
 import axios from 'axios'
-import RegularCheckDetail from '~/components/RegularCheckDetail.vue'
+import PreventiveDetail from '~/components/PreventiveDetail.vue'
 
 export default {
-  components: { RegularCheckDetail },
+  components: { PreventiveDetail },
 
   data() {
     return {
@@ -307,7 +307,7 @@ export default {
         // if the item has an id, we're updating an existing item
         console.log(id)
         method = 'put'
-        url = `http://localhost:8000/preventive-maintenance/${id}`
+        url = `http://localhost:8000/preventive/${id}`
 
         this.item = {}
         // must remove id from the data for airtable patch to work
@@ -320,7 +320,7 @@ export default {
         this.dialog = false
       } else {
         method = 'post'
-        url = `http://localhost:8000/preventive-maintenance`
+        url = `http://localhost:8000/preventive`
 
         // 편집창 종료
         this.dialogAdd = false
@@ -413,7 +413,7 @@ export default {
     async loadItems() {
       this.items = []
       await axios
-        .get('http://localhost:8000/preventive-maintenance/all', {
+        .get('http://localhost:8000/preventive/all', {
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods':
@@ -467,7 +467,7 @@ export default {
 
       console.log(id)
       const method = 'delete'
-      const url = `http://localhost:8000/preventive-maintenance/${id}`
+      const url = `http://localhost:8000/preventive/${id}`
 
       axios[method](url, {
         // headers: {

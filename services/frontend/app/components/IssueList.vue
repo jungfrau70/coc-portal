@@ -39,7 +39,6 @@
       <template>
         <v-card v-model="dialogAdd">
           <IssueDetail
-            
             :editedItem="newItem"
             @submit-item="submitItem"
             @close="close(newItem.id)"

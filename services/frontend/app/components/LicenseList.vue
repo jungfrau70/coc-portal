@@ -38,7 +38,7 @@
       </template>
       <template>
         <v-card v-model="dialogAdd">
-          <licenseDetail
+          <LicenseDetail
             
             :editedItem="newItem"
             @submit-item="submitItem"
@@ -104,7 +104,7 @@
     <!-- Edit dialog -->
     <v-dialog v-model="dialogEdit">
       <v-card>
-        <licenseDetail
+        <LicenseDetail
           v-if="dialogEdit"
           :edited-item="editedItem"
           @submit-item="submitItem"
@@ -132,10 +132,10 @@
 </template>
 <script>
 import axios from 'axios'
-import licenseDetail from '~/components/licenseDetail.vue'
+import LicenseDetail from '~/components/LicenseDetail.vue'
 
 export default {
-  components: { licenseDetail },
+  components: { LicenseDetail },
 
   data() {
     return {

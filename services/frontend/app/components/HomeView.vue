@@ -10,7 +10,7 @@
 <script>
 // import Tutorial from './Tutorial.vue'
 import CompanyIntro from './CompanyIntro.vue'
-import UserService from '~/services/user.service'
+// import UserService from '~/services/user.service'
 
 export default {
   name: 'HomeView',
@@ -23,17 +23,17 @@ export default {
     }
   },
   mounted() {
-    UserService.getPublicContent().then(
-      (response) => {
-        this.content = response.data
-      },
-      (error) => {
-        this.content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString()
-      }
-    )
+    // UserService.getPublicContent().then(
+    //   (response) => {
+    //     this.content = response.data
+    //   },
+    //   (error) => {
+    //     this.content =
+    //       (error.response && error.response.data) ||
+    //       error.message ||
+    //       error.toString()
+    //   }
+    // )
   },
 }
 </script>

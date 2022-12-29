@@ -38,8 +38,7 @@
       </template>
       <template>
         <v-card v-model="dialogAdd">
-          <backupDetail
-            
+          <BackupDetail
             :editedItem="newItem"
             @submit-item="submitItem"
             @close="close(newItem.id)"
@@ -104,7 +103,7 @@
     <!-- Edit dialog -->
     <v-dialog v-model="dialogEdit">
       <v-card>
-        <backupDetail
+        <BackupDetail
           v-if="dialogEdit"
           :edited-item="editedItem"
           @submit-item="submitItem"
@@ -132,10 +131,10 @@
 </template>
 <script>
 import axios from 'axios'
-import backupDetail from '~/components/backupDetail.vue'
+import BackupDetail from '~/components/BackupDetail.vue'
 
 export default {
-  components: { backupDetail },
+  components: { BackupDetail },
 
   data() {
     return {

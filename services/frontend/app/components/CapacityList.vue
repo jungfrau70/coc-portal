@@ -38,8 +38,7 @@
       </template>
       <template>
         <v-card v-model="dialogAdd">
-          <capacityDetail
-            
+          <CapacityDetail
             :editedItem="newItem"
             @submit-item="submitItem"
             @close="close(newItem.id)"
@@ -104,7 +103,7 @@
     <!-- Edit dialog -->
     <v-dialog v-model="dialogEdit">
       <v-card>
-        <capacityDetail
+        <CapacityDetail
           v-if="dialogEdit"
           :edited-item="editedItem"
           @submit-item="submitItem"
@@ -132,10 +131,10 @@
 </template>
 <script>
 import axios from 'axios'
-import capacityDetail from '~/components/capacityDetail.vue'
+import CapacityDetail from '~/components/CapacityDetail.vue'
 
 export default {
-  components: { capacityDetail },
+  components: { CapacityDetail },
 
   data() {
     return {

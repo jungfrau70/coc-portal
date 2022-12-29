@@ -178,12 +178,12 @@ export default {
         {
           icon: 'mdi-lock-plus',
           title: 'Vulnerability',
-          to: '/vulnerability-activity/list',
+          to: '/vulnerability/list',
         },
         {
           icon: 'mdi-wrench',
-          title: 'PM',
-          to: '/pm/list',
+          title: 'Preventive',
+          to: '/preventive/list',
         },
       ],
       miniVariant: false,

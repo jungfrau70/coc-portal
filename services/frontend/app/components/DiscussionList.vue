@@ -38,7 +38,7 @@
       </template>
       <template>
         <v-card v-model="dialogAdd">
-          <discussionDetail
+          <DiscussionDetail
             
             :editedItem="newItem"
             @submit-item="submitItem"
@@ -104,7 +104,7 @@
     <!-- Edit dialog -->
     <v-dialog v-model="dialogEdit">
       <v-card>
-        <discussionDetail
+        <DiscussionDetail
           v-if="dialogEdit"
           :edited-item="editedItem"
           @submit-item="submitItem"
@@ -132,10 +132,10 @@
 </template>
 <script>
 import axios from 'axios'
-import discussionDetail from '~/components/discussionDetail.vue'
+import DiscussionDetail from '~/components/DiscussionDetail.vue'
 
 export default {
-  components: { discussionDetail },
+  components: { DiscussionDetail },
 
   data() {
     return {
