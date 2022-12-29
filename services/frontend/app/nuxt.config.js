@@ -52,6 +52,7 @@ export default {
   plugins: [
     { src: '~/plugins/vega-embed.js' },
     { src: '~/plugins/vuetify-datetimepicker.js' }, // datepicker plugin here
+    // { src: '~/plugins/highcharts-vue.js' }, // datepicker plugin here
     // { src: '~/plugins/vue-quill-editor.js', ssr: false },
     // { src: '~/plugins/markedWorker.js' },
   ],
@@ -143,6 +144,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['vega-embed', 'vuetify-datetime-picker'],
+    // transpile: ['vega-embed', 'vuetify-datetime-picker', 'highcharts-vue'],
   },
 
   rules: {

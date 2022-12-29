@@ -1,39 +1,70 @@
-<template>
-  <div class="container">
-    <header class="jumbotron">
-      <h3>{{ content }}</h3>
-    </header>
-    <CompanyIntro />
-  </div>
+<template v-for="(chart, index) in charts" :key="index">
+  <div id="vis"></div>
 </template>
   
+
 <script>
-// import Tutorial from './Tutorial.vue'
-import CompanyIntro from './CompanyIntro.vue'
-// import UserService from '~/services/user.service'
+import embed from 'vega-embed'
+// import worldMap from '@highcharts/map-collection/custom/world.geo.json'
+import data from '../data/penguins.json'
 
 export default {
-  name: 'HomeView',
-  components: {
-    CompanyIntro
-  },
   data() {
     return {
-      content: '',
+      name: 'myData',
+      // values: data,
+      charts: [
+      {
+        $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+        // $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
+        description: 'A simple bar chart with embedded data.',
+        data: {
+          values: data
+        },
+        mark: 'bar',
+        encoding: {
+          x: { field: 'a', type: 'nominal', axis: { labelAngle: 0 } },
+          y: { field: 'b', type: 'quantitative' },
+        },
+      },
+      {
+        $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+        // $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
+        description: 'A simple bar chart with embedded data.',
+        data: {
+          values: [
+            { a: 'A', b: 28 },
+            { a: 'B', b: 55 },
+            { a: 'C', b: 43 },
+            { a: 'D', b: 91 },
+            { a: 'E', b: 81 },
+            { a: 'F', b: 53 },
+            { a: 'G', b: 19 },
+            { a: 'H', b: 87 },
+            { a: 'I', b: 52 },
+          ],
+        },
+        mark: 'bar',
+        encoding: {
+          x: { field: 'a', type: 'nominal', axis: { labelAngle: 0 } },
+          y: { field: 'b', type: 'quantitative' },
+        },
+      },
+      ]
+      
+
     }
   },
+
   mounted() {
-    // UserService.getPublicContent().then(
-    //   (response) => {
-    //     this.content = response.data
-    //   },
-    //   (error) => {
-    //     this.content =
-    //       (error.response && error.response.data) ||
-    //       error.message ||
-    //       error.toString()
-    //   }
-    // )
+    this.draw()
+  },
+  methods: {
+    async draw() {
+      const result = await embed('#vis', this.charts[1])
+      // const result = await embed('#vis', this.hconcat)
+      return result
+    },
   },
 }
 </script>
