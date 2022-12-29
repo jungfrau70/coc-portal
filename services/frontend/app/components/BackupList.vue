@@ -38,7 +38,7 @@
       </template>
       <template>
         <v-card v-model="dialogAdd">
-          <IncidentDetail
+          <backupDetail
             
             :editedItem="newItem"
             @submit-item="submitItem"
@@ -104,7 +104,7 @@
     <!-- Edit dialog -->
     <v-dialog v-model="dialogEdit">
       <v-card>
-        <IncidentDetail
+        <backupDetail
           v-if="dialogEdit"
           :edited-item="editedItem"
           @submit-item="submitItem"
@@ -132,10 +132,10 @@
 </template>
 <script>
 import axios from 'axios'
-import IncidentDetail from '~/components/IncidentDetail.vue'
+import backupDetail from '~/components/backupDetail.vue'
 
 export default {
-  components: { IncidentDetail },
+  components: { backupDetail },
 
   data() {
     return {
@@ -307,7 +307,7 @@ export default {
         // if the item has an id, we're updating an existing item
         console.log(id)
         method = 'put'
-        url = `http://localhost:8000/incident/${id}`
+        url = `http://localhost:8000/backup/${id}`
 
         this.item = {}
         // must remove id from the data for airtable patch to work
@@ -320,7 +320,7 @@ export default {
         this.dialog = false
       } else {
         method = 'post'
-        url = `http://localhost:8000/incident`
+        url = `http://localhost:8000/backup`
 
         // 편집창 종료
         this.dialogAdd = false
@@ -413,7 +413,7 @@ export default {
     async loadItems() {
       this.items = []
       await axios
-        .get('http://localhost:8000/incident/all', {
+        .get('http://localhost:8000/backup/all', {
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods':
@@ -467,7 +467,7 @@ export default {
 
       console.log(id)
       const method = 'delete'
-      const url = `http://localhost:8000/incident/${id}`
+      const url = `http://localhost:8000/backup/${id}`
 
       axios[method](url, {
         // headers: {

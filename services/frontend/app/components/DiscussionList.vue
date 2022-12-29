@@ -2,9 +2,9 @@
   <v-card>
     <v-tabs>
       <v-tab to="/discussion/list">리스트</v-tab>
-      <!-- <v-tab to="/incident/graph">그래프</v-tab>
-      <v-tab to="/incident/dashboard">대시보드</v-tab>
-      <v-tab to="/incident/analyzer">분석기</v-tab> -->
+      <!-- <v-tab to="/discussion/graph">그래프</v-tab>
+      <v-tab to="/discussion/dashboard">대시보드</v-tab>
+      <v-tab to="/discussion/analyzer">분석기</v-tab> -->
     </v-tabs>
     <nuxt-child />
     <v-dialog v-model="dialog">
@@ -38,7 +38,7 @@
       </template>
       <template>
         <v-card v-model="dialogAdd">
-          <IncidentDetail
+          <discussionDetail
             
             :editedItem="newItem"
             @submit-item="submitItem"
@@ -104,7 +104,7 @@
     <!-- Edit dialog -->
     <v-dialog v-model="dialogEdit">
       <v-card>
-        <IncidentDetail
+        <discussionDetail
           v-if="dialogEdit"
           :edited-item="editedItem"
           @submit-item="submitItem"
@@ -132,10 +132,10 @@
 </template>
 <script>
 import axios from 'axios'
-import IncidentDetail from '~/components/IncidentDetail.vue'
+import discussionDetail from '~/components/discussionDetail.vue'
 
 export default {
-  components: { IncidentDetail },
+  components: { discussionDetail },
 
   data() {
     return {
@@ -307,7 +307,7 @@ export default {
         // if the item has an id, we're updating an existing item
         console.log(id)
         method = 'put'
-        url = `http://localhost:8000/incident/${id}`
+        url = `http://localhost:8000/discussion/${id}`
 
         this.item = {}
         // must remove id from the data for airtable patch to work
@@ -320,7 +320,7 @@ export default {
         this.dialog = false
       } else {
         method = 'post'
-        url = `http://localhost:8000/incident`
+        url = `http://localhost:8000/discussion`
 
         // 편집창 종료
         this.dialogAdd = false
@@ -413,7 +413,7 @@ export default {
     async loadItems() {
       this.items = []
       await axios
-        .get('http://localhost:8000/incident/all', {
+        .get('http://localhost:8000/discussion/all', {
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods':
@@ -467,7 +467,7 @@ export default {
 
       console.log(id)
       const method = 'delete'
-      const url = `http://localhost:8000/incident/${id}`
+      const url = `http://localhost:8000/discussion/${id}`
 
       axios[method](url, {
         // headers: {

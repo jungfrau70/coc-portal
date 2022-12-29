@@ -183,7 +183,7 @@ export default {
         {
           icon: 'mdi-wrench',
           title: 'PM',
-          to: '/preventive-maintenance/list',
+          to: '/pm/list',
         },
       ],
       miniVariant: false,
