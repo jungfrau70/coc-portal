@@ -133,6 +133,8 @@
 import axios from 'axios'
 import InstanceDetail from '~/components/InstanceDetail.vue'
 
+const API_URL = `${process.env.BASE_URL}/issue`
+
 export default {
   components: { InstanceDetail },
 
@@ -306,7 +308,7 @@ export default {
         // if the item has an id, we're updating an existing item
         console.log(id)
         method = 'put'
-        url = `http://localhost:8000/instance/${id}`
+        url = `${API_URL}/${id}`
 
         this.item = {}
         // must remove id from the data for airtable patch to work
@@ -319,7 +321,7 @@ export default {
         this.dialog = false
       } else {
         method = 'post'
-        url = `http://localhost:8000/instance`
+        url = `${API_URL}`
 
         // 편집창 종료
         this.dialogAdd = false
@@ -412,7 +414,7 @@ export default {
     async loadItems() {
       this.items = []
       await axios
-        .get('http://localhost:8000/instance/all', {
+        .get(`${API_URL}/all`, {
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods':
@@ -466,9 +468,7 @@ export default {
 
       console.log(id)
       const method = 'delete'
-      const url = `http://localhost:8000/instance/${id}`
-
-      axios[method](url, {
+      axios[method](`${API_URL}/${id}`, {
         // headers: {
         //   Authorization: 'Bearer ' + apiToken,
         //   'Content-Type': 'application/json',
