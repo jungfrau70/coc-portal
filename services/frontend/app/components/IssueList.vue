@@ -232,7 +232,8 @@ export default {
     this.loadItems()
   },
   mounted() {
-    // console.log('list mounted')
+    console.log('list mounted')
+    console.log(API_URL)
   },
   updated() {
     // console.log('list updated')
@@ -443,10 +444,11 @@ export default {
       const id = this.itemToDelete.id
 
       console.log(id)
-      const method = 'delete'
-      // const url = `http://localhost:8000/issue/${id}`
+      // const method = 'delete'
+      // const url = `${API_URL}/issue/${id}`
 
-      axios[method](`${API_URL}/${id}`, {
+      // axios[method](`${API_URL}/${id}`, {
+      axios.delete(`${API_URL}/${id}`, {
         // headers: {
         //   Authorization: 'Bearer ' + apiToken,
         //   'Content-Type': 'application/json',

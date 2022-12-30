@@ -383,7 +383,7 @@ export default {
       // this.item = {}
       // this.$parent.editedItem.id = null
       this.$emit('close', id)
-      this.setDefaultItem()
+      // this.setDefaultItem()
     },
   },
 }

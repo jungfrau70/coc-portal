@@ -42,8 +42,8 @@ app.include_router(report.router)
 origins = [
     "http://localhost:3000",
     "http://localhost:8000",  
-    "http://192.168.30.254:3000",
-    "http://192.168.30.254:8000", 
+    "http://172.30.1.25:3000",
+    "http://172.30.1.25:8000", 
 ]
     # "http://192.168.30.254:3000",
     # "http://192.168.30.254:8000",

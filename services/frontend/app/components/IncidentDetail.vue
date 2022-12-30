@@ -13,7 +13,7 @@
             v-for="(options, index) in colOptions"
             :key="index"
             cols="12"
-            md="2"
+            md="1"
           >
             <v-select
               v-model="item[index]"
@@ -38,6 +38,8 @@
               v-model="item['acknowledged_at']"
               :formatter="DatetimePickerFormat"
               label="Acknowledged_at"
+              required
+              focus
             >
             </v-datetime-picker>
           </v-col>
@@ -57,9 +59,7 @@
             >
             </v-datetime-picker>
           </v-col>
-        </v-row>
 
-        <v-row>
           <v-col>
             <v-text-field
               v-model="item['creator']"
@@ -383,7 +383,7 @@ export default {
       // this.item = {}
       // this.$parent.editedItem.id = null
       this.$emit('close', id)
-      this.setDefaultItem()
+      // this.setDefaultItem()
     },
   },
 }
