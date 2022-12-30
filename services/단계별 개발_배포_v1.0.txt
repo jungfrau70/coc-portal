@@ -37,6 +37,8 @@ Step 1. CRUD
         . Router
         . Schema
 
+    ** http PUT "http://localhost:8000/capacity/188" region="KR" month=10 year=2023 az=1 tenant="1" title="test3"
+    http PUT "http://localhost:8000/backup/1273" region="KR" month=10 year=2023 az=1 tenant="1" title="test3"
 
 Step 2. Tools
   2.1. 대시보드

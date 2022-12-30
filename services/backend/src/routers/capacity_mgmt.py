@@ -16,9 +16,10 @@ router = APIRouter(
 
 get_db = database.get_db
 
-Schema = schemas.ShowCapacity
+SchemaShow = schemas.ShowCapacity
+Schema = schemas.Capacity
 
-@router.get('/all', response_model=List[Schema])
+@router.get('/all', response_model=List[SchemaShow])
 # def all(db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
 def all(db: Session = Depends(get_db)):
     return capacity_mgmt.get_all(db)
