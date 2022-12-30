@@ -175,7 +175,7 @@ class IssueBase(BaseModel):
     action: Optional[str]
 
     occurred_at: Optional[datetime]
-    resloved_at: Optional[datetime]
+    resolved_at: Optional[datetime]
 
 class Issue(IssueBase):
     class Config():

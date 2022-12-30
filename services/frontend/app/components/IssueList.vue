@@ -117,7 +117,8 @@
       <v-card>
         <v-card-title>Delete</v-card-title>
         <v-card-text
-          >제목(이벤트) `{{ itemToDelete.event }}`를(을) 삭제 할까요?</v-card-text
+          >제목(이벤트) `{{ itemToDelete.event }}`를(을) 삭제
+          할까요?</v-card-text
         >
         <v-card-actions>
           <v-btn color="primary" text @click="dialogDelete = false"
@@ -152,7 +153,7 @@ export default {
 
         { text: 'Progress', value: 'progress', sortable: true },
         { text: 'Status', value: 'status', width: '75', sortable: true },
-        
+
         { text: 'Title', value: 'title', sortable: true },
         {
           text: 'Description',
@@ -244,7 +245,7 @@ export default {
   beforeDestroy() {
     // console.log('list beforeDestroy')
   },
-  
+
   methods: {
     vueDatetime(datetime) {
       // return this.$moment(datetime).format('YYYY-MM-DD HH:mm:ss')
@@ -281,7 +282,7 @@ export default {
 
         occurred_at: this.dbDatetime(item.occurred_at),
         resolved_at: this.dbDatetime(item.resolved_at),
-        
+
         // creator: item.creator,
         // updater: item.updater,
       }
@@ -429,7 +430,7 @@ export default {
 
               occurred_at: this.vueDatetime(item.occurred_at),
               resolved_at: this.vueDatetime(item.resolved_at),
-              
+
               creator: item.creator,
               updater: item.updater,
             }
@@ -444,11 +445,11 @@ export default {
       const id = this.itemToDelete.id
 
       console.log(id)
-      // const method = 'delete'
-      // const url = `${API_URL}/issue/${id}`
+      const method = 'delete'
+      const url = `${API_URL}/${id}`
 
-      // axios[method](`${API_URL}/${id}`, {
-      axios.delete(`${API_URL}/${id}`, {
+      // axios.delete(`${API_URL}/${id}`, {
+      axios[method](url, {
         // headers: {
         //   Authorization: 'Bearer ' + apiToken,
         //   'Content-Type': 'application/json',

@@ -13,7 +13,7 @@
             v-for="(options, index) in colOptions"
             :key="index"
             cols="12"
-            md="2"
+            md="1"
           >
             <v-select
               v-model="item[index]"
@@ -35,35 +35,16 @@
           </v-col>
           <v-col>
             <v-datetime-picker
-              v-model="item['acknowledged_at']"
+              v-model="item['reviewed_at']"
               :formatter="DatetimePickerFormat"
-              label="Acknowledged_at"
+              label="Reviewed_at"
             >
             </v-datetime-picker>
           </v-col>
-          <v-col>
-            <v-datetime-picker
-              v-model="item['propogated_at']"
-              :formatter="DatetimePickerFormat"
-              label="Propogated_at"
-            >
-            </v-datetime-picker>
-          </v-col>
-          <v-col>
-            <v-datetime-picker
-              v-model="item['resolved_at']"
-              :formatter="DatetimePickerFormat"
-              label="Resolved_at"
-            >
-            </v-datetime-picker>
-          </v-col>
-        </v-row>
-
-        <v-row>
           <v-col>
             <v-text-field
-              v-model="item['creator']"
-              label="Creator"
+              v-model="item['person_in_charge']"
+              label="Person_in_charge"
             ></v-text-field>
           </v-col>
           <v-col>
@@ -72,29 +53,24 @@
               label="Ticket No."
             ></v-text-field>
           </v-col>
-          <v-col>
-            <v-text-field
-              v-model="item['level_2_engineer1']"
-              label="Engineer(L2)"
-            ></v-text-field>
-          </v-col>
-          <v-col>
-            <v-text-field
-              v-model="item['how_to_share']"
-              label="How_to_share"
-            ></v-text-field>
-          </v-col>
+
         </v-row>
 
         <v-row>
           <v-text-field
-            v-model="item['event']"
-            label="Title(Event)"
+            v-model="item['title']"
+            label="Title"
             required
           ></v-text-field>
         </v-row>
         <v-row>
-          <v-col>
+          <v-text-field
+            v-model="item['description']"
+            label="Description"
+            required
+          ></v-text-field>
+        </v-row>
+        <v-row>
             <v-textarea
               v-model="item['action']"
               filled
@@ -102,8 +78,7 @@
               auto-grow
               value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
             ></v-textarea>
-          </v-col>
-          <!-- <v-col>
+                      <!-- <v-col>
             <v-dialog>
               <v-card>
                 <template>
@@ -114,19 +89,24 @@
           </v-col> -->
         </v-row>
         <v-row>
-          <v-col>
             <v-textarea
-              v-model="item['comment']"
+              v-model="item['rca_desc']"
               filled
-              label="Comment"
+              label="RCA"
               auto-grow
               value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
             ></v-textarea>
-          </v-col>
-          <!-- <v-col>
-            <div v-html="changeMarkdown"></div>
+                      <!-- <v-col>
+            <v-dialog>
+              <v-card>
+                <template>
+                  <div v-html="actionMarkdown"></div>
+                </template>
+              </v-card>
+            </v-dialog>
           </v-col> -->
         </v-row>
+        
         <v-spacer></v-spacer>
         <v-row>
           <v-btn class="mr-4" color="green darken-1" @click="submitItem"
@@ -242,6 +222,12 @@ export default {
         'cancelled',
         'delayed',
         'failed',
+      ],
+      impact: [
+        'A critical incident with very high impact',
+        'A major incident with significant impact',
+        'A minor incident with low impact',
+        'No impact',
       ],
     },
   }),
@@ -383,7 +369,6 @@ export default {
       // this.item = {}
       // this.$parent.editedItem.id = null
       this.$emit('close', id)
-      this.setDefaultItem()
     },
   },
 }

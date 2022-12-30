@@ -36,7 +36,7 @@ def create(request: Schema, db: Session):
         review_desc = request.review_desc,
 
         occurred_at = request.occurred_at,
-        resolved_at = request.resolved_at,
+        reviewed_at = request.reviewed_at,
     )
     db.add(new_record)
     db.commit()
@@ -80,10 +80,9 @@ def destroy(id:int,db: Session):
     db.commit()
     return 'done'
 
-def update(id:int,request:Schema, db:Session):
-    record = db.query(Model).filter(Model.id == id)
-
-    if not record.first():
+def update(id:int,request, db:Session):
+    record = db.query(Model).filter(Model.id == id).first()
+    if not record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with id {id} not found")
 
@@ -97,14 +96,21 @@ def update(id:int,request:Schema, db:Session):
 
         "progress": request.progress,
         "status": request.status,
+        "impact": request.impact,
 
         "title": request.title,
         "description":  request.description,
         "action":  request.action,
 
+        "person_in_charge": request.person_in_charge,
+        "ticket_no": request.ticket_no,
+
+        "rca_desc": request.rca_desc,
+        "review_desc": request.review_desc,
+
         "occurred_at": request.occurred_at,
-        "resolved_at": request.resolved_at,
-        
+        "reviewed_at": request.reviewed_at,
+
     })
     db.commit()
     db.refresh(record)
