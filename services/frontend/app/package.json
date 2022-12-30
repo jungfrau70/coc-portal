@@ -16,6 +16,7 @@
     "@highcharts/map-collection": "^2.0.1",
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/eslint-module": "^3.1.0",
     "@nuxtjs/markdownit": "^2.0.0",
     "@nuxtjs/moment": "^1.6.1",

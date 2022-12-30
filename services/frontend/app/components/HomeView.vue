@@ -58,6 +58,7 @@ export default {
 
   mounted() {
     this.draw()
+    console.log(process.env.API_URL)
   },
   methods: {
     async draw() {

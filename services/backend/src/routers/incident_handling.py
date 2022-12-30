@@ -16,9 +16,10 @@ router = APIRouter(
 
 get_db = database.get_db
 
-Schema = schemas.ShowIncident
+SchemaID = schemas.ShowIncident
+Schema = schemas.Incident
 
-@router.get('/all', response_model=List[Schema])
+@router.get('/all', response_model=List[SchemaID])
 # def all(db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
 def all(db: Session = Depends(get_db)):
     return incident_handling.get_all(db)

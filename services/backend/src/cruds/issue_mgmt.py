@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 
 Model = models.Issue
-Schema = schemas.ShowIssue
+Schema = schemas.Issue
 
 def get_all(db: Session):
     records = db.query(Model).all()
@@ -110,7 +110,7 @@ def update(id:int,request, db:Session):
         "action":  request.action,
 
         "occurred_at": request.occurred_at,
-        "resolved_at": request.resolved_at,
+        "resolved_at": request.resolved_at
         
     })
     db.commit()

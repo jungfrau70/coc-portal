@@ -1,5 +1,4 @@
 import colors from 'vuetify/es5/util/colors'
-require('dotenv').config()
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -85,16 +84,15 @@ export default {
     '@nuxtjs/auth',
     '@nuxtjs/markdownit',
     '@nuxtjs/moment',
-    '@nuxtjs/dotenv',
   ],
 
-  dotenv: {
-    filename: '.env'
-  },
-
   axios: {
-    baseURL: process.env.BASE_URL || 'http://localhost:8000'
+    // proxy: true,
+    baseURL: 'http://localhost:8000/',
   },
+  // proxy: {
+  //   '/api': 'https://localhost:8000',
+  // },
 
   // // Axios module configuration: https://go.nuxtjs.dev/config-axios
   // axios: {

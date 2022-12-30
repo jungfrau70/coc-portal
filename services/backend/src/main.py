@@ -41,8 +41,12 @@ app.include_router(report.router)
 
 origins = [
     "http://localhost:3000",
-    "http://localhost:8000",    
+    "http://localhost:8000",  
+    "http://192.168.30.254:3000",
+    "http://192.168.30.254:8000", 
 ]
+    # "http://192.168.30.254:3000",
+    # "http://192.168.30.254:8000",
 
 app.add_middleware(
     CORSMiddleware,

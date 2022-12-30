@@ -279,7 +279,7 @@ class Issue(Base, BaseMixin):
     action = Column(String(length=3000), nullable=True) 
 
     occurred_at = Column(DateTime, default=datetime.now)
-    resolved_at = Column(DateTime, default=None)
+    resolved_at = Column(DateTime, default=None, nullable=True)
 
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)     
