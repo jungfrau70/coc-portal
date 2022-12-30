@@ -78,10 +78,9 @@ def destroy(id:int,db: Session):
     db.commit()
     return 'done'
 
-def update(id:int,request:Schema, db:Session):
-    record = db.query(Model).filter(Model.id == id)
-
-    if not record.first():
+def update(id:int,request, db:Session):
+    record = db.query(Model).filter(Model.id == id).first()
+    if not record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with id {id} not found")
 
@@ -97,7 +96,7 @@ def update(id:int,request:Schema, db:Session):
 
         "title": request.title,
         "description":  request.description,
-        "action":  request.action,
+        "ticket_no":  request.ticket_no,
     })
     db.commit()
     db.refresh(record)

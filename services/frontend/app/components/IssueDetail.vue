@@ -91,7 +91,7 @@
           <!-- <v-col>
             <div v-html="changeMarkdown"></div>
           </v-col> -->
-        </v-row>
+        <!-- </v-row> -->
         <v-spacer></v-spacer>
         <v-row>
           <v-btn class="mr-4" color="green darken-1" @click="submitItem"

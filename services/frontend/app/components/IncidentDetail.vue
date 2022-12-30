@@ -234,15 +234,17 @@ export default {
       ],
       az: [1, 2, 3, 4, 5, 6, 7, 8],
       tenant: ['PRD', 'PRE_PRD', 'STG', 'DEV'],
-      status: [
-        'created',
-        'scheduled',
-        'work-in-progress',
-        'completed',
-        'cancelled',
-        'delayed',
-        'failed',
-      ],
+      // progress: [
+      //   'created',
+      //   'reviewed',
+      //   'scheduled',
+      //   'approved',
+      //   'completed',
+      //   'cancelled',
+      //   'delayed',
+      //   'failed',
+      // ],
+      status: ['in-progress', 'success', 'failure'],
     },
   }),
   computed: {
@@ -326,27 +328,32 @@ export default {
     },
     setDefaultItem() {
       console.log('set default values to item')
+
       this.item.year = this.item.year || this.today.getFullYear()
       this.item.month = this.item.month || this.today.getMonth() + 1
       this.item.region = this.item.region || 'KR'
       this.item.az = this.item.az || 1
       this.item.tenant = this.item.tenant || 'PRD'
+
       this.item.shift_start_date = null
       this.item.shift_type = null
       this.item.level_1_engineer1 = null
       this.item.level_1_engineer2 = null
       this.item.level_2_engineers = null
       this.item.how_to_share = null
+
       this.item.event = null
       this.item.action = null
       this.item.status = this.item.status || 'created'
       this.item.ticket_no = null
       this.item.escalated_to_l3 = null
       this.item.comment = null
+
       this.item.occurred_at = this.item.acknowledged_at || this.getNow()
       this.item.acknowledged_at = this.item.acknowledged_at || this.getNow()
       this.item.propogated_at = null
       this.item.resolved_at = null
+      
       this.item.creator = null
       this.item.reviewer = null
       this.item.updater = null

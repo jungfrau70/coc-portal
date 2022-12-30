@@ -16,9 +16,10 @@ router = APIRouter(
 
 get_db = database.get_db
 
-Schema = schemas.ShowChange
+SchemaShow = schemas.ShowChange
+Schema = schemas.Change
 
-@router.get('/all', response_model=List[Schema])
+@router.get('/all', response_model=List[SchemaShow])
 # def all(db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
 def all(db: Session = Depends(get_db)):
     return change_mgmt.get_all(db)

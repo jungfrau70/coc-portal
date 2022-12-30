@@ -152,7 +152,7 @@ export default {
 
         { text: 'Progress', value: 'progress', sortable: true },
         { text: 'Status', value: 'status', width: '75', sortable: true },
-        { text: 'Impact', value: 'impact', width: '75', sortable: true },
+        // { text: 'Impact', value: 'impact', width: '75', sortable: true },
 
         { text: 'Title', value: 'title', sortable: true },
         {
@@ -161,12 +161,12 @@ export default {
           sortable: true,
           // width: '240',
         },
-        {
-          text: 'Action',
-          value: 'action',
-          sortable: true,
-          // width: '240',
-        },
+        // {
+        //   text: 'Action',
+        //   value: 'action',
+        //   sortable: true,
+        //   // width: '240',
+        // },
         {
           text: 'Occurred_at',
           value: 'occurred_at',

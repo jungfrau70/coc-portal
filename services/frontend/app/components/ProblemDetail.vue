@@ -53,7 +53,13 @@
               label="Ticket No."
             ></v-text-field>
           </v-col>
-
+          <v-col>
+            <v-text-field
+              v-model="item['impact']"
+              label="Impact"
+              required
+            ></v-text-field>
+          </v-col>
         </v-row>
 
         <v-row>
@@ -64,21 +70,23 @@
           ></v-text-field>
         </v-row>
         <v-row>
-          <v-text-field
+          <v-textarea
             v-model="item['description']"
+            filled
             label="Description"
-            required
-          ></v-text-field>
+            auto-grow
+            value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+          ></v-textarea>
         </v-row>
         <v-row>
-            <v-textarea
-              v-model="item['action']"
-              filled
-              label="Action"
-              auto-grow
-              value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-            ></v-textarea>
-                      <!-- <v-col>
+          <v-textarea
+            v-model="item['action']"
+            filled
+            label="Action"
+            auto-grow
+            value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+          ></v-textarea>
+          <!-- <v-col>
             <v-dialog>
               <v-card>
                 <template>
@@ -89,14 +97,14 @@
           </v-col> -->
         </v-row>
         <v-row>
-            <v-textarea
-              v-model="item['rca_desc']"
-              filled
-              label="RCA"
-              auto-grow
-              value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-            ></v-textarea>
-                      <!-- <v-col>
+          <v-textarea
+            v-model="item['rca_desc']"
+            filled
+            label="RCA"
+            auto-grow
+            value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+          ></v-textarea>
+          <!-- <v-col>
             <v-dialog>
               <v-card>
                 <template>
@@ -106,7 +114,7 @@
             </v-dialog>
           </v-col> -->
         </v-row>
-        
+
         <v-spacer></v-spacer>
         <v-row>
           <v-btn class="mr-4" color="green darken-1" @click="submitItem"
