@@ -16,9 +16,17 @@ Step 1. CRUD
       . Create :  ex) http POST "http://localhost:8000/incident/" region="KR" month=10 year=2023 az=1 tenant="1" event="test3" 
       . Read   :  ex) http GET "http://localhost:8000/incident/3730"   
       . Delete :  ex) http DELETE "http://localhost:8000/incident/3755"
-    2) frontend(Nuxtjs) 연계 CRUD 
-  1.10 다른 Topic 으로 횡전개
-    1) Topic별 진행 - 백업관리(시작)
+    2) Production 이행 준비 (ERROR 422,405 건 해결)
+        . Backend server (localhost-> IP) 환경 정보 설정 및 Incident Handling 에 적용
+          JWT_KEY="09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+          # BASE_URL=http://localhost:8000
+          BASE_URL=http://192.168.30.254:8000
+        . Method 별 Backend API 스키마 조정
+          > GET_ALL/POST : SchemaID
+          > PUT/GET_ID : Schema (without ID)
+
+  1.10 횡전개
+    1) Topic별 횡전개 - Issue(진행중)
       A] frontend
         . (완료) Navbar 설정 외 기본틀 구성
         . topic별 대시보드 (list 내 링크 조정)
@@ -28,6 +36,7 @@ Step 1. CRUD
         . CRUD
         . Router
         . Schema
+
 
 Step 2. Tools
   2.1. 대시보드
