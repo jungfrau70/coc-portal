@@ -16,9 +16,10 @@ router = APIRouter(
 
 get_db = database.get_db
 
-Schema = schemas.ShowKubernetes
+SchemaShow = schemas.ShowKubernetes
+Schema = schemas.Kubernetes
 
-@router.get('/all', response_model=List[Schema])
+@router.get('/all', response_model=List[SchemaShow])
 # def all(db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
 def all(db: Session = Depends(get_db)):
     return asset_mgmt_kubernetes.get_all(db)
@@ -49,3 +50,4 @@ def destroy(id:int, db: Session = Depends(get_db)):
 # def update(id:int, request: schemas.Blog, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
 def update(id:int, request: Schema, db: Session = Depends(get_db)):
     return asset_mgmt_kubernetes.update(id,request, db)
+

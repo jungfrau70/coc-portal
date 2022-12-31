@@ -133,12 +133,26 @@
 import axios from 'axios'
 import KubernetesDetail from '~/components/KubernetesDetail.vue'
 
+const API_URL = `${process.env.BASE_URL}/kubernetes`
+
 export default {
   components: { KubernetesDetail },
 
   data() {
     return {
       search: '',
+
+      // status: item.status,
+      //   cluster_name: item.cluster_name,
+      //   node_type: item.node_type,
+      //   node_name: item.node_name,
+      //   node_ips: item.node_ips,
+      //   api_vip: item.api_vip,
+      //   flavor: item.flavor,
+      //   network_zone: item.network_zone,
+      //   contacts: item.contacts,
+      //   k8s_version: item.k8s_version,
+      //   monitoring_agent: item.monitoring_agent,
 
       headers: [
         // { text: 'Id', value: 'id' },
@@ -149,38 +163,38 @@ export default {
         { text: 'Tenant', value: 'tenant', width: '75', sortable: true },
         // { text: 'Progress', value: 'progress', sortable: true },
         { text: 'Status', value: 'status', width: '75', sortable: true },
-        { text: 'Event(Title))', value: 'event', sortable: true },
+
         {
-          text: 'Action(Description)',
-          value: 'action',
+          text: 'cluster_name',
+          value: 'cluster_name',
           sortable: true,
           // width: '240',
         },
         {
-          text: 'Occurred_at',
-          value: 'occurred_at',
+          text: 'monitoring_agent',
+          value: 'monitoring_agent',
           width: '120',
           sortable: false,
         },
         {
-          text: 'Acknowledged_at',
-          value: 'acknowledged_at',
+          text: 'api_cert_expired_date',
+          value: 'api_cert_expired_date',
           width: '120',
           sortable: false,
         },
         {
-          text: 'Propogated_at',
-          value: 'propogated_at',
+          text: 'ca_cert_expired_date',
+          value: 'ca_cert_expired_date',
           width: '120',
           sortable: false,
         },
         {
-          text: 'Resolved_at',
-          value: 'resolved_at',
+          text: 'etcd_cert_expired_date',
+          value: 'etcd_cert_expired_date',
           width: '120',
           sortable: false,
         },
-        { text: 'Action', value: 'actions', sortable: false },
+        { text: 'Edit/Delete', value: 'actions', sortable: false },
       ],
 
       filters: {
@@ -271,28 +285,22 @@ export default {
         region: item.region,
         az: item.az,
         tenant: item.tenant,
-        shift_start_date: item.shift_start_date,
-        shift_type: item.shift_type,
-        level_1_engineer1: item.level_1_engineer1,
-        level_1_engineer2: item.level_1_engineer2,
-        level_2_engineers: item.level_2_engineers,
-        how_to_share: item.how_to_share,
-        event: item.event,
-        action: item.action,
+
         status: item.status,
-        ticket_no: item.ticket_no,
-        escalated_to_l3: item.escalated_to_l3,
-        comment: item.comment,
+        cluster_name: item.cluster_name,
+        node_type: item.node_type,
+        node_name: item.node_name,
+        node_ips: item.node_ips,
+        api_vip: item.api_vip,
+        flavor: item.flavor,
+        network_zone: item.network_zone,
+        contacts: item.contacts,
+        k8s_version: item.k8s_version,
+        monitoring_agent: item.monitoring_agent,
 
-        occurred_at: this.dbDatetime(item.occurred_at),
-        acknowledged_at: this.dbDatetime(item.acknowledged_at),
-        propogated_at: this.dbDatetime(item.propogated_at),
-        resolved_at: this.dbDatetime(item.resolved_at),
-
-        // occurred_at: utcTodayDate,
-        // acknowledged_at: utcTodayDate,
-        // propogated_at: utcTodayDate,
-        // resolved_at: utcTodayDate,
+        api_cert_expired_date: this.dbDatetime(item.api_cert_expired_date),
+        ca_cert_expired_date: this.dbDatetime(item.ca_cert_expired_date),
+        etcd_cert_expired_date: this.dbDatetime(item.etcd_cert_expired_date),
 
         // creator: item.creator,
         // reviewer: item.reviewer,
@@ -306,7 +314,7 @@ export default {
         // if the item has an id, we're updating an existing item
         console.log(id)
         method = 'put'
-        url = `http://localhost:8000/kubernetes/${id}`
+        url = `${API_URL}/${id}`
 
         this.item = {}
         // must remove id from the data for airtable patch to work
@@ -319,7 +327,7 @@ export default {
         this.dialog = false
       } else {
         method = 'post'
-        url = `http://localhost:8000/kubernetes`
+        url = `${API_URL}`
 
         // 편집창 종료
         this.dialogAdd = false
@@ -412,7 +420,7 @@ export default {
     async loadItems() {
       this.items = []
       await axios
-        .get('http://localhost:8000/kubernetes/all', {
+        .get(`${API_URL}/all`, {
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods':
@@ -430,26 +438,23 @@ export default {
               region: item.region,
               az: item.az,
               tenant: item.tenant,
-              shift_start_date: item.shift_start_date,
-              shift_type: item.shift_type,
-              level_1_engineer1: item.level_1_engineer1,
-              level_1_engineer2: item.level_1_engineer2,
-              level_2_engineers: item.level_2_engineers,
-              how_to_share: item.how_to_share,
-              event: item.event,
-              action: item.action,
+
               status: item.status,
-              ticket_no: item.ticket_no,
-              escalated_to_l3: item.escalated_to_l3,
-              comment: item.comment,
-              // occurred_at: item.occurred_at,
-              // acknowledged_at: item.acknowledged_at,
-              // propogated_at: item.propogated_at,
-              // resolved_at: item.resolved_at,
-              occurred_at: this.vueDatetime(item.occurred_at),
-              acknowledged_at: this.vueDatetime(item.acknowledged_at),
-              propogated_at: this.vueDatetime(item.propogated_at),
-              resolved_at: this.vueDatetime(item.resolved_at),
+              cluster_name: item.cluster_name,
+              node_type: item.node_type,
+              node_name: item.node_name,
+              node_ips: item.node_ips,
+              api_vip: item.api_vip,
+              flavor: item.flavor,
+              network_zone: item.network_zone,
+              contacts: item.contacts,
+              k8s_version: item.k8s_version,
+              monitoring_agent: item.monitoring_agent,
+
+              api_cert_expired_date: this.vueDatetime(item.api_cert_expired_date),
+              ca_cert_expired_date: this.vueDatetime(item.ca_cert_expired_date),
+              etcd_cert_expired_date: this.vueDatetime(item.etcd_cert_expired_date),
+
               creator: item.creator,
               reviewer: item.reviewer,
               updater: item.updater,
@@ -466,7 +471,7 @@ export default {
 
       console.log(id)
       const method = 'delete'
-      const url = `http://localhost:8000/kubernetes/${id}`
+      const url = `${API_URL}/${id}`
 
       axios[method](url, {
         // headers: {

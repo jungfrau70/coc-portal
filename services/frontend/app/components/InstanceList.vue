@@ -133,7 +133,7 @@
 import axios from 'axios'
 import InstanceDetail from '~/components/InstanceDetail.vue'
 
-const API_URL = `${process.env.BASE_URL}/issue`
+const API_URL = `${process.env.BASE_URL}/instance`
 
 export default {
   components: { InstanceDetail },
@@ -150,39 +150,9 @@ export default {
         { text: 'AZ', value: 'az', width: '75', sortable: true },
         { text: 'Tenant', value: 'tenant', width: '75', sortable: true },
         // { text: 'Progress', value: 'progress', sortable: true },
-        { text: 'Status', value: 'status', width: '75', sortable: true },
-        { text: 'Event(Title))', value: 'event', sortable: true },
-        {
-          text: 'Action(Description)',
-          value: 'action',
-          sortable: true,
-          // width: '240',
-        },
-        {
-          text: 'Occurred_at',
-          value: 'occurred_at',
-          width: '120',
-          sortable: false,
-        },
-        {
-          text: 'Acknowledged_at',
-          value: 'acknowledged_at',
-          width: '120',
-          sortable: false,
-        },
-        {
-          text: 'Propogated_at',
-          value: 'propogated_at',
-          width: '120',
-          sortable: false,
-        },
-        {
-          text: 'Resolved_at',
-          value: 'resolved_at',
-          width: '120',
-          sortable: false,
-        },
-        { text: 'Action', value: 'actions', sortable: false },
+        { text: 'DB Type', value: 'db_type', width: '150', sortable: true },
+        { text: 'Count', value: 'count', width: '75', sortable: true },
+        { text: 'Edit/Delete', value: 'actions', width: '75', sortable: false },
       ],
 
       filters: {
@@ -191,8 +161,8 @@ export default {
         month: [],
         region: [],
         tenant: [],
-        progress: [],
-        status: [],
+        // progress: [],
+        // status: [],
       },
 
       options: {
@@ -234,6 +204,7 @@ export default {
   created() {
     // console.log('list created')
     this.loadItems()
+
   },
   mounted() {
     // console.log('list mounted')
@@ -246,6 +217,7 @@ export default {
 
   beforeDestroy() {
     // console.log('list beforeDestroy')
+    console.log(this.item)
   },
   methods: {
     vueDatetime(datetime) {
@@ -273,28 +245,9 @@ export default {
         region: item.region,
         az: item.az,
         tenant: item.tenant,
-        shift_start_date: item.shift_start_date,
-        shift_type: item.shift_type,
-        level_1_engineer1: item.level_1_engineer1,
-        level_1_engineer2: item.level_1_engineer2,
-        level_2_engineers: item.level_2_engineers,
-        how_to_share: item.how_to_share,
-        event: item.event,
-        action: item.action,
-        status: item.status,
-        ticket_no: item.ticket_no,
-        escalated_to_l3: item.escalated_to_l3,
-        comment: item.comment,
 
-        occurred_at: this.dbDatetime(item.occurred_at),
-        acknowledged_at: this.dbDatetime(item.acknowledged_at),
-        propogated_at: this.dbDatetime(item.propogated_at),
-        resolved_at: this.dbDatetime(item.resolved_at),
-
-        // occurred_at: utcTodayDate,
-        // acknowledged_at: utcTodayDate,
-        // propogated_at: utcTodayDate,
-        // resolved_at: utcTodayDate,
+        db_type: item.db_type,
+        count: item.count,
 
         // creator: item.creator,
         // reviewer: item.reviewer,
@@ -427,34 +380,15 @@ export default {
           this.items = response.data.map((item) => {
             return {
               id: item.id,
+
               year: item.year,
               month: item.month,
               region: item.region,
               az: item.az,
               tenant: item.tenant,
-              shift_start_date: item.shift_start_date,
-              shift_type: item.shift_type,
-              level_1_engineer1: item.level_1_engineer1,
-              level_1_engineer2: item.level_1_engineer2,
-              level_2_engineers: item.level_2_engineers,
-              how_to_share: item.how_to_share,
-              event: item.event,
-              action: item.action,
-              status: item.status,
-              ticket_no: item.ticket_no,
-              escalated_to_l3: item.escalated_to_l3,
-              comment: item.comment,
-              // occurred_at: item.occurred_at,
-              // acknowledged_at: item.acknowledged_at,
-              // propogated_at: item.propogated_at,
-              // resolved_at: item.resolved_at,
-              occurred_at: this.vueDatetime(item.occurred_at),
-              acknowledged_at: this.vueDatetime(item.acknowledged_at),
-              propogated_at: this.vueDatetime(item.propogated_at),
-              resolved_at: this.vueDatetime(item.resolved_at),
-              creator: item.creator,
-              reviewer: item.reviewer,
-              updater: item.updater,
+
+              db_type: item.db_type,
+              count: item.count,
             }
           })
         })

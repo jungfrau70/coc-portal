@@ -400,28 +400,35 @@ class ShowLicense(LicenseBase):
         orm_mode = True     
 
 
-class DatabaseBase(BaseModel):
+class InstanceBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
     az: Optional[int]
     tenant: Optional[str]
 
-    db_type: Optional[str]
     count: Optional[int]
-   
-class Database(DatabaseBase):
-    class Config():
-        orm_mode = True   
+    db_type: Optional[str]
 
-class ShowDatabase(DatabaseBase):
-    id: int
     creator: Optional[str]
     reviewer: Optional[str]
     updater: Optional[str]
 
     class Config():
         orm_mode = True      
+
+class Instance(InstanceBase):
+    class Config():
+        orm_mode = True  
+
+class ShowInstance(InstanceBase):
+    id: int
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True  
 
 
 class KubernetesBase(BaseModel):
@@ -461,35 +468,29 @@ class ShowKubernetes(KubernetesBase):
         orm_mode = True      
 
 
-class InstanceBase(BaseModel):
+class DatabaseBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
     az: Optional[int]
     tenant: Optional[str]
 
+    db_type: Optional[str]
     count: Optional[int]
     status: Optional[str]
-
-    creator: Optional[str]
-    reviewer: Optional[str]
-    updater: Optional[str]
-
+   
+class Database(DatabaseBase):
     class Config():
-        orm_mode = True      
+        orm_mode = True   
 
-class Instance(InstanceBase):
-    class Config():
-        orm_mode = True  
-
-class ShowInstance(InstanceBase):
+class ShowDatabase(DatabaseBase):
     id: int
     creator: Optional[str]
     reviewer: Optional[str]
     updater: Optional[str]
 
     class Config():
-        orm_mode = True  
+        orm_mode = True    
 
 
 class RegularCheckBase(BaseModel):

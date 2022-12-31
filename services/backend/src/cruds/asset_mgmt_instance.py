@@ -47,9 +47,7 @@ def upload_csv(file, db: Session):
     df['az'] = df['az'].fillna(np.nan).replace([np.nan], 0)
     df['count'] = df['count'].fillna(np.nan).replace([np.nan], 0)
 
-    df['year'] = df['year'].astype(int)
-    df['month'] = df['month'].astype(int)
-    df['az'] = df['az'].astype(int)
+    df['db_type'] = df['db_type']
     df['count'] = df['count'].astype(int)    
     # df['reviewed_at'] = df['reviewed_at'].fillna(np.nan).replace([np.nan], ['1900-01-01'])
     # df['reviewed_at'] = pd.to_datetime(df['reviewed_at'])
@@ -77,10 +75,9 @@ def destroy(id:int,db: Session):
     return 'done'
 
 
-def update(id:int,request:Schema, db:Session):
-    record = db.query(Model).filter(Model.id == id)
-
-    if not record.first():
+def update(id:int,request, db:Session):
+    record = db.query(Model).filter(Model.id == id).first()
+    if not record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with id {id} not found")
 

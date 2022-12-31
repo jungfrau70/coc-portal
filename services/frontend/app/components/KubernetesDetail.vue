@@ -24,6 +24,78 @@
             </v-select>
           </v-col>
         </v-row>
+
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="item['status']"
+              label="status"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="item['cluster_name']"
+              label="cluster_name"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="item['node_type']"
+              label="node_type"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="item['node_name']"
+              label="node_name"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="item['node_ips']"
+              label="node_ips"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="item['api_vip']"
+              label="api_vip"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="item['flavor']"
+              label="flavor"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="item['network_zone']"
+              label="network_zone"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="item['contacts']"
+              label="contacts"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="item['k8s_version']"
+              label="k8s_version"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="item['monitoring_agent']"
+              label="monitoring_agent"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+
         <v-row>
           <v-col>
             <v-datetime-picker
@@ -35,98 +107,32 @@
           </v-col>
           <v-col>
             <v-datetime-picker
-              v-model="item['acknowledged_at']"
+              v-model="item['api_cert_expired_date']"
               :formatter="DatetimePickerFormat"
-              label="Acknowledged_at"
+              label="api_cert_expired_date"
+              required
+              focus
             >
             </v-datetime-picker>
           </v-col>
           <v-col>
             <v-datetime-picker
-              v-model="item['propogated_at']"
+              v-model="item['ca_cert_expired_date']"
               :formatter="DatetimePickerFormat"
-              label="Propogated_at"
+              label="ca_cert_expired_date"
             >
             </v-datetime-picker>
           </v-col>
           <v-col>
             <v-datetime-picker
-              v-model="item['resolved_at']"
+              v-model="item['etcd_cert_expired_date']"
               :formatter="DatetimePickerFormat"
-              label="Resolved_at"
+              label="etcd_cert_expired_date"
             >
             </v-datetime-picker>
           </v-col>
         </v-row>
 
-        <v-row>
-          <v-col>
-            <v-text-field
-              v-model="item['creator']"
-              label="Creator"
-            ></v-text-field>
-          </v-col>
-          <v-col>
-            <v-text-field
-              v-model="item['ticket_no']"
-              label="Ticket No."
-            ></v-text-field>
-          </v-col>
-          <v-col>
-            <v-text-field
-              v-model="item['level_2_engineer1']"
-              label="Engineer(L2)"
-            ></v-text-field>
-          </v-col>
-          <v-col>
-            <v-text-field
-              v-model="item['how_to_share']"
-              label="How_to_share"
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-text-field
-            v-model="item['event']"
-            label="Title(Event)"
-            required
-          ></v-text-field>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-textarea
-              v-model="item['action']"
-              filled
-              label="Action"
-              auto-grow
-              value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-            ></v-textarea>
-          </v-col>
-          <!-- <v-col>
-            <v-dialog>
-              <v-card>
-                <template>
-                  <div v-html="actionMarkdown"></div>
-                </template>
-              </v-card>
-            </v-dialog>
-          </v-col> -->
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-textarea
-              v-model="item['comment']"
-              filled
-              label="Comment"
-              auto-grow
-              value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-            ></v-textarea>
-          </v-col>
-          <!-- <v-col>
-            <div v-html="changeMarkdown"></div>
-          </v-col> -->
-        </v-row>
         <v-spacer></v-spacer>
         <v-row>
           <v-btn class="mr-4" color="green darken-1" @click="submitItem"
@@ -198,22 +204,23 @@ export default {
       region: null,
       az: null,
       tenant: null,
-      shift_start_date: null,
-      shift_type: null,
-      level_1_engineer1: null,
-      level_1_engineer2: null,
-      level_2_engineers: null,
-      how_to_share: null,
-      event: null,
-      action: '# Action Required?',
+
       status: null,
-      ticket_no: null,
-      escalated_to_l3: null,
-      comment: '# Please comment here',
-      occurred_at: null,
-      acknowledged_at: null,
-      propogated_at: null,
-      resolved_at: null,
+      cluster_name: null,
+      node_type: null,
+      node_name: null,
+      node_ips: null,
+      api_vip: null,
+      flavor: null,
+      network_zone: null,
+      contacts: null,
+      k8s_version: null,
+      monitoring_agent: null,
+
+      api_cert_expired_date: null,
+      ca_cert_expired_date: null, 
+      etcd_cert_expired_date: null,
+    
       creator: null,
       reviewer: null,
       updater: null,
@@ -331,22 +338,23 @@ export default {
       this.item.region = this.item.region || 'KR'
       this.item.az = this.item.az || 1
       this.item.tenant = this.item.tenant || 'PRD'
-      this.item.shift_start_date = null
-      this.item.shift_type = null
-      this.item.level_1_engineer1 = null
-      this.item.level_1_engineer2 = null
-      this.item.level_2_engineers = null
-      this.item.how_to_share = null
-      this.item.event = null
-      this.item.action = null
+
       this.item.status = this.item.status || 'created'
-      this.item.ticket_no = null
-      this.item.escalated_to_l3 = null
-      this.item.comment = null
-      this.item.occurred_at = this.item.acknowledged_at || this.getNow()
-      this.item.acknowledged_at = this.item.acknowledged_at || this.getNow()
-      this.item.propogated_at = null
-      this.item.resolved_at = null
+      this.item.cluster_name = null
+      this.item.node_type = null
+      this.item.node_name = null
+      this.item.node_ips = null
+      this.item.api_vip = null
+      this.item.flavor = null
+      this.item.network_zone = null
+      this.item.contacts = null
+      this.item.k8s_version = null
+      this.item.monitoring_agent = null
+
+      this.item.api_cert_expired_date = null
+      this.item.ca_cert_expired_date = null 
+      this.item.etcd_cert_expired_date =null
+
       this.item.creator = null
       this.item.reviewer = null
       this.item.updater = null

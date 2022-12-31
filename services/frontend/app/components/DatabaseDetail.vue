@@ -24,109 +24,28 @@
             </v-select>
           </v-col>
         </v-row>
-        <v-row>
-          <v-col>
-            <v-datetime-picker
-              v-model="item['occurred_at']"
-              :formatter="DatetimePickerFormat"
-              label="Occurred_at"
-            >
-            </v-datetime-picker>
-          </v-col>
-          <v-col>
-            <v-datetime-picker
-              v-model="item['acknowledged_at']"
-              :formatter="DatetimePickerFormat"
-              label="Acknowledged_at"
-            >
-            </v-datetime-picker>
-          </v-col>
-          <v-col>
-            <v-datetime-picker
-              v-model="item['propogated_at']"
-              :formatter="DatetimePickerFormat"
-              label="Propogated_at"
-            >
-            </v-datetime-picker>
-          </v-col>
-          <v-col>
-            <v-datetime-picker
-              v-model="item['resolved_at']"
-              :formatter="DatetimePickerFormat"
-              label="Resolved_at"
-            >
-            </v-datetime-picker>
-          </v-col>
-        </v-row>
 
         <v-row>
           <v-col>
             <v-text-field
-              v-model="item['creator']"
-              label="Creator"
+              v-model="item['db_type']"
+              label="Type(DB)"
             ></v-text-field>
           </v-col>
           <v-col>
             <v-text-field
-              v-model="item['ticket_no']"
-              label="Ticket No."
+              v-model="item['count']"
+              label="Count"
             ></v-text-field>
           </v-col>
           <v-col>
             <v-text-field
-              v-model="item['level_2_engineer1']"
-              label="Engineer(L2)"
-            ></v-text-field>
-          </v-col>
-          <v-col>
-            <v-text-field
-              v-model="item['how_to_share']"
-              label="How_to_share"
+              v-model="item['status']"
+              label="Status"
             ></v-text-field>
           </v-col>
         </v-row>
 
-        <v-row>
-          <v-text-field
-            v-model="item['event']"
-            label="Title(Event)"
-            required
-          ></v-text-field>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-textarea
-              v-model="item['action']"
-              filled
-              label="Action"
-              auto-grow
-              value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-            ></v-textarea>
-          </v-col>
-          <!-- <v-col>
-            <v-dialog>
-              <v-card>
-                <template>
-                  <div v-html="actionMarkdown"></div>
-                </template>
-              </v-card>
-            </v-dialog>
-          </v-col> -->
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-textarea
-              v-model="item['comment']"
-              filled
-              label="Comment"
-              auto-grow
-              value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-            ></v-textarea>
-          </v-col>
-          <!-- <v-col>
-            <div v-html="changeMarkdown"></div>
-          </v-col> -->
-        </v-row>
         <v-spacer></v-spacer>
         <v-row>
           <v-btn class="mr-4" color="green darken-1" @click="submitItem"
@@ -198,22 +117,11 @@ export default {
       region: null,
       az: null,
       tenant: null,
-      shift_start_date: null,
-      shift_type: null,
-      level_1_engineer1: null,
-      level_1_engineer2: null,
-      level_2_engineers: null,
-      how_to_share: null,
-      event: null,
-      action: '# Action Required?',
+
+      db_type: null,
+      count: null,
       status: null,
-      ticket_no: null,
-      escalated_to_l3: null,
-      comment: '# Please comment here',
-      occurred_at: null,
-      acknowledged_at: null,
-      propogated_at: null,
-      resolved_at: null,
+
       creator: null,
       reviewer: null,
       updater: null,
@@ -331,22 +239,11 @@ export default {
       this.item.region = this.item.region || 'KR'
       this.item.az = this.item.az || 1
       this.item.tenant = this.item.tenant || 'PRD'
-      this.item.shift_start_date = null
-      this.item.shift_type = null
-      this.item.level_1_engineer1 = null
-      this.item.level_1_engineer2 = null
-      this.item.level_2_engineers = null
-      this.item.how_to_share = null
-      this.item.event = null
-      this.item.action = null
-      this.item.status = this.item.status || 'created'
-      this.item.ticket_no = null
-      this.item.escalated_to_l3 = null
-      this.item.comment = null
-      this.item.occurred_at = this.item.acknowledged_at || this.getNow()
-      this.item.acknowledged_at = this.item.acknowledged_at || this.getNow()
-      this.item.propogated_at = null
-      this.item.resolved_at = null
+
+      this.item.db_type = this.item.db_type || 'PostgreSQL'
+      this.item.count = this.item.count || 0
+      this.item.status = this.item.status || 'PRD'
+
       this.item.creator = null
       this.item.reviewer = null
       this.item.updater = null
@@ -383,7 +280,6 @@ export default {
       // this.item = {}
       // this.$parent.editedItem.id = null
       this.$emit('close', id)
-      this.setDefaultItem()
     },
   },
 }
