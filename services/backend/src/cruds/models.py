@@ -502,7 +502,7 @@ class License(Base, BaseMixin):
     updater = Column(String, nullable=True) 
 
 
-class Security(Base, BaseMixin):
+class Vulnerability(Base, BaseMixin):
     __tablename__ = 'securities'
 
     year = Column(Integer, nullable=False)
@@ -514,16 +514,16 @@ class Security(Base, BaseMixin):
     progress = Column(String, nullable=True)
     status = Column(String, nullable=True)
 
-    ticket_no = Column(String, nullable=True) 
     title = Column(String, nullable=True) 
     task_type = Column(String, nullable=True) 
+    ticket_no = Column(String, nullable=True) 
 
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)
     updater = Column(String, nullable=True) 
 
 
-class RegularCheck(Base, BaseMixin):
+class PreventiveMaintenance(Base, BaseMixin):
     __tablename__ = 'regularchecks'
 
     year = Column(Integer, nullable=False)
@@ -537,6 +537,7 @@ class RegularCheck(Base, BaseMixin):
 
     freq = Column(String, nullable=True) 
     vendor = Column(String, nullable=True) 
+    
     title = Column(String, nullable=True) 
     description = Column(String(length=3000), nullable=True) 
 

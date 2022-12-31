@@ -117,7 +117,7 @@ export default {
         },
         {
           icon: 'mdi-account-multiple',
-          title: 'Discussion',
+          title: 'Discussion(Summary)',
           to: '/discussion/list',
         },
         {
@@ -177,12 +177,12 @@ export default {
         },
         {
           icon: 'mdi-lock-plus',
-          title: 'Vulnerability',
+          title: 'Vulnerability(Security)',
           to: '/vulnerability/list',
         },
         {
           icon: 'mdi-wrench',
-          title: 'Preventive',
+          title: 'Preventive(PM)',
           to: '/preventive/list',
         },
       ],

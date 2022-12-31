@@ -8,8 +8,8 @@ import pandas as pd
 import numpy as np
 import csv, codecs
 
-Model = models.RegularCheck
-Schema = schemas.ShowRegularCheck
+Model = models.PreventiveMaintenance
+Schema = schemas.ShowPreventive
 
 def get_all(db: Session):
     records = db.query(Model).all()
@@ -26,12 +26,12 @@ def create(request: Schema, db: Session):
 
         progress = request.progress,
         status = request.status,
+        freq = request.freq,
+        vendor = request.vendor,
 
         title = request.title,
         description = request.description,
 
-        freq = request.freq,
-        vendor = request.vendor,
     )
     db.add(new_record)
     db.commit()
@@ -96,9 +96,9 @@ def update(id:int,request, db:Session):
 
         "progress": request.progress,
         "status": request.status,
-
         "freq": request.freq,
         "vendor": request.vendor,
+
         "title": request.title,
         "description": request.description,
     })

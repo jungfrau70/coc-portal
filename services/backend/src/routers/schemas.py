@@ -42,54 +42,6 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     email: Optional[str] = None
 
-# class Problem(BaseModel):
-#     id: int
-#     year: int
-#     month: int
-#     region: str
-#     az: int
-#     tenant: str
-
-#     progress: str
-#     status: str
-#     impact: str
-
-#     occurred_at: datetime
-#     title: str
-#     problem_desc: str
-#     action_desc: str
-#     person_in_charge: str
-#     ticket_no: str
-
-#     rca_desc: str
-#     reviewed_at: datetime
-#     review_desc: str
-
-#     reviewer: str
-#     creator: str
-#     updater: str
-    
-#     class Config():
-#         orm_mode = True  
-
-# # https://stackoverflow.com/a/60670614
-# class AwesomeForm(BaseModel):
-#     # username: str
-#     # password: str
-#     file: UploadFile
-
-#     @classmethod
-#     def as_form(
-#         cls,
-#         # username: str = Form(...),
-#         # password: str = Form(...),
-#         file: UploadFile = File(...)
-#     ):
-#         return cls(
-#             # username=username,
-#             # password=password,
-#             file=file
-#         )
 
 class DiscussionBase(BaseModel):
     year: Optional[int]
@@ -97,9 +49,6 @@ class DiscussionBase(BaseModel):
     region: Optional[str]
     az: Optional[int]
     tenant: Optional[str]
-
-    progress: Optional[str]
-    status: Optional[str]
 
     progress: Optional[str]
     status: Optional[str]
@@ -344,62 +293,6 @@ class ShowBackup(BackupBase):
         orm_mode = True     
 
 
-class SecurityBase(BaseModel):
-    year: Optional[int]
-    month: Optional[int]
-    region: Optional[str]
-    az: Optional[int]
-    tenant: Optional[str]
-
-    progress: Optional[str]
-    status: Optional[str]
-
-    ticket_no: Optional[str]
-    title: Optional[str]
-    task_type: Optional[str]
-
-class Security(SecurityBase):
-    class Config():
-        orm_mode = True  
-
-class ShowSecurity(SecurityBase):
-    id: int
-    creator: Optional[str]
-    reviewer: Optional[str]
-    updater: Optional[str]
-
-    class Config():
-        orm_mode = True   
-
-
-class LicenseBase(BaseModel):
-    year: Optional[int]
-    month: Optional[int]
-    region: Optional[str]
-    az: Optional[int]
-    tenant: Optional[str]
-
-    vendor: Optional[str]
-    license_type: Optional[str]
-    status: Optional[str]
-    instance_name: Optional[str]
-    installed_at: Optional[str]
-    comment: Optional[str]
-
-class License(LicenseBase):
-    class Config():
-        orm_mode = True 
-
-class ShowLicense(LicenseBase):
-    id: int
-    creator: Optional[str]
-    reviewer: Optional[str]
-    updater: Optional[str]
-
-    class Config():
-        orm_mode = True     
-
-
 class InstanceBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
@@ -493,7 +386,66 @@ class ShowDatabase(DatabaseBase):
         orm_mode = True    
 
 
-class RegularCheckBase(BaseModel):
+class LicenseBase(BaseModel):
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    vendor: Optional[str]
+    license_type: Optional[str]
+    status: Optional[str]
+    instance_name: Optional[str]
+    comment: Optional[str]
+    installed_at: Optional[str]
+
+    occurred_at: Optional[datetime]
+    resolved_at: Optional[datetime]
+
+class License(LicenseBase):
+    class Config():
+        orm_mode = True 
+
+class ShowLicense(LicenseBase):
+    id: int
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True   
+
+
+class VulnerabilityBase(BaseModel):
+    year: Optional[int]
+    month: Optional[int]
+    region: Optional[str]
+    az: Optional[int]
+    tenant: Optional[str]
+
+    progress: Optional[str]
+    status: Optional[str]
+
+    ticket_no: Optional[str]
+    title: Optional[str]
+    task_type: Optional[str]
+
+class Vulnerability(VulnerabilityBase):
+    class Config():
+        orm_mode = True  
+
+class ShowVulnerability(VulnerabilityBase):
+    id: int
+    creator: Optional[str]
+    reviewer: Optional[str]
+    updater: Optional[str]
+
+    class Config():
+        orm_mode = True  
+
+
+class PreventiveBase(BaseModel):
     year: Optional[int]
     month: Optional[int]
     region: Optional[str]
@@ -508,11 +460,11 @@ class RegularCheckBase(BaseModel):
     title: Optional[str]
     description: Optional[str]
 
-class RegularCheck(RegularCheckBase):
+class Preventive(PreventiveBase):
     class Config():
         orm_mode = True   
 
-class ShowRegularCheck(RegularCheckBase):
+class ShowPreventive(PreventiveBase):
     id: int
     creator: Optional[str]
     reviewer: Optional[str]

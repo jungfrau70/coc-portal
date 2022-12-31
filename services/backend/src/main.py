@@ -9,7 +9,7 @@ from config.database import engine
 
 from cruds import models
 from routers import user, blog, authentication
-from routers import discussion_topic, incident_handling, issue_mgmt, problem_mgmt, change_mgmt, request_mgmt, asset_mgmt_database, asset_mgmt_kubernetes, asset_mgmt_instance, capacity_mgmt, backup_mgmt, preventive, vulnerability, license_mgmt, report
+from routers import discussion_topic, incident_handling, issue_mgmt, problem_mgmt, change_mgmt, request_mgmt, asset_mgmt_database, asset_mgmt_kubernetes, asset_mgmt_instance, asset_mgmt_license, capacity_mgmt, backup_mgmt, preventive, vulnerability, report
 
 app = FastAPI()
 
@@ -32,7 +32,7 @@ app.include_router(capacity_mgmt.router)
 app.include_router(backup_mgmt.router)
 app.include_router(vulnerability.router)
 app.include_router(preventive.router)
-app.include_router(license_mgmt.router)
+app.include_router(asset_mgmt_license.router)
 app.include_router(report.router)
 
 # origins = [

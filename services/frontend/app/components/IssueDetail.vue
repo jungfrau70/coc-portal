@@ -164,8 +164,8 @@ export default {
       az: null,
       tenant: null,
 
-      status: null,
       progress: null,
+      status: null,
 
       title: null,
       description: null,

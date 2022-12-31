@@ -134,6 +134,8 @@
 import axios from 'axios'
 import DiscussionDetail from '~/components/DiscussionDetail.vue'
 
+const API_URL = `${process.env.BASE_URL}/discussion`
+
 export default {
   components: { DiscussionDetail },
 
@@ -148,40 +150,18 @@ export default {
         { text: 'Region', value: 'region', width: '75', sortable: true },
         { text: 'AZ', value: 'az', width: '75', sortable: true },
         { text: 'Tenant', value: 'tenant', width: '75', sortable: true },
-        // { text: 'Progress', value: 'progress', sortable: true },
+        
+        { text: 'Progress', value: 'progress', width: '110', sortable: true },
         { text: 'Status', value: 'status', width: '75', sortable: true },
-        { text: 'Event(Title))', value: 'event', sortable: true },
+
+        // { text: 'Title', value: 'title', sortable: true },
         {
-          text: 'Action(Description)',
-          value: 'action',
+          text: 'Description(Topic)',
+          value: 'discussion_topic',
           sortable: true,
           // width: '240',
         },
-        {
-          text: 'Occurred_at',
-          value: 'occurred_at',
-          width: '120',
-          sortable: false,
-        },
-        {
-          text: 'Acknowledged_at',
-          value: 'acknowledged_at',
-          width: '120',
-          sortable: false,
-        },
-        {
-          text: 'Propogated_at',
-          value: 'propogated_at',
-          width: '120',
-          sortable: false,
-        },
-        {
-          text: 'Resolved_at',
-          value: 'resolved_at',
-          width: '120',
-          sortable: false,
-        },
-        { text: 'Action', value: 'actions', sortable: false },
+        { text: 'Edit/Delete', value: 'actions', sortable: false },
       ],
 
       filters: {
@@ -272,28 +252,12 @@ export default {
         region: item.region,
         az: item.az,
         tenant: item.tenant,
-        shift_start_date: item.shift_start_date,
-        shift_type: item.shift_type,
-        level_1_engineer1: item.level_1_engineer1,
-        level_1_engineer2: item.level_1_engineer2,
-        level_2_engineers: item.level_2_engineers,
-        how_to_share: item.how_to_share,
-        event: item.event,
-        action: item.action,
+
+        progress: item.progress,
         status: item.status,
-        ticket_no: item.ticket_no,
-        escalated_to_l3: item.escalated_to_l3,
-        comment: item.comment,
 
-        occurred_at: this.dbDatetime(item.occurred_at),
-        acknowledged_at: this.dbDatetime(item.acknowledged_at),
-        propogated_at: this.dbDatetime(item.propogated_at),
-        resolved_at: this.dbDatetime(item.resolved_at),
-
-        // occurred_at: utcTodayDate,
-        // acknowledged_at: utcTodayDate,
-        // propogated_at: utcTodayDate,
-        // resolved_at: utcTodayDate,
+        // title: item.title,
+        discussion_topic: item.discussion_topic,
 
         // creator: item.creator,
         // reviewer: item.reviewer,
@@ -307,7 +271,7 @@ export default {
         // if the item has an id, we're updating an existing item
         console.log(id)
         method = 'put'
-        url = `http://localhost:8000/discussion/${id}`
+        url = `${API_URL}/${id}`
 
         this.item = {}
         // must remove id from the data for airtable patch to work
@@ -320,7 +284,7 @@ export default {
         this.dialog = false
       } else {
         method = 'post'
-        url = `http://localhost:8000/discussion`
+        url = `${API_URL}`
 
         // 편집창 종료
         this.dialogAdd = false
@@ -413,7 +377,7 @@ export default {
     async loadItems() {
       this.items = []
       await axios
-        .get('http://localhost:8000/discussion/all', {
+        .get(`${API_URL}/all`, {
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods':
@@ -431,26 +395,13 @@ export default {
               region: item.region,
               az: item.az,
               tenant: item.tenant,
-              shift_start_date: item.shift_start_date,
-              shift_type: item.shift_type,
-              level_1_engineer1: item.level_1_engineer1,
-              level_1_engineer2: item.level_1_engineer2,
-              level_2_engineers: item.level_2_engineers,
-              how_to_share: item.how_to_share,
-              event: item.event,
-              action: item.action,
+
+              progress: item.progress,
               status: item.status,
-              ticket_no: item.ticket_no,
-              escalated_to_l3: item.escalated_to_l3,
-              comment: item.comment,
-              // occurred_at: item.occurred_at,
-              // acknowledged_at: item.acknowledged_at,
-              // propogated_at: item.propogated_at,
-              // resolved_at: item.resolved_at,
-              occurred_at: this.vueDatetime(item.occurred_at),
-              acknowledged_at: this.vueDatetime(item.acknowledged_at),
-              propogated_at: this.vueDatetime(item.propogated_at),
-              resolved_at: this.vueDatetime(item.resolved_at),
+
+              // discussion_topic: item.title,
+              discussion_topic: item.discussion_topic,
+
               creator: item.creator,
               reviewer: item.reviewer,
               updater: item.updater,
@@ -467,9 +418,8 @@ export default {
 
       console.log(id)
       const method = 'delete'
-      const url = `http://localhost:8000/discussion/${id}`
+      axios[method](`${API_URL}/${id}`, {
 
-      axios[method](url, {
         // headers: {
         //   Authorization: 'Bearer ' + apiToken,
         //   'Content-Type': 'application/json',

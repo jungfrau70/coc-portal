@@ -18,10 +18,10 @@ router = APIRouter(
 
 get_db = database.get_db
 
-## <-- Here -->
-Schema = schemas.ShowDiscussion
+SchemaShow = schemas.ShowDiscussion
+Schema = schemas.Discussion
 
-@router.get('/all', response_model=List[Schema])
+@router.get('/all', response_model=List[SchemaShow])
 # def all(db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
 def all(db: Session = Depends(get_db)):
     return discussion_topic.get_all(db)
