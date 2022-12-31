@@ -56,6 +56,7 @@ export default {
     // { src: '~/plugins/highcharts-vue.js' }, // datepicker plugin here
     // { src: '~/plugins/vue-quill-editor.js', ssr: false },
     // { src: '~/plugins/markedWorker.js' },
+    { src: '~/plugins/markdownit.js' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -116,12 +117,17 @@ export default {
   },
 
   markdownit: {
+    runtime: true, // Support `$md()`
     preset: 'default',
     linkify: true,
     breaks: true,
-    injected: true,
-    runtime: true, // Support `$md()`
-    use: ['markdown-it-div', 'markdown-it-attrs', 'markdown-it-highlightjs'],
+    use: [
+      'markdown-it-attrs',
+      'markdown-it-div',
+      'markdown-it-toc-done-right',
+      'markdown-it-emoji',
+      'markdown-it-highlightjs'
+    ],
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

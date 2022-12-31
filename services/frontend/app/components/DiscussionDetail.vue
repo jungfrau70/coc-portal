@@ -51,14 +51,9 @@
               value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
             ></v-textarea>
           </v-col>
+
           <!-- <v-col>
-            <v-dialog>
-              <v-card>
-                <template>
-                  <div v-html="actionMarkdown"></div>
-                </template>
-              </v-card>
-            </v-dialog>
+            <div highlight v-html="markdownToHtml"></div>
           </v-col> -->
         </v-row>
 
@@ -101,7 +96,7 @@
 </template>
 
 <script>
-// import marked  from '@/plugins/mark '
+import { marked } from 'marked'
 export default {
   props: {
     editedItem: {
@@ -115,7 +110,6 @@ export default {
     dialog: '',
     hidden: true,
     valid: true,
-    // convertedText: '',
 
     today: null,
     timestamp: null,
@@ -182,35 +176,15 @@ export default {
         this.$emit('input', value)
       },
     },
-    // computedDateFormatted() {
-    //   return this.formatDate(this.date)
-    // },
-    // actionMarkdown() {
-    //   this.$marked.setOptions({
-    //     renderer: new this.$marked.Renderer(),
-    //     gfm: true,
-    //     headerIds: false,
-    //     tables: true,
-    //     breaks: true,
-    //     pedantic: false,
-    //     sanitize: true,
-    //     smartLists: true,
-    //     smartypants: false,
-    //   })
-    //   return this.$marked(this.item.action)
-    //   return this.$md.render(this.item.action)  || " "
-    //   return ' '
-    // },
+    markdownToHtml() {
+      // return marked(this.item.discussion_topic);
+      return this.textMarkdown(this.item.discussion_topic)
+    },
   },
   watch: {},
   created() {
     // console.log('detail created')
     this.today = new Date()
-    // if (this.editedItem.id) {
-    //   this.loadItem()
-    // } else {
-    //   this.setDefaultItem()
-    // }
   },
   beforeMounted() {
     console.log('detail mounted')
@@ -234,6 +208,16 @@ export default {
     console.log('detail beforeDestoryed')
   },
   methods: {
+    textMarkdown(text) {
+      let res = null
+      console.log(text)
+      if (text) {
+        // res = this.$md.render(text)
+        res = marked(text)
+      }
+      return res
+      // return marked(text)
+    },
     getDate: function () {
       return new Date().toLocaleDateString()
     },
@@ -265,7 +249,7 @@ export default {
 
       // this.item.title = null
       this.item.discussion_topic = null
-      
+
       this.item.creator = null
       this.item.reviewer = null
       this.item.updater = null
@@ -307,3 +291,14 @@ export default {
   },
 }
 </script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: left;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>

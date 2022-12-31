@@ -1,4 +1,4 @@
-Step 1. CRUD
+Step 1. CRUD 기능 개발
   1.1 (완료) 리스트, Search, Column Filter, Export to CSV 기능 구현/TEST (12/04)
   1.2 (완료) markdown/highlight 기능 구현/TEST (12/09)
   1.3 (완료) parent-child component 간 통신 구현/TEST (12/09)
@@ -24,9 +24,8 @@ Step 1. CRUD
         . Method 별 Backend API 스키마 조정
           > GET_ALL/POST : SchemaID
           > PUT/GET_ID : Schema (without ID)
-
-  1.10 횡전개
-    1) Topic별 횡전개 - Issue(진행중)
+  1.10 (완료) 횡전개
+    1) Topic별 횡전개
       A] frontend
         . (완료) Navbar 설정 외 기본틀 구성
         . topic별 대시보드 (list 내 링크 조정)
@@ -37,8 +36,9 @@ Step 1. CRUD
         . Router
         . Schema
 
-    ** http PUT "http://localhost:8000/capacity/188" region="KR" month=10 year=2023 az=1 tenant="1" title="test3"
-    http PUT "http://localhost:8000/backup/1273" region="KR" month=10 year=2023 az=1 tenant="1" title="test3"
+    **  http PUT "http://localhost:8000/capacity/188" region="KR" month=10 year=2023 az=1 tenant="1" title="test3"
+        http PUT "http://localhost:8000/backup/1273" region="KR" month=10 year=2023 az=1 tenant="1" title="test3"
+  1.11 Landing page (???)
 
 Step 2. Tools
   2.1. 대시보드
