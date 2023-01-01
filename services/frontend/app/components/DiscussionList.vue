@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card height="100%">
     <v-tabs>
       <v-tab to="/discussion/list">리스트</v-tab>
       <!-- <v-tab to="/discussion/graph">그래프</v-tab>
@@ -39,7 +39,6 @@
       <template>
         <v-card v-model="dialogAdd">
           <DiscussionDetail
-            
             :editedItem="newItem"
             @submit-item="submitItem"
             @close="close(newItem.id)"
@@ -118,7 +117,8 @@
       <v-card>
         <v-card-title>Delete</v-card-title>
         <v-card-text
-          >제목(이벤트) `{{ itemToDelete.event }}`를(을) 삭제 할까요?</v-card-text
+          >제목(이벤트) `{{ itemToDelete.event }}`를(을) 삭제
+          할까요?</v-card-text
         >
         <v-card-actions>
           <v-btn color="primary" text @click="dialogDelete = false"
@@ -150,7 +150,7 @@ export default {
         { text: 'Region', value: 'region', width: '75', sortable: true },
         { text: 'AZ', value: 'az', width: '75', sortable: true },
         { text: 'Tenant', value: 'tenant', width: '75', sortable: true },
-        
+
         { text: 'Progress', value: 'progress', width: '110', sortable: true },
         { text: 'Status', value: 'status', width: '75', sortable: true },
 
@@ -419,7 +419,6 @@ export default {
       console.log(id)
       const method = 'delete'
       axios[method](`${API_URL}/${id}`, {
-
         // headers: {
         //   Authorization: 'Bearer ' + apiToken,
         //   'Content-Type': 'application/json',
@@ -495,3 +494,34 @@ export default {
   },
 }
 </script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: left;
+  color: #2c3e50;
+  margin-top: 0px;
+}
+
+.container {
+  max-width: 100vw;
+  padding: 0px 0px 0px 0px;
+}
+
+.v-application--wrap {
+  max-width: 100vw;
+  padding: 0px 0px 0px 0px;
+}
+
+.v-main {
+  max-width: 100vw;
+  padding: 0px 0px 0px 0px;
+}
+
+.v-main__wrap {
+  max-width: 100vw;
+  padding: 0px 0px 0px 0px;
+}
+</style> -->

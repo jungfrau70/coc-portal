@@ -270,3 +270,11 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.container {
+  max-width: 100vw;
+  padding: 64px 64px 0px 256px;
+}
+</style>
+

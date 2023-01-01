@@ -292,13 +292,9 @@ export default {
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: left;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+.container {
+  max-width: 100vw;
+  padding: 64px 64px 0px 256px;
 }
 </style>

@@ -1,71 +1,128 @@
-<template v-for="(chart, index) in charts" :key="index">
-  <div id="vis"></div>
+<template>
+  <div>
+    <v-sheet
+      tile
+      height="54"
+      class="d-flex"
+    >
+      <v-btn
+        icon
+        class="ma-2"
+        @click="$refs.calendar.prev()"
+      >
+        <v-icon>mdi-chevron-left</v-icon>
+      </v-btn>
+      <v-select
+        v-model="type"
+        :items="types"
+        dense
+        outlined
+        hide-details
+        class="ma-2"
+        label="type"
+      ></v-select>
+      <v-select
+        v-model="mode"
+        :items="modes"
+        dense
+        outlined
+        hide-details
+        label="event-overlap-mode"
+        class="ma-2"
+      ></v-select>
+      <v-select
+        v-model="weekday"
+        :items="weekdays"
+        dense
+        outlined
+        hide-details
+        label="weekdays"
+        class="ma-2"
+      ></v-select>
+      <v-spacer></v-spacer>
+      <v-btn
+        icon
+        class="ma-2"
+        @click="$refs.calendar.next()"
+      >
+        <v-icon>mdi-chevron-right</v-icon>
+      </v-btn>
+    </v-sheet>
+    <v-sheet height="600">
+      <v-calendar
+        ref="calendar"
+        v-model="value"
+        :weekdays="weekday"
+        :type="type"
+        :events="events"
+        :event-overlap-mode="mode"
+        :event-overlap-threshold="30"
+        :event-color="getEventColor"
+        @change="getEvents"
+      ></v-calendar>
+    </v-sheet>
+  </div>
 </template>
-  
 
 <script>
-import embed from 'vega-embed'
-// import worldMap from '@highcharts/map-collection/custom/world.geo.json'
-import data from '../data/penguins.json'
+  export default {
+    data: () => ({
+      type: 'month',
+      types: ['month', 'week', 'day', '4day'],
+      mode: 'stack',
+      modes: ['stack', 'column'],
+      weekday: [0, 1, 2, 3, 4, 5, 6],
+      weekdays: [
+        { text: 'Sun - Sat', value: [0, 1, 2, 3, 4, 5, 6] },
+        { text: 'Mon - Sun', value: [1, 2, 3, 4, 5, 6, 0] },
+        { text: 'Mon - Fri', value: [1, 2, 3, 4, 5] },
+        { text: 'Mon, Wed, Fri', value: [1, 3, 5] },
+      ],
+      value: '',
+      events: [],
+      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
+      names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+    }),
+    methods: {
+      getEvents ({ start, end }) {
+        const events = []
 
-export default {
-  data() {
-    return {
-      name: 'myData',
-      // values: data,
-      charts: [
-      {
-        $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-        // $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
-        description: 'A simple bar chart with embedded data.',
-        data: {
-          values: data
-        },
-        mark: 'bar',
-        encoding: {
-          x: { field: 'a', type: 'nominal', axis: { labelAngle: 0 } },
-          y: { field: 'b', type: 'quantitative' },
-        },
+        const min = new Date(`${start.date}T00:00:00`)
+        const max = new Date(`${end.date}T23:59:59`)
+        const days = (max.getTime() - min.getTime()) / 86400000
+        const eventCount = this.rnd(days, days + 20)
+
+        for (let i = 0; i < eventCount; i++) {
+          // const allDay = this.rnd(0, 3) === 0
+          // const firstTimestamp = this.rnd(min.getTime(), max.getTime())
+          // const first = new Date(firstTimestamp - (firstTimestamp % 900000))
+          // const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
+          // const second = new Date(first.getTime() + secondTimestamp)
+
+          // events.push({
+          //   name: this.names[this.rnd(0, this.names.length - 1)],
+          //   start: first,
+          //   end: second,
+          //   color: this.colors[this.rnd(0, this.colors.length - 1)],
+          //   timed: !allDay,
+          // })
+        }
+
+        this.events = events
       },
-      {
-        $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-        // $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
-        description: 'A simple bar chart with embedded data.',
-        data: {
-          values: [
-            { a: 'A', b: 28 },
-            { a: 'B', b: 55 },
-            { a: 'C', b: 43 },
-            { a: 'D', b: 91 },
-            { a: 'E', b: 81 },
-            { a: 'F', b: 53 },
-            { a: 'G', b: 19 },
-            { a: 'H', b: 87 },
-            { a: 'I', b: 52 },
-          ],
-        },
-        mark: 'bar',
-        encoding: {
-          x: { field: 'a', type: 'nominal', axis: { labelAngle: 0 } },
-          y: { field: 'b', type: 'quantitative' },
-        },
+      getEventColor (event) {
+        return event.color
       },
-      ]
-      
-
-    }
-  },
-
-  mounted() {
-    this.draw()
-    console.log(process.env.API_URL)
-  },
-  methods: {
-    async draw() {
-      const result = await embed('#vis', this.charts[1])
-      // const result = await embed('#vis', this.hconcat)
-      return result
+      rnd (a, b) {
+        return Math.floor((b - a + 1) * Math.random()) + a
+      },
     },
-  },
-}
+  }
 </script>
+
+<style scoped>
+.d-flex {
+  /* max-width: 100vw; */
+  padding: 64px 64px 64px 64px;
+}
+</style>

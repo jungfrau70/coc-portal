@@ -67,7 +67,17 @@
         </v-row>
 
         <v-spacer></v-spacer>
-        <v-card-text style="height: 100px; position: relative">
+        <v-row>
+          <v-btn class="mr-4" color="green darken-1" @click="submitItem"
+            >Submit</v-btn
+          >
+          <v-btn color="dark darken-1" @click="close(editedItem.id)"
+            >Close</v-btn
+          >
+        </v-row>
+
+        <v-spacer></v-spacer>
+        <v-card-text style="height: 0px; position: relative">
           <v-fab-transition>
             <v-btn v-show="!hidden" color="pink" dark absolute top right fab>
               <v-icon>mdi-plus</v-icon>
@@ -291,3 +301,10 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.container {
+  max-width: 100vw;
+  padding: 64px 64px 0px 256px;
+}
+</style>

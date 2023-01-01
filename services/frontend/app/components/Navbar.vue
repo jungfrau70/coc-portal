@@ -75,11 +75,14 @@
         </template>
       </div> -->
     </v-app-bar>
+
     <v-main>
       <v-container>
         <Nuxt />
+        <!-- <nav-footer />         -->
       </v-container>
     </v-main>
+
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
       <v-list>
         <v-list-item @click.native="right = !right">
@@ -90,19 +93,18 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-footer :absolute="!fixed" app>
+    <!-- <v-footer :absolute="!fixed" app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    </v-footer> -->
   </v-app>
 </template>
 
 <script>
-// import HomeView from '../views/HomeView.vue'
+// import NavFooter from './NavFooter.vue'
 
 export default {
-  name: 'DefaultLayout',
   components: {
-    // HomeView,
+    // NavFooter,
   },
   data() {
     return {

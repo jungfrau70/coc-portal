@@ -1,15 +1,15 @@
 <template>
-  <div>
-    <Navbar />
-  </div>
+  <v-container>
+    <NavBar />
+  </v-container>
 </template>
 
 <script>
-import Navbar from '~/components/Navbar'
+import NavBar from '~/components/NavBar'
 
 export default {
   components: {
-    Navbar,
+    NavBar,
   },
 }
 </script>
