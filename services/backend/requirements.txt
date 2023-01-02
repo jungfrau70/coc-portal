@@ -1,6 +1,8 @@
 alembic
 bcrypt
+fsspec
 fastapi
+httpie
 jinja2
 pandas
 pandas_ods_reader
