@@ -1,8 +1,13 @@
+import os
+
 from fastapi import FastAPI, Request
 from fastapi.responses import PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from config import database
 from config.database import engine
@@ -35,18 +40,18 @@ app.include_router(preventive.router)
 app.include_router(asset_mgmt_license.router)
 app.include_router(report.router)
 
-# origins = [
-#     "*"
-# ]
-
 origins = [
     "http://localhost:3000",
-    "http://localhost:8000",  
-    "http://192.168.30.254:3000",
-    "http://192.168.30.254:8000", 
+    os.environ['Front_BaseURL'],
 ]
-    # "http://192.168.30.254:3000",
-    # "http://192.168.30.254:8000",
+
+# origins = [
+#     "http://localhost:3000",
+#     "http://localhost:8000",  
+#     "http://192.168.30.254:3000",
+#     "http://192.168.30.254:8000", 
+# ]
+SQLALCHEMY_DATABASE_URL =  f"postgresql+psycopg2://{os.environ['DATABASE_USER']}:{os.environ['DATABASE_PASSWORD']}@{os.environ['DATABASE_HOST']}:{os.environ['DATABASE_PORT']}/{os.environ['DATABASE_NAME']}"
 
 app.add_middleware(
     CORSMiddleware,

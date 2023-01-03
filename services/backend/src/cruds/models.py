@@ -422,7 +422,7 @@ class Instance(Base, BaseMixin):
     az = Column(Integer, nullable=False)
     tenant = Column(String, nullable=False)
 
-    db_type = Column(String, nullable=True) 
+    status = Column(String, nullable=True) 
     count = Column(Integer, nullable=False)
 
     creator = Column(String, nullable=True)

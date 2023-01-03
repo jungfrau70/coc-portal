@@ -155,7 +155,7 @@ export default {
         { text: 'Count', value: 'count', width: '75', sortable: true },
         { text: 'Status', value: 'status', width: '75', sortable: true },
 
-        { text: 'Edit/Delete', value: 'actions', sortable: false },
+        { text: 'Edit / Delete', value: 'actions', sortable: false },
       ],
 
       filters: {

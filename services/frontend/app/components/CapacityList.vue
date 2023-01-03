@@ -171,7 +171,7 @@ export default {
           sortable: true,
           // width: '240',
         },
-        { text: 'Edit/Delete', value: 'actions', sortable: false },
+        { text: 'Edit / Delete', value: 'actions', sortable: false },
       ],
 
       filters: {

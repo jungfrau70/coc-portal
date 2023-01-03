@@ -5,7 +5,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s',
-    title: 'Jungfrau',
+    title: 'Adagio',
     htmlAttrs: {
       lang: 'en',
     },
@@ -17,17 +17,18 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', type: 'text/css', href: '@mdi/font/css/materialdesignicons.css' },
       // { rel: 'stylesheet', type: 'text/css', href: 'https://pyscript.net/latest/pyscript.css' },
-      {
-        rel: 'stylesheet',
-        type: 'text/css',
-        href: '//unpkg.com/@highlightjs/cdn-assets@11.5.0/styles/tomorrow-night-blue.min.css',
-      },
+      // {
+      //   rel: 'stylesheet',
+      //   type: 'text/css',
+      //   href: '//unpkg.com/@highlightjs/cdn-assets@11.5.0/styles/tomorrow-night-blue.min.css',
+      // },
 
-      {
-        rel: 'stylesheet',
-        href: 'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css',
-      },
+      // {
+      //   rel: 'stylesheet',
+      //   href: 'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css',
+      // },
     ],
     script: [
       // {

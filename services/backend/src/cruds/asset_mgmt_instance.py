@@ -24,7 +24,7 @@ def create(request: Schema, db: Session):
         az = request.az,
         tenant = request.tenant,
 
-        db_type = request.db_type,
+        status = request.status,
         count = request.count,
     )
     db.add(new_record)
@@ -47,8 +47,9 @@ def upload_csv(file, db: Session):
     df['az'] = df['az'].fillna(np.nan).replace([np.nan], 0)
     df['count'] = df['count'].fillna(np.nan).replace([np.nan], 0)
 
-    df['db_type'] = df['db_type']
+    df['status'] = df['status']
     df['count'] = df['count'].astype(int)    
+
     # df['reviewed_at'] = df['reviewed_at'].fillna(np.nan).replace([np.nan], ['1900-01-01'])
     # df['reviewed_at'] = pd.to_datetime(df['reviewed_at'])
 
@@ -89,7 +90,7 @@ def update(id:int,request, db:Session):
         "az": request.az,
         "tenant": request.tenant,
 
-        "db_type": request.db_type,
+        "status": request.status,
         "count": request.count,
         
     })

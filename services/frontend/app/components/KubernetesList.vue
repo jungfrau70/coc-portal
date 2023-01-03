@@ -194,7 +194,7 @@ export default {
           width: '120',
           sortable: false,
         },
-        { text: 'Edit/Delete', value: 'actions', sortable: false },
+        { text: 'Edit / Delete', value: 'actions', sortable: false },
       ],
 
       filters: {

@@ -300,8 +300,8 @@ class InstanceBase(BaseModel):
     az: Optional[int]
     tenant: Optional[str]
 
+    status: Optional[str]
     count: Optional[int]
-    db_type: Optional[str]
 
     creator: Optional[str]
     reviewer: Optional[str]

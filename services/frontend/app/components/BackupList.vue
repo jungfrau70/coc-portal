@@ -159,7 +159,7 @@ export default {
         { text: 'Frequency', value: 'freq_full_archive', sortable: true },
         { text: 'Comment', value: 'comment', sortable: true },
 
-        { text: 'Edit/Delete', value: 'actions', sortable: false },
+        { text: 'Edit / Delete', value: 'actions', sortable: false },
       ],
 
       filters: {

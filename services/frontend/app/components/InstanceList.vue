@@ -150,9 +150,9 @@ export default {
         { text: 'AZ', value: 'az', width: '75', sortable: true },
         { text: 'Tenant', value: 'tenant', width: '75', sortable: true },
         // { text: 'Progress', value: 'progress', sortable: true },
-        { text: 'DB Type', value: 'db_type', width: '150', sortable: true },
+        { text: 'Status', value: 'status', width: '150', sortable: true },
         { text: 'Count', value: 'count', width: '75', sortable: true },
-        { text: 'Edit/Delete', value: 'actions', width: '75', sortable: false },
+        { text: 'Edit / Delete', value: 'actions', width: '75', sortable: false },
       ],
 
       filters: {
@@ -246,7 +246,7 @@ export default {
         az: item.az,
         tenant: item.tenant,
 
-        db_type: item.db_type,
+        status: item.status,
         count: item.count,
 
         // creator: item.creator,
@@ -387,7 +387,7 @@ export default {
               az: item.az,
               tenant: item.tenant,
 
-              db_type: item.db_type,
+              status: item.status,
               count: item.count,
             }
           })
