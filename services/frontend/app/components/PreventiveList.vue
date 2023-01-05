@@ -134,6 +134,8 @@
 import axios from 'axios'
 import PreventiveDetail from '~/components/PreventiveDetail.vue'
 
+const API_URL = `${process.env.BASE_URL}/preventive`
+
 export default {
   components: { PreventiveDetail },
 
@@ -272,7 +274,7 @@ export default {
         // if the item has an id, we're updating an existing item
         console.log(id)
         method = 'put'
-        url = `http://localhost:8000/preventive/${id}`
+        url = `${API_URL}/${id}`
 
         this.item = {}
         // must remove id from the data for airtable patch to work
@@ -285,7 +287,7 @@ export default {
         this.dialog = false
       } else {
         method = 'post'
-        url = `http://localhost:8000/preventive`
+        url = `${API_URL}`
 
         // 편집창 종료
         this.dialogAdd = false
@@ -378,7 +380,7 @@ export default {
     async loadItems() {
       this.items = []
       await axios
-        .get('http://localhost:8000/preventive/all', {
+        .get(`${API_URL}/all`, {
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods':
@@ -421,7 +423,7 @@ export default {
 
       console.log(id)
       const method = 'delete'
-      const url = `http://localhost:8000/preventive/${id}`
+      const url = `${API_URL}/${id}`
 
       axios[method](url, {
         // headers: {
