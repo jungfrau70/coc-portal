@@ -41,7 +41,7 @@ app.include_router(asset_mgmt_license.router)
 app.include_router(report.router)
 
 origins = [
-    "http://localhost:3000",
+    "http://localhost:80",
     os.environ['Front_BaseURL'],
 ]
 
