@@ -3,7 +3,8 @@ version: '3.8'
 services:
   frontend:
     # build: ./services/frontend
-    build: ./frontend
+    image: jungfrau70/allegro-frontend:0.1
+    # build: ./frontend
     volumes:
       # - './services/frontend/app:/app'
       - './frontend/app:/app'
