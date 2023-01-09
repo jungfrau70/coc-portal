@@ -1,12 +1,14 @@
+# Choose the Image which has Node installed already
+# FROM node:16.17.1-alpine as builder
 FROM node:lts as builder
 
+# make the 'app' folder the current working directory
 WORKDIR /app
 
+# copy both 'package.json' and 'package-lock.json' (if available)
 COPY app/. .
 
-ENV NODE_OPTIONS=--openssl-legacy-provider
-
-RUN yarn global add nuxt
+# install project dependencies
 RUN yarn install \
   --prefer-offline \
   --frozen-lockfile \
@@ -14,22 +16,24 @@ RUN yarn install \
   --production=false
 
 # RUN yarn build
-RUN yarn nuxt build
 
-RUN rm -rf node_modules && \
-  NODE_ENV=production yarn install \
-  --prefer-offline \
-  --pure-lockfile \
-  --non-interactive \
-  --production=true
+# RUN rm -rf node_modules && \
+#   NODE_ENV=production yarn install \
+#   --prefer-offline \
+#   --pure-lockfile \
+#   --non-interactive \
+#   --production=true
 
-FROM node:lts
+# copy project files and folders to the current working directory (i.e. 'app' folder)
 
-WORKDIR /app
+# FROM node:16.17.1-alpine
+# FROM node:lts 
 
-COPY --from=builder /app  .
+# WORKDIR /app
+
+# COPY --from=builder /app  .
 
 ENV HOST 0.0.0.0
 EXPOSE 3000
 
-CMD [ "yarn", "nuxt", "start" ]
+CMD [ "yarn", "dev" ]

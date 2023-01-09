@@ -5,7 +5,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s',
-    title: 'Adagio',
+    title: 'Andante',
     htmlAttrs: {
       lang: 'en',
     },
