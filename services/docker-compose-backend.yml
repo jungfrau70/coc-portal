@@ -4,7 +4,7 @@ services:
 
   backend:
     container_name: backend
-    image: jungfrau70/allegro-backend:0.1
+    image: jungfrau70/andante-backend:0.1
     # build: ./services/backend
     # build: ./backend
     ports:

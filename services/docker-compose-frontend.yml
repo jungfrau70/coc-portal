@@ -3,8 +3,13 @@ version: '3.8'
 services:
   frontend:
     # build: ./services/frontend
-    image: jungfrau70/andante-frontend:0.2
     # build: ./frontend
+
+    # image: jungfrau70/andante-frontend:0.1-pc
+    # image: jungfrau70/andante-frontend:0.4
+    image: jungfrau70/andante-frontend:0.4-dev
+
+
     volumes:
       # - './services/frontend/app:/app'
       - './frontend/app:/app'

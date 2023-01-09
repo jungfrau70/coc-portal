@@ -41,16 +41,9 @@ app.include_router(asset_mgmt_license.router)
 app.include_router(report.router)
 
 origins = [
-    "http://localhost:80",
-    os.environ['Front_BaseURL'],
+    "*",
 ]
 
-# origins = [
-#     "http://localhost:3000",
-#     "http://localhost:8000",  
-#     "http://192.168.30.254:3000",
-#     "http://192.168.30.254:8000", 
-# ]
 SQLALCHEMY_DATABASE_URL =  f"postgresql+psycopg2://{os.environ['DATABASE_USER']}:{os.environ['DATABASE_PASSWORD']}@{os.environ['DATABASE_HOST']}:{os.environ['DATABASE_PORT']}/{os.environ['DATABASE_NAME']}"
 
 app.add_middleware(
