@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY app/. .
 
-ENV NODE_OPTIONS=--openssl-legacy-provider
+# ENV NODE_OPTIONS=--openssl-legacy-provider
 
 RUN yarn global add nuxt
 RUN yarn install \

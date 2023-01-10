@@ -36,15 +36,13 @@
           </v-btn>
         </v-card-actions>
       </template>
-      <template>
-        <v-card v-model="dialogAdd">
-          <BackupDetail
-            :editedItem="newItem"
-            @submit-item="submitItem"
-            @close="close(newItem.id)"
-          />
-        </v-card>
-      </template>
+      <v-card v-model="dialogAdd">
+        <VulnerabilityDetail
+          :edited-item="newItem"
+          @submit-item="submitItem"
+          @close="close(newItem.id)"
+        />
+      </v-card>
     </v-dialog>
 
     <v-data-table
@@ -90,11 +88,11 @@
               color="primary"
               @click="showEditDialog(item)"
             >
-              mdi-pencil
+              mdi-pencil || "E"
             </v-icon>
           </v-btn>
           <v-icon small color="pink" @click="showDeleteDialog(item)">
-            mdi-delete
+            mdi-delete || "D"
           </v-icon>
         </div>
       </template>

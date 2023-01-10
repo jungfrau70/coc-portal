@@ -5,10 +5,9 @@ services:
     # build: ./services/frontend
     # build: ./frontend
 
-    # image: jungfrau70/andante-frontend:0.1-pc
-    # image: jungfrau70/andante-frontend:0.4
     image: jungfrau70/andante-frontend:0.4-dev
-
+    # image: jungfrau70/andante-frontend:0.4-prd
+    # image: jungfrau70/andante-frontend:0.4-pc
 
     volumes:
       # - './services/frontend/app:/app'

@@ -34,6 +34,7 @@
     "markdown-it-playground": "^0.0.5",
     "markdown-it-toc-done-right": "^4.2.0",
     "marked": "^4.2.5",
+    "material-design-icons-iconfont": "^6.7.0",
     "moment-fquarter": "^1.0.0",
     "moment-strftime": "^0.5.0",
     "nuxt": "^2.15.8",
