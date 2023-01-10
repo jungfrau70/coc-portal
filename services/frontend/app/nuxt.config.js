@@ -66,7 +66,6 @@ export default {
     // { src: '~/plugins/vue-quill-editor.js', ssr: false },
     // { src: '~/plugins/markedWorker.js' },
     { src: '~/plugins/markdownit.js' },
-    { src: '~/plugins/vuetify-mdi.js' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -161,8 +160,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: ['vega-embed', 'vuetify-datetime-picker', 'vuetify-mdi'],
-    // transpile: ['vega-embed', 'vuetify-datetime-picker', 'highcharts-vue'],
+    transpile: ['vega-embed', 'vuetify-datetime-picker'],
   },
 
   rules: {
