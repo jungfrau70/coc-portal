@@ -13,15 +13,15 @@ from config import database
 from config.database import engine
 
 from cruds import models
-from routers import user, blog, authentication
+from routers import user, auth, blog
 from routers import discussion_topic, incident_handling, issue_mgmt, problem_mgmt, change_mgmt, request_mgmt, asset_mgmt_database, asset_mgmt_kubernetes, asset_mgmt_instance, asset_mgmt_license, capacity_mgmt, backup_mgmt, preventive, vulnerability, report
 
 app = FastAPI()
 
 models.Base.metadata.create_all(engine)
 
-app.include_router(authentication.router)
 app.include_router(user.router)
+app.include_router(auth.router)
 app.include_router(blog.router)
 
 app.include_router(discussion_topic.router)
@@ -41,9 +41,13 @@ app.include_router(asset_mgmt_license.router)
 app.include_router(report.router)
 
 origins = [
-    "http://localhost:80",
-    os.environ['Front_BaseURL'],
+    "*"
 ]
+
+# origins = [
+#     "http://localhost:80",
+#     os.environ['Front_BaseURL'],
+# ]
 
 # origins = [
 #     "http://localhost:3000",
@@ -51,6 +55,7 @@ origins = [
 #     "http://192.168.30.254:3000",
 #     "http://192.168.30.254:8000", 
 # ]
+
 SQLALCHEMY_DATABASE_URL =  f"postgresql+psycopg2://{os.environ['DATABASE_USER']}:{os.environ['DATABASE_PASSWORD']}@{os.environ['DATABASE_HOST']}:{os.environ['DATABASE_PORT']}/{os.environ['DATABASE_NAME']}"
 
 app.add_middleware(

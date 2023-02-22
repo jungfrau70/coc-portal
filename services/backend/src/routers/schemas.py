@@ -11,36 +11,54 @@ class Blog(BlogBase):
     class Config():
         orm_mode = True
 
-class User(BaseModel):
-    name:str
-    email:str
-    password:str
-
-class ShowUser(BaseModel):
-    name:str
-    email:str
-    blogs : List[Blog] =[]
-    class Config():
-        orm_mode = True
-
-class ShowBlog(BaseModel):
+class ShowBlog(BlogBase):
+    id: int
     title: str
-    body:str
-    creator: ShowUser
+    body: str
+    reviewer: Optional[str]
+    creator: Optional[str]
+    updater: Optional[str] 
 
     class Config():
-        orm_mode = True
+        orm_mode = True     
 
-class Login(BaseModel):
+class AuthBase(BaseModel):
+    email: str
+    password: str
+
+class UserBase(AuthBase):
     username: str
-    password:str
 
-class Token(BaseModel):
+class Auth(AuthBase):
+    class Config():
+        orm_mode = True 
+
+class User(UserBase):
+    class Config():
+        orm_mode = True 
+
+class ShowAuth(UserBase):
+    id: int
+    email: str
+    password: str
+
+    class Config():
+        orm_mode = True 
+
+class ShowUser(UserBase):
+    id: int
+    username: str
+    email: str
+
+    class Config():
+        orm_mode = True 
+
+class ShowUserToken(BaseModel):
     access_token: str
     token_type: str
 
-class TokenData(BaseModel):
-    email: Optional[str] = None
+    class Config():
+        orm_mode = True
 
 
 class DiscussionBase(BaseModel):
