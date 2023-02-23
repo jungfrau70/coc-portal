@@ -1,5 +1,5 @@
 from typing import List, Union
-from fastapi import APIRouter,Depends,status,HTTPException, Request, Form, UploadFile, File
+from fastapi import APIRouter, Depends, status, HTTPException, Request, Form, UploadFile, File
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from pandas_ods_reader import read_ods
@@ -24,7 +24,7 @@ get_db = database.get_db
 
 # class User(UserBase):
 #     class Config():
-#         orm_mode = True 
+#         orm_mode = True
 
 # class ShowUser(UserBase):
 #     id: int
@@ -32,14 +32,14 @@ get_db = database.get_db
 #     email: str
 
 #     class Config():
-#         orm_mode = True 
+#         orm_mode = True
 
 # class UserToken(UserBase):
 #     email: str
 #     password: str
 
 #     class Config():
-#         orm_mode = True 
+#         orm_mode = True
 
 # class ShowUserToken(UserBase):
 #     id: int
@@ -47,34 +47,41 @@ get_db = database.get_db
 #     password: str
 
 #     class Config():
-#         orm_mode = True 
+#         orm_mode = True
 
 SchemaShow = schemas.ShowAuth
 Schema = schemas.Auth
+
 
 @router.post('/register', status_code=status.HTTP_201_CREATED, response_model=Schema)
 # def create(request: schemas.Blog, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
 def create(request: schemas.User, db: Session = Depends(get_db)):
     return auth.register(request, db)
 
+
 @router.post('/login', status_code=200, response_model=schemas.ShowUserToken)
 def login(request: Schema, db: Session = Depends(database.get_db)):
-    # record = auth.login(request,db)
-    # print(record)
-    # return record
-    return auth.login(request,db)
+    return auth.login(request, db)
+
+# @router.get('/user', status_code=200, response_model=SchemaShow)
+# # def show(id:int, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
+# def show(request: Schema, db: Session = Depends(get_db)):
+#     return auth.show(request.id,db)
+
 
 @router.post('/refresh', status_code=status.HTTP_201_CREATED,)
 # def create(request: schemas.Blog, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
 def create(request: Schema, db: Session = Depends(get_db)):
     return auth.refresh(request, db)
 
+
 @router.get('/unprotected', status_code=200, response_model=SchemaShow)
 # def show(id:int, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
-def show(id:int, db: Session = Depends(get_db)):
-    return auth.show(id,db)    
+def show(id: int, db: Session = Depends(get_db)):
+    return auth.show(id, db)
+
 
 @router.get('/protected', status_code=200, response_model=SchemaShow)
 # def show(id:int, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
-def show(id:int, db: Session = Depends(get_db)):
-    return auth.show(id,db)        
+def show(id: int, db: Session = Depends(get_db)):
+    return auth.show(id, db)

@@ -5,7 +5,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s',
-    title: 'Adagio',
+    title: 'Andante',
     htmlAttrs: {
       lang: 'en',
     },
@@ -17,7 +17,11 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', type: 'text/css', href: '@mdi/font/css/materialdesignicons.css' },
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: '@mdi/font/css/materialdesignicons.css',
+      },
       // { rel: 'stylesheet', type: 'text/css', href: 'https://pyscript.net/latest/pyscript.css' },
       // {
       //   rel: 'stylesheet',
@@ -47,7 +51,11 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    // 'highlight.js/styles/solarized-dark.css',
+    // 'highlight.js/styles/solarized-dark.css'
+    // {
+    //   rel: 'stylesheet',
+    //   href: '@mdi/font/css/materialdesignicons.css',
+    // },
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -91,11 +99,11 @@ export default {
   ],
 
   dotenv: {
-    filename: '.env'
+    filename: '.env',
   },
 
   axios: {
-    baseURL: process.env.BASE_URL || 'http://localhost:8000'
+    baseURL: process.env.BASE_URL || 'http://localhost:8000',
   },
 
   // // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -127,7 +135,7 @@ export default {
       'markdown-it-div',
       'markdown-it-toc-done-right',
       'markdown-it-emoji',
-      'markdown-it-highlightjs'
+      'markdown-it-highlightjs',
     ],
   },
 
@@ -153,7 +161,6 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['vega-embed', 'vuetify-datetime-picker'],
-    // transpile: ['vega-embed', 'vuetify-datetime-picker', 'highcharts-vue'],
   },
 
   rules: {

@@ -3,13 +3,16 @@ from pydantic import BaseModel
 from fastapi import Form, File, UploadFile
 from datetime import date, time, datetime
 
+
 class BlogBase(BaseModel):
     title: str
     body: str
 
+
 class Blog(BlogBase):
     class Config():
         orm_mode = True
+
 
 class ShowBlog(BlogBase):
     id: int
@@ -17,25 +20,30 @@ class ShowBlog(BlogBase):
     body: str
     reviewer: Optional[str]
     creator: Optional[str]
-    updater: Optional[str] 
+    updater: Optional[str]
 
     class Config():
-        orm_mode = True     
+        orm_mode = True
+
 
 class AuthBase(BaseModel):
     email: str
     password: str
 
+
 class UserBase(AuthBase):
-    username: str
+    name: str
+
 
 class Auth(AuthBase):
     class Config():
-        orm_mode = True 
+        orm_mode = True
+
 
 class User(UserBase):
     class Config():
-        orm_mode = True 
+        orm_mode = True
+
 
 class ShowAuth(UserBase):
     id: int
@@ -43,17 +51,20 @@ class ShowAuth(UserBase):
     password: str
 
     class Config():
-        orm_mode = True 
+        orm_mode = True
+
 
 class ShowUser(UserBase):
     id: int
-    username: str
+    name: str
     email: str
 
     class Config():
-        orm_mode = True 
+        orm_mode = True
+
 
 class ShowUserToken(BaseModel):
+    id: int
     access_token: str
     token_type: str
 
@@ -72,9 +83,11 @@ class DiscussionBase(BaseModel):
     status: Optional[str]
     discussion_topic: Optional[str]
 
+
 class Discussion(DiscussionBase):
     class Config():
-        orm_mode = True 
+        orm_mode = True
+
 
 class ShowDiscussion(DiscussionBase):
     id: int
@@ -83,7 +96,7 @@ class ShowDiscussion(DiscussionBase):
     updater: Optional[str]
 
     class Config():
-        orm_mode = True 
+        orm_mode = True
 
 
 class IncidentBase(BaseModel):
@@ -113,18 +126,20 @@ class IncidentBase(BaseModel):
     propogated_at: Optional[datetime]
     resolved_at: Optional[datetime]
 
+
 class Incident(IncidentBase):
     class Config():
-        orm_mode = True    
+        orm_mode = True
+
 
 class ShowIncident(IncidentBase):
     id: int
     reviewer: Optional[str]
     creator: Optional[str]
-    updater: Optional[str] 
+    updater: Optional[str]
 
     class Config():
-        orm_mode = True      
+        orm_mode = True
 
 
 class IssueBase(BaseModel):
@@ -144,9 +159,11 @@ class IssueBase(BaseModel):
     occurred_at: Optional[datetime]
     resolved_at: Optional[datetime]
 
+
 class Issue(IssueBase):
     class Config():
-        orm_mode = True   
+        orm_mode = True
+
 
 class ShowIssue(IssueBase):
     id: int
@@ -155,7 +172,7 @@ class ShowIssue(IssueBase):
     updater: Optional[str]
 
     class Config():
-        orm_mode = True      
+        orm_mode = True
 
 
 class ProblemBase(BaseModel):
@@ -181,9 +198,11 @@ class ProblemBase(BaseModel):
     occurred_at: Optional[datetime]
     reviewed_at: Optional[datetime]
 
+
 class Problem(ProblemBase):
     class Config():
-        orm_mode = True   
+        orm_mode = True
+
 
 class ShowProblem(ProblemBase):
     id: int
@@ -192,7 +211,7 @@ class ShowProblem(ProblemBase):
     updater: Optional[str]
 
     class Config():
-        orm_mode = True    
+        orm_mode = True
 
 
 class ChangeBase(BaseModel):
@@ -209,9 +228,11 @@ class ChangeBase(BaseModel):
     title: Optional[str]
     description: Optional[str]
 
+
 class Change(ChangeBase):
     class Config():
-        orm_mode = True  
+        orm_mode = True
+
 
 class ShowChange(ChangeBase):
     id: int
@@ -220,7 +241,7 @@ class ShowChange(ChangeBase):
     updater: Optional[str]
 
     class Config():
-        orm_mode = True  
+        orm_mode = True
 
 
 class RequestBase(BaseModel):
@@ -238,9 +259,11 @@ class RequestBase(BaseModel):
     description: Optional[str]
     work_type: Optional[str]
 
+
 class Request(RequestBase):
     class Config():
-        orm_mode = True  
+        orm_mode = True
+
 
 class ShowRequest(RequestBase):
     id: int
@@ -249,7 +272,7 @@ class ShowRequest(RequestBase):
     updater: Optional[str]
 
     class Config():
-        orm_mode = True  
+        orm_mode = True
 
 
 class CapacityBase(BaseModel):
@@ -267,9 +290,11 @@ class CapacityBase(BaseModel):
     title: Optional[str]
     description: Optional[str]
 
+
 class Capacity(CapacityBase):
     class Config():
-        orm_mode = True 
+        orm_mode = True
+
 
 class ShowCapacity(CapacityBase):
     id: int
@@ -278,7 +303,7 @@ class ShowCapacity(CapacityBase):
     updater: Optional[str]
 
     class Config():
-        orm_mode = True   
+        orm_mode = True
 
 
 class BackupBase(BaseModel):
@@ -297,9 +322,11 @@ class BackupBase(BaseModel):
     freq_full_archive: Optional[str]
     comment: Optional[str]
 
+
 class Backup(BackupBase):
     class Config():
-        orm_mode = True  
+        orm_mode = True
+
 
 class ShowBackup(BackupBase):
     id: int
@@ -308,7 +335,7 @@ class ShowBackup(BackupBase):
     updater: Optional[str]
 
     class Config():
-        orm_mode = True     
+        orm_mode = True
 
 
 class InstanceBase(BaseModel):
@@ -326,11 +353,13 @@ class InstanceBase(BaseModel):
     updater: Optional[str]
 
     class Config():
-        orm_mode = True      
+        orm_mode = True
+
 
 class Instance(InstanceBase):
     class Config():
-        orm_mode = True  
+        orm_mode = True
+
 
 class ShowInstance(InstanceBase):
     id: int
@@ -339,7 +368,7 @@ class ShowInstance(InstanceBase):
     updater: Optional[str]
 
     class Config():
-        orm_mode = True  
+        orm_mode = True
 
 
 class KubernetesBase(BaseModel):
@@ -365,9 +394,11 @@ class KubernetesBase(BaseModel):
     ca_cert_expired_date: Optional[datetime]
     etcd_cert_expired_date: Optional[datetime]
 
+
 class Kubernetes(KubernetesBase):
     class Config():
-        orm_mode = True    
+        orm_mode = True
+
 
 class ShowKubernetes(KubernetesBase):
     id: int
@@ -376,7 +407,7 @@ class ShowKubernetes(KubernetesBase):
     updater: Optional[str]
 
     class Config():
-        orm_mode = True      
+        orm_mode = True
 
 
 class DatabaseBase(BaseModel):
@@ -389,10 +420,12 @@ class DatabaseBase(BaseModel):
     db_type: Optional[str]
     count: Optional[int]
     status: Optional[str]
-   
+
+
 class Database(DatabaseBase):
     class Config():
-        orm_mode = True   
+        orm_mode = True
+
 
 class ShowDatabase(DatabaseBase):
     id: int
@@ -401,7 +434,7 @@ class ShowDatabase(DatabaseBase):
     updater: Optional[str]
 
     class Config():
-        orm_mode = True    
+        orm_mode = True
 
 
 class LicenseBase(BaseModel):
@@ -421,9 +454,11 @@ class LicenseBase(BaseModel):
     occurred_at: Optional[datetime]
     resolved_at: Optional[datetime]
 
+
 class License(LicenseBase):
     class Config():
-        orm_mode = True 
+        orm_mode = True
+
 
 class ShowLicense(LicenseBase):
     id: int
@@ -432,7 +467,7 @@ class ShowLicense(LicenseBase):
     updater: Optional[str]
 
     class Config():
-        orm_mode = True   
+        orm_mode = True
 
 
 class VulnerabilityBase(BaseModel):
@@ -449,9 +484,11 @@ class VulnerabilityBase(BaseModel):
     title: Optional[str]
     task_type: Optional[str]
 
+
 class Vulnerability(VulnerabilityBase):
     class Config():
-        orm_mode = True  
+        orm_mode = True
+
 
 class ShowVulnerability(VulnerabilityBase):
     id: int
@@ -460,7 +497,7 @@ class ShowVulnerability(VulnerabilityBase):
     updater: Optional[str]
 
     class Config():
-        orm_mode = True  
+        orm_mode = True
 
 
 class PreventiveBase(BaseModel):
@@ -478,9 +515,11 @@ class PreventiveBase(BaseModel):
     title: Optional[str]
     description: Optional[str]
 
+
 class Preventive(PreventiveBase):
     class Config():
-        orm_mode = True   
+        orm_mode = True
+
 
 class ShowPreventive(PreventiveBase):
     id: int
@@ -489,7 +528,8 @@ class ShowPreventive(PreventiveBase):
     updater: Optional[str]
 
     class Config():
-        orm_mode = True   
+        orm_mode = True
+
 
 class ReportBase(BaseModel):
     year: Optional[int]
@@ -503,11 +543,13 @@ class ReportBase(BaseModel):
 
     vendor: Optional[str]
     report_name: Optional[str]
-    comment: Optional[str]   
+    comment: Optional[str]
+
 
 class Report(ReportBase):
     class Config():
         orm_mode = True
+
 
 class ShowReport(ReportBase):
     id: int

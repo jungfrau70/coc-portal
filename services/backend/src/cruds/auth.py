@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from cruds import models
 from routers import schemas
-from fastapi import HTTPException,status
+from fastapi import HTTPException, status
 from io import BytesIO
 
 import pandas as pd
@@ -14,16 +14,17 @@ Model = models.User
 Schema = schemas.Auth
 
 
-def register(request: Schema,db:Session):
+def register(request: Schema, db: Session):
     new_record = Model(
-        name=request.username,
+        name=request.name,
         email=request.email,
         password=Hash.bcrypt(request.password)
-        )
+    )
     db.add(new_record)
     db.commit()
     db.refresh(new_record)
     return new_record
+
 
 def login(request: Schema, db: Session):
     user = db.query(Model).filter(Model.email == request.email).first()
@@ -33,25 +34,33 @@ def login(request: Schema, db: Session):
     if not Hash.verify(user.password, request.password):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Incorrect password")
-    access_token = token.create_access_token(data={"sub": user.email})   
-    return { "access_token": access_token, "token_type": "bearer" }
+    access_token = token.create_access_token(data={"sub": user.email})
+    return {"access_token": access_token, "token_type": "bearer", "id": user.id}
 
-def refresh(id:int,request, db:Session):
-    user = db.query(Model).filter(Model.email == request.username).first()
+
+def refresh(id: int, request, db: Session):
+    user = db.query(Model).filter(Model.email == request.email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Invalid Credentials")
     if not Hash.verify(user.password, request.password):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Incorrect password")
-    access_token = token.create_access_token(data={"sub": user.email})   
-    return { "access_token": access_token, "token_type": "bearer" }
+    access_token = token.create_access_token(data={"sub": user.email})
+    return {"access_token": access_token, "token_type": "bearer", "id": user.id}
 
 
-def show(id:int,request, db:Session):
-    user = db.query(Model).filter(Model.email == request.username).first()    
+def show(id: int, request: Schema, db: Session):
+    user = db.query(Model).filter(Model.email == request.email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with the id {id} is not available")
-    return user    
+    return user
 
+
+def show(request: Schema, db: Session):
+    user = db.query(Model).filter(Model.email == request.email).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"record with the id {id} is not available")
+    return user

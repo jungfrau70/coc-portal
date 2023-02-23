@@ -31,6 +31,7 @@ class Blog(Base):
 
     creator = relationship("User", back_populates="blogs")
 
+
 class User(Base):
     __tablename__ = 'users'
 
@@ -47,7 +48,8 @@ class BaseMixin:
     # created_at = Column(DateTime(timezone=True), default=func.now())
     created_at = Column(DateTime, default=datetime.now)
     # updated_at = Column(DateTime, onupdate=func.utcnow())
-    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.now,
+                        onupdate=datetime.utcnow)
 
     def all_columns(self):
         return [c for c in self.__table__.columns if c.primary_key is False and c.name != "created_at"]
@@ -99,11 +101,11 @@ class BaseMixin:
             query = query.filter(col == val)
 
         if query.count() > 1:
-            raise Exception("Only one row is supposed to be returned, but got more than one.")
+            raise Exception(
+                "Only one row is supposed to be returned, but got more than one.")
         result = query.first()
         session.close()
         return result
-
 
     @classmethod
     def filter(cls, session: Session = None, **kwargs):
@@ -119,12 +121,18 @@ class BaseMixin:
             if len(key) > 2:
                 raise Exception("No 2 more dunders")
             col = getattr(cls, key[0])
-            if len(key) == 1: cond.append((col == val))
-            elif len(key) == 2 and key[1] == 'gt': cond.append((col > val))
-            elif len(key) == 2 and key[1] == 'gte': cond.append((col >= val))
-            elif len(key) == 2 and key[1] == 'lt': cond.append((col < val))
-            elif len(key) == 2 and key[1] == 'lte': cond.append((col <= val))
-            elif len(key) == 2 and key[1] == 'in': cond.append((col.in_(val)))
+            if len(key) == 1:
+                cond.append((col == val))
+            elif len(key) == 2 and key[1] == 'gt':
+                cond.append((col > val))
+            elif len(key) == 2 and key[1] == 'gte':
+                cond.append((col >= val))
+            elif len(key) == 2 and key[1] == 'lt':
+                cond.append((col < val))
+            elif len(key) == 2 and key[1] == 'lte':
+                cond.append((col <= val))
+            elif len(key) == 2 and key[1] == 'in':
+                cond.append((col.in_(val)))
 
         obj = cls()
         if session:
@@ -137,7 +145,6 @@ class BaseMixin:
         query = query.filter(*cond)
         obj._q = query
         return obj
-
 
     @classmethod
     def cls_attr(cls, col_name=None):
@@ -156,7 +163,8 @@ class BaseMixin:
                 col_name = a
                 is_asc = True
             col = self.cls_attr(col_name)
-            self._q = self._q.order_by(col.asc()) if is_asc else self._q.order_by(col.desc())
+            self._q = self._q.order_by(
+                col.asc()) if is_asc else self._q.order_by(col.desc())
         return self
 
     def update(self, sess: Session = None, auto_commit: bool = False, **kwargs):
@@ -216,13 +224,13 @@ class Discussion(Base, BaseMixin):
     tenant = Column(String, nullable=False)
 
     progress = Column(String, nullable=True)
-    status = Column(String, nullable=True) 
+    status = Column(String, nullable=True)
 
-    discussion_topic = Column(String(length=3000), nullable=True) 
+    discussion_topic = Column(String(length=3000), nullable=True)
 
     creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True)
 
 
 class Incident(Base, BaseMixin):
@@ -236,27 +244,27 @@ class Incident(Base, BaseMixin):
 
     shift_start_date = Column(DateTime, default=None)
     shift_type = Column(String, nullable=True)
-    
+
     level_1_engineer1 = Column(String, nullable=True)
     level_1_engineer2 = Column(String, nullable=True)
     level_2_engineers = Column(String, nullable=True)
-    how_to_share = Column(String, nullable=True)   
+    how_to_share = Column(String, nullable=True)
 
-    event = Column(String, nullable=True) 
-    action = Column(String(length=3000), nullable=True) 
-    status = Column(String, nullable=True) 
-    ticket_no = Column(String, nullable=True) 
-    escalated_to_l3 = Column(String, nullable=True) 
-    comment = Column(String(length=3000), nullable=True) 
-  
+    event = Column(String, nullable=True)
+    action = Column(String(length=3000), nullable=True)
+    status = Column(String, nullable=True)
+    ticket_no = Column(String, nullable=True)
+    escalated_to_l3 = Column(String, nullable=True)
+    comment = Column(String(length=3000), nullable=True)
+
     occurred_at = Column(DateTime, default=None, nullable=True)
     acknowledged_at = Column(DateTime, default=None, nullable=True)
-    propogated_at = Column(DateTime, default=None, nullable=True)        
+    propogated_at = Column(DateTime, default=None, nullable=True)
     resolved_at = Column(DateTime, default=None, nullable=True)
 
     creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True)
 
     # time_to_acknowledge = Column(Integer, default=None) # acknowledged_at - occurred_at
     # time_to_propogated = Column(Integer, default=None)  # propogated_at - acknowledged_at
@@ -272,18 +280,18 @@ class Issue(Base, BaseMixin):
     tenant = Column(String, nullable=False)
 
     progress = Column(String, nullable=True)
-    status = Column(String, nullable=True) 
+    status = Column(String, nullable=True)
 
-    title = Column(String, nullable=True) 
-    description = Column(String(length=3000), nullable=True)     
-    action = Column(String(length=3000), nullable=True) 
+    title = Column(String, nullable=True)
+    description = Column(String(length=3000), nullable=True)
+    action = Column(String(length=3000), nullable=True)
 
     occurred_at = Column(DateTime, default=datetime.now)
     resolved_at = Column(DateTime, default=None, nullable=True)
 
     creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True)
 
 
 class Problem(Base, BaseMixin):
@@ -305,24 +313,24 @@ class Problem(Base, BaseMixin):
     tenant = Column(String, nullable=False)
 
     progress = Column(String, nullable=True)
-    status = Column(String, nullable=True) 
-    impact = Column(String, nullable=True)   
+    status = Column(String, nullable=True)
+    impact = Column(String, nullable=True)
 
-    title = Column(String, nullable=True) 
+    title = Column(String, nullable=True)
     description = Column(String(length=3000), nullable=True)
-    action = Column(String(length=3000), nullable=True) 
-    person_in_charge = Column(String, nullable=True)  # Engineer    
-    ticket_no = Column(String, nullable=True) 
+    action = Column(String(length=3000), nullable=True)
+    person_in_charge = Column(String, nullable=True)  # Engineer
+    ticket_no = Column(String, nullable=True)
 
-    rca_desc = Column(String(length=3000), nullable=True) 
-    review_desc = Column(String(length=3000), nullable=True) 
+    rca_desc = Column(String(length=3000), nullable=True)
+    review_desc = Column(String(length=3000), nullable=True)
 
-    occurred_at = Column(DateTime, default=datetime.now)        
+    occurred_at = Column(DateTime, default=datetime.now)
     reviewed_at = Column(DateTime, default=None)
 
     creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True)
 
 
 class Change(Base, BaseMixin):
@@ -335,15 +343,15 @@ class Change(Base, BaseMixin):
     tenant = Column(String, nullable=False)
 
     progress = Column(String, nullable=True)
-    status = Column(String, nullable=True) 
+    status = Column(String, nullable=True)
 
-    ticket_no = Column(String, nullable=True) 
-    title = Column(String, nullable=True) 
-    description = Column(String(length=3000), nullable=True) 
+    ticket_no = Column(String, nullable=True)
+    title = Column(String, nullable=True)
+    description = Column(String(length=3000), nullable=True)
 
     creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True)
 
 
 class Request(Base, BaseMixin):
@@ -356,16 +364,16 @@ class Request(Base, BaseMixin):
     tenant = Column(String, nullable=False)
 
     progress = Column(String, nullable=True)
-    status = Column(String, nullable=True) 
+    status = Column(String, nullable=True)
 
-    ticket_no = Column(String, nullable=True) 
-    title = Column(String, nullable=True) 
-    description = Column(String(length=3000), nullable=True) 
-    work_type = Column(String, nullable=True) 
+    ticket_no = Column(String, nullable=True)
+    title = Column(String, nullable=True)
+    description = Column(String(length=3000), nullable=True)
+    work_type = Column(String, nullable=True)
 
     creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True)
 
 
 class Capacity(Base, BaseMixin):
@@ -376,18 +384,18 @@ class Capacity(Base, BaseMixin):
     region = Column(String, nullable=False)
     az = Column(Integer, nullable=False)
     tenant = Column(String, nullable=False)
-    
-    progress = Column(String, nullable=True) 
-    status = Column(String, nullable=True) 
+
+    progress = Column(String, nullable=True)
+    status = Column(String, nullable=True)
 
     category = Column(String, nullable=True)
     ticket_no = Column(String, nullable=True)
     title = Column(String, nullable=True)
-    description = Column(String(length=3000), nullable=True) 
+    description = Column(String(length=3000), nullable=True)
 
     creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True)
 
 
 class Backup(Base, BaseMixin):
@@ -402,17 +410,17 @@ class Backup(Base, BaseMixin):
     progress = Column(String, nullable=True)
     status = Column(String, nullable=True)
 
-    db_type = Column(String, nullable=True) 
-    instance_name = Column(String, nullable=True) 
-    instance_ip = Column(String, nullable=True) 
-    freq_full_archive = Column(String, nullable=True) 
-    comment = Column(String(length=3000), nullable=True) 
+    db_type = Column(String, nullable=True)
+    instance_name = Column(String, nullable=True)
+    instance_ip = Column(String, nullable=True)
+    freq_full_archive = Column(String, nullable=True)
+    comment = Column(String(length=3000), nullable=True)
 
     creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
-    
-    
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True)
+
+
 class Instance(Base, BaseMixin):
     __tablename__ = 'instances'
 
@@ -422,12 +430,12 @@ class Instance(Base, BaseMixin):
     az = Column(Integer, nullable=False)
     tenant = Column(String, nullable=False)
 
-    status = Column(String, nullable=True) 
+    status = Column(String, nullable=True)
     count = Column(Integer, nullable=False)
 
     creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True)
 
 
 class Kubernetes(Base, BaseMixin):
@@ -439,25 +447,25 @@ class Kubernetes(Base, BaseMixin):
     az = Column(Integer, nullable=False)
     tenant = Column(String, nullable=False)
 
-    status = Column(String, nullable=True) 
+    status = Column(String, nullable=True)
     cluster_name = Column(String, nullable=True)
-    node_type = Column(String, nullable=True) 
-    node_name = Column(String, nullable=True)     
-    node_ips = Column(String, nullable=True) 
-    api_vip = Column(String, nullable=True) 
+    node_type = Column(String, nullable=True)
+    node_name = Column(String, nullable=True)
+    node_ips = Column(String, nullable=True)
+    api_vip = Column(String, nullable=True)
     flavor = Column(String, nullable=True)
-    network_zone = Column(String, nullable=True) 
-    contacts = Column(String, nullable=True) 
-    k8s_version = Column(String, nullable=True) 
-    monitoring_agent = Column(String, nullable=True) 
+    network_zone = Column(String, nullable=True)
+    contacts = Column(String, nullable=True)
+    k8s_version = Column(String, nullable=True)
+    monitoring_agent = Column(String, nullable=True)
 
-    api_cert_expired_date = Column(DateTime, nullable=True)   
-    ca_cert_expired_date = Column(DateTime, nullable=True)   
-    etcd_cert_expired_date = Column(DateTime, nullable=True)   
-    
+    api_cert_expired_date = Column(DateTime, nullable=True)
+    ca_cert_expired_date = Column(DateTime, nullable=True)
+    etcd_cert_expired_date = Column(DateTime, nullable=True)
+
     creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True)
 
 
 class Database(Base, BaseMixin):
@@ -471,12 +479,12 @@ class Database(Base, BaseMixin):
 
     db_type = Column(String, nullable=False)
     count = Column(Integer, nullable=False)
-    status = Column(String, nullable=True) 
+    status = Column(String, nullable=True)
 
     creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
-    
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True)
+
 
 class License(Base, BaseMixin):
     __tablename__ = 'licenses'
@@ -488,18 +496,18 @@ class License(Base, BaseMixin):
     tenant = Column(String, nullable=False)
 
     vendor = Column(String, nullable=True)
-    license_type = Column(String, nullable=True)     
+    license_type = Column(String, nullable=True)
     status = Column(String, nullable=True)
-    instance_name = Column(String, nullable=True) 
-    comment = Column(String(length=3000), nullable=True) 
-    installed_at = Column(String, nullable=True)    
+    instance_name = Column(String, nullable=True)
+    comment = Column(String(length=3000), nullable=True)
+    installed_at = Column(String, nullable=True)
 
     occurred_at = Column(DateTime, default=datetime.now)
     resolved_at = Column(DateTime, default=None)
 
     creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True)
 
 
 class Vulnerability(Base, BaseMixin):
@@ -514,13 +522,13 @@ class Vulnerability(Base, BaseMixin):
     progress = Column(String, nullable=True)
     status = Column(String, nullable=True)
 
-    title = Column(String, nullable=True) 
-    task_type = Column(String, nullable=True) 
-    ticket_no = Column(String, nullable=True) 
+    title = Column(String, nullable=True)
+    task_type = Column(String, nullable=True)
+    ticket_no = Column(String, nullable=True)
 
     creator = Column(String, nullable=True)
     reviewer = Column(String, nullable=True)
-    updater = Column(String, nullable=True) 
+    updater = Column(String, nullable=True)
 
 
 class PreventiveMaintenance(Base, BaseMixin):
@@ -535,15 +543,15 @@ class PreventiveMaintenance(Base, BaseMixin):
     progress = Column(String, nullable=True)
     status = Column(String, nullable=True)
 
-    freq = Column(String, nullable=True) 
-    vendor = Column(String, nullable=True) 
-    
-    title = Column(String, nullable=True) 
-    description = Column(String(length=3000), nullable=True) 
+    freq = Column(String, nullable=True)
+    vendor = Column(String, nullable=True)
+
+    title = Column(String, nullable=True)
+    description = Column(String(length=3000), nullable=True)
 
     creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True)
 
 
 class Report(Base, BaseMixin):
@@ -556,12 +564,12 @@ class Report(Base, BaseMixin):
     tenant = Column(String, nullable=False)
 
     progress = Column(String, nullable=True)
-    status = Column(String, nullable=True) 
+    status = Column(String, nullable=True)
 
-    vendor = Column(String, nullable=True) 
-    report_name = Column(String, nullable=True) 
-    comment = Column(String(length=3000), nullable=True) 
+    vendor = Column(String, nullable=True)
+    report_name = Column(String, nullable=True)
+    comment = Column(String(length=3000), nullable=True)
 
     creator = Column(String, nullable=True)
-    reviewer = Column(String, nullable=True)     
-    updater = Column(String, nullable=True) 
+    reviewer = Column(String, nullable=True)
+    updater = Column(String, nullable=True)

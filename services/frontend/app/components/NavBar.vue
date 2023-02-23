@@ -16,7 +16,8 @@
           exact
         >
           <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
+            <!-- <v-icon>{{ item.icon }}</v-icon> -->
+            <v-icon>{{ item.icon || item.title.charAt(0) }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title ma-0 pa-0 auto>{{

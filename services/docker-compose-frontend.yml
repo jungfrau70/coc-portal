@@ -3,15 +3,18 @@ version: '3.8'
 services:
   frontend:
     # build: ./services/frontend
-    image: jungfrau70/allegro-frontend:0.2
-    # build: ./frontend
+    build: ./frontend
+    
+    # image: jungfrau70/andante-frontend:0.4-dev
+
     volumes:
       # - './services/frontend/app:/app'
       - './frontend/app:/app'
       # - '/app/node_modules'
       - '/app/node_modules'
     ports:
-      - 3000:3000
+      - 80:3000
     environment: 
       - NODE_OPTIONS=--max-old-space-size=8192
+      - NODE_OPTIONS=--openssl-legacy-provider
 
