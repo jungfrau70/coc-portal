@@ -15,38 +15,35 @@ router = APIRouter(
 )
 
 get_db = database.get_db
+from auth.authentications import get_current_active_user
 
 SchemaShow = schemas.ShowIncident
 Schema = schemas.Incident
 
 @router.get('/all', response_model=List[SchemaShow])
-# def all(db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
-def all(db: Session = Depends(get_db)):
-    return incident_handling.get_all(db)
+def all(db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_active_user)):
+    print(current_user.__dict__)
+    return incident_handling.get_all(db, current_user)
 
 @router.get('/{id}', status_code=200, response_model=Schema)
-# def show(id:int, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
-def show(id:int, db: Session = Depends(get_db)):
-    return incident_handling.show(id,db)
+def show(id:int, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_active_user)):
+    return incident_handling.show(id, db, current_user)
 
-@router.post('/', status_code=status.HTTP_201_CREATED,)
-# def create(request: schemas.Blog, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
-def create(request: Schema, db: Session = Depends(get_db)):
-    return incident_handling.create(request, db)
+@router.post('/', status_code=status.HTTP_201_CREATED)
+def create(request: Schema, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_active_user)):
+    return incident_handling.create(request, db, current_user)
 
 @router.post('/uploadfile', status_code=status.HTTP_201_CREATED,)
-async def upload_file(file: Union[UploadFile, None] = None, db: Session = Depends(get_db)):
+async def upload_file(file: Union[UploadFile, None] = None, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_active_user)):
     if file.filename.lower().endswith(('.csv')):
-        return incident_handling.upload_csv(file, db)
+        return incident_handling.upload_csv(file, db, current_user)
     else:
         return {"message": "No csv upload file sent"} 
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
-# def destroy(id:int, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
-def destroy(id:int, db: Session = Depends(get_db)):
-    return incident_handling.destroy(id,db)
+def destroy(id:int, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_active_user)):
+    return incident_handling.destroy(id, db, current_user)
 
 @router.put('/{id}', status_code=status.HTTP_202_ACCEPTED)
-# def update(id:int, request: schemas.Blog, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
-def update(id:int, request: Schema, db: Session = Depends(get_db)):
-    return incident_handling.update(id,request, db)
+def update(id:int, request: Schema, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_active_user)):
+    return incident_handling.update(id,request, db, current_user)

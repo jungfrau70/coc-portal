@@ -4,73 +4,89 @@ from fastapi import Form, File, UploadFile
 from datetime import date, time, datetime
 
 
-class BlogBase(BaseModel):
-    title: str
-    body: str
+class Token(BaseModel):
+    access_token: str
 
 
-class Blog(BlogBase):
-    class Config():
-        orm_mode = True
+class TokenData(BaseModel):
+    username: str
 
 
-class ShowBlog(BlogBase):
+class TokenFullData(TokenData):
+    exp: datetime
+
+
+class User(BaseModel):
     id: int
-    title: str
-    body: str
-    reviewer: Optional[str]
-    creator: Optional[str]
-    updater: Optional[str]
-
-    class Config():
-        orm_mode = True
-
-
-class AuthBase(BaseModel):
+    username: Optional[str] = None
     email: str
+    is_active: bool
+
+
+class UserInDB(User):
+    hashed_password: str
+
+
+class FormData(BaseModel):
+    username: str
     password: str
 
 
-class UserBase(AuthBase):
-    name: str
+class UserBase(BaseModel):
+    email: str
+    username: str = ""
 
 
-class Auth(AuthBase):
-    class Config():
-        orm_mode = True
+class UserCreate(UserBase):
+    password: str
+
+
+class UserDelete(UserBase):
+    password: str
+
+
+class UserUpdate(BaseModel):
+    username: Optional[str] = None
+    email: Optional[str] = None
+    # icon: Optional[str] = None
+
+
+# class Friend(UserBase):
+#     id: int
+#     is_active: bool
+#     icon: str
+
+#     class Config:
+#         orm_mode = True
 
 
 class User(UserBase):
-    class Config():
-        orm_mode = True
-
-
-class ShowAuth(UserBase):
     id: int
-    email: str
-    password: str
+    username: str
+    is_active: bool
+    # icon: str
+    # invite_code: Optional[str] = None
+    # friends: Optional[List[Friend]] = None
 
-    class Config():
+    class Config:
         orm_mode = True
 
 
-class ShowUser(UserBase):
+class Author(UserBase):
     id: int
-    name: str
-    email: str
+    username: str
+    is_active: bool
+    # icon: str
 
-    class Config():
+    class Config:
         orm_mode = True
 
 
-class ShowUserToken(BaseModel):
-    id: int
-    access_token: str
-    token_type: str
+class SuccessSchema(BaseModel):
+    result: bool = True
 
-    class Config():
-        orm_mode = True
 
+##########################
 
 class DiscussionBase(BaseModel):
     year: Optional[int]

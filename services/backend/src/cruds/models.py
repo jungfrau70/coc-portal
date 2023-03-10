@@ -21,26 +21,27 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session
 
 
-class Blog(Base):
-    __tablename__ = 'blogs'
+# class Blog(Base):
+#     __tablename__ = 'blogs'
 
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String)
-    body = Column(String)
-    user_id = Column(Integer, ForeignKey('users.id'))
+#     id = Column(Integer, primary_key=True, index=True)
+#     title = Column(String)
+#     body = Column(String)
+#     user_id = Column(Integer, ForeignKey('users.id'))
 
-    creator = relationship("User", back_populates="blogs")
+#     creator = relationship("User", back_populates="blogs")
 
 
 class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
+    username = Column(String)
     email = Column(String)
-    password = Column(String)
+    hashed_password = Column(String)
+    is_active = Column(Boolean, default=True)
 
-    blogs = relationship('Blog', back_populates="creator")
+    # blogs = relationship('Blog', back_populates="creator")
 
 
 class BaseMixin:

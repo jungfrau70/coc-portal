@@ -10,11 +10,11 @@ import numpy as np
 Model = models.Incident
 Schema = schemas.ShowIncident
 
-def get_all(db: Session):
+def get_all(db: Session, current_user):
     records = db.query(Model).all()
     return records
 
-def create(request: Schema, db: Session):
+def create(request, db: Session, current_user):
     new_record = Model(
         year = request.year,
         month = request.month,
@@ -40,6 +40,8 @@ def create(request: Schema, db: Session):
         acknowledged_at = request.acknowledged_at,
         propogated_at = request.propogated_at,
         resolved_at = request.resolved_at,
+        
+        creator = current_user.email,
     )
     db.add(new_record)
     db.commit()
@@ -47,7 +49,7 @@ def create(request: Schema, db: Session):
     return new_record
 
 
-def upload_csv(file, db: Session):
+def upload_csv(file, db: Session, current_user):
     contents = file.file.read()
     data = BytesIO(contents)
     df = pd.read_csv(data)    
@@ -101,20 +103,19 @@ def upload_csv(file, db: Session):
 
     return f"uploaded {file.filename}"
 
-def destroy(id:int,db: Session):
+def destroy(id:int,db: Session, current_user):
     record = db.query(Model).filter(Model.id == id)
-
     if not record.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"record with id {id} not found")
-
-    # record.delete(synchronize_session=False)
-    db.query(Model).filter(Model.id == id).delete()
+    if not db.query(Model).filter(Model.id == id).filter(Model.creator == current_user.email).delete():
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                        detail=f"record with id {id} unauthorized")            
     db.commit()
     return 'done'
 
 
-def update(id:int,request, db:Session):
+def update(id:int,request, db:Session, current_user):
     record = db.query(Model).filter(Model.id == id).first()
     if not record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
@@ -146,16 +147,14 @@ def update(id:int,request, db:Session):
         "propogated_at": request.propogated_at,
         "resolved_at": request.resolved_at,
         
-        # "creator": request.creator,
-        # "reviewer": request.reviewer,
-        # "updater": request.updater,
+        "updater": current_user.email,
     })
     db.commit()
     db.refresh(record)
     return 'updated'
 
 
-def show(id:int,db:Session):
+def show(id:int,db:Session, current_user):
     record = db.query(Model).filter(Model.id == id).first()
     
     if not record:

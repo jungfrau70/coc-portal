@@ -7,10 +7,12 @@ jinja2
 pandas
 pandas_ods_reader
 passlib
-psycopg2
+psycopg2-binary
 pytest
+python-dotenv
 python-multipart
 python-jose
+pyjwt
 requests
 sqlalchemy
-uvicorn[standard]
+uvicorn

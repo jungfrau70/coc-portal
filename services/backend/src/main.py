@@ -1,5 +1,5 @@
 from routers import discussion_topic, incident_handling, issue_mgmt, problem_mgmt, change_mgmt, request_mgmt, asset_mgmt_database, asset_mgmt_kubernetes, asset_mgmt_instance, asset_mgmt_license, capacity_mgmt, backup_mgmt, preventive, vulnerability, report
-from routers import user, auth, blog
+from routers import user, auth
 from cruds import models
 from config.database import engine
 from config import database
@@ -21,7 +21,6 @@ models.Base.metadata.create_all(engine)
 
 app.include_router(user.router)
 app.include_router(auth.router)
-app.include_router(blog.router)
 
 app.include_router(discussion_topic.router)
 app.include_router(incident_handling.router)

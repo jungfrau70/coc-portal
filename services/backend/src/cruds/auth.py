@@ -9,58 +9,49 @@ import numpy as np
 
 from utils.hashing import Hash
 from utils import token
+from auth.token import verify_password, get_password_hash
 
-Model = models.User
-Schema = schemas.Auth
+# Model = models.User
+# Schema = schemas.Auth
 
 
-def register(request: Schema, db: Session):
-    new_record = Model(
-        name=request.name,
-        email=request.email,
-        password=Hash.bcrypt(request.password)
+def get_user_by_id_query(db: Session, user_id: int):
+    """get user by user id"""
+    return db.query(models.User).filter(models.User.id == user_id).first()
+
+def get_user_by_email_query(db: Session, email: str):
+    """get user by email"""
+    return db.query(models.User).filter(models.User.email == email).first()
+
+def get_user_by_password_query(db: Session, email: str, password: str):
+    user = db.query(models.User).filter(models.User.email == email).first()
+    if not user:
+        return None
+    if not verify_password(password, user.hashed_password):
+        return None
+    return user
+
+def get_users_query(db: Session, skip: int = 0, limit: int = 100):
+    """get user list"""
+    return db.query(models.User).order_by(models.User.id.desc()).offset(skip).limit(limit).all()
+
+def create_user_query(db: Session, user: schemas.UserCreate):
+    hashed_password = get_password_hash(user.password)
+    db_user = models.User(
+        email=user.email, username=user.username, hashed_password=hashed_password
     )
-    db.add(new_record)
+    db.add(db_user)
     db.commit()
-    db.refresh(new_record)
-    return new_record
+    db.refresh(db_user)
+    return db_user
 
+def update_user(db: Session, base_user: models.User, user: schemas.UserUpdate):
+    is_update = base_user.update_dict({key: val for key, val in user.dict().items() if val is not None})
+    if is_update:
+        db.commit()
+        db.refresh(base_user)
+    return base_user, is_update
 
-def login(request: Schema, db: Session):
-    user = db.query(Model).filter(Model.email == request.email).first()
-    if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"Invalid Credentials")
-    if not Hash.verify(user.password, request.password):
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"Incorrect password")
-    access_token = token.create_access_token(data={"sub": user.email})
-    return {"access_token": access_token, "token_type": "bearer", "id": user.id}
-
-
-def refresh(id: int, request, db: Session):
-    user = db.query(Model).filter(Model.email == request.email).first()
-    if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"Invalid Credentials")
-    if not Hash.verify(user.password, request.password):
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"Incorrect password")
-    access_token = token.create_access_token(data={"sub": user.email})
-    return {"access_token": access_token, "token_type": "bearer", "id": user.id}
-
-
-def show(id: int, request: Schema, db: Session):
-    user = db.query(Model).filter(Model.email == request.email).first()
-    if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"record with the id {id} is not available")
-    return user
-
-
-def show(request: Schema, db: Session):
-    user = db.query(Model).filter(Model.email == request.email).first()
-    if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"record with the id {id} is not available")
-    return user
+def delete_user_query(db: Session, user: Session.query):
+    db.delete(user)
+    db.commit()
